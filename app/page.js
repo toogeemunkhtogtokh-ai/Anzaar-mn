@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { articles } from "../Lib/articles";
+import { articles } from "../lib/articles";
 export default function Home() {
   const nav = [
     "Нүүр",
