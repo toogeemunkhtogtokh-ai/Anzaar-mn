@@ -56,11 +56,11 @@ export default function Home() {
               fontWeight:700,
               color:"#fff"
             }}>
-  <Image
-  src="/anzaar-logo.png"
+<Image
+  src="/anzaar-logo-horizontal.png"
   alt="Anzaar.mn Logo"
- width={340}
-height={100}
+  width={280}
+  height={70}
 />
             </div>
             <div style={{
