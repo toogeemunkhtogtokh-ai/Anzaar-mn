@@ -1,3 +1,4 @@
+import { articles } from "../../../lib/articles";
 import Link from "next/link";
 
 export default function CategoryPage({ params }) {
@@ -11,33 +12,7 @@ export default function CategoryPage({ params }) {
     sport: "Спорт",
     soyol: "Соёл"
   };
-
-  const articles = [
-    {
-      id: 1,
-      category: "niigem",
-      label: "Нийгэм",
-      title: "Харагдаж байгаа бүхэн үнэн биш",
-      date: "2026.06.18",
-      image: "/hero-main.png"
-    },
-    {
-      id: 2,
-      category: "ediinzasag",
-      label: "Эдийн засаг",
-      title: "Инфляцын өсөлт: Бодит орлого юу хэлж байна вэ?",
-      date: "2026.06.17",
-      image: "/feature-1.png"
-    },
-    {
-      id: 3,
-      category: "erhzui",
-      label: "Эрх зүй",
-      title: "Шинэ эрх зүйн хууль батлагдлаа",
-      date: "2026.06.16",
-      image: "/feature-1.png"
-    }
-  ];
+  
 
   const title = names[params.id] || "Ангилал";
   const filtered = articles.filter((item) => item.category === params.id);
