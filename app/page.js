@@ -56,11 +56,13 @@ export default function Home() {
               fontWeight:700,
               color:"#fff"
             }}>
-              <Image
-  src="/Өнөөдрийг анзаарч маргаашийг бүтээе.png"
+  <Image
+  src="/anzaar-logo.png"
   alt="Anzaar.mn Logo"
   width={260}
   height={80}
+/>
+/>
 />
             </div>
             <div style={{
