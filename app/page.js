@@ -237,7 +237,7 @@ backgroundBlendMode:"multiply",
       </div>
 
       <h3 style={{
-        fontSize:34,
+        fontSize:30,
         lineHeight:1.28,
         minHeight:120,
         marginTop:18,
