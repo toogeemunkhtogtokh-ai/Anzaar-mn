@@ -121,7 +121,7 @@ export default function Home() {
               display:"flex",
               flexDirection:"column",
               justifyContent:"flex-end",
-              backgroundImage:"url('/hero-main.jpg')",
+              backgroundImage:"url('/hero-main.png')",
 backgroundSize:"cover",
 backgroundPosition:"center",
 backgroundRepeat:"no-repeat",
