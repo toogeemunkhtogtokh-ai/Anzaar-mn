@@ -59,13 +59,15 @@ export default function AdminPage() {
               <tbody>
                 {posts.map((post, i) => (
                   <tr key={i} style={row}>
-                    <td>{post[0]}</td>
-                    <td style={{ color: "#ff3333" }}>{post[1]}</td>
-                    <td>{post[2]}</td>
-                    <td>{post[3]}</td>
-                    <td><span style={status}>Нийтлэгдсэн</span></td>
-                    <td>👁 ✎ 🗑</td>
-                  </tr>
+  <td style={titleCell}>{post[0]}</td>
+  <td style={{ ...cell, color: "#ff3333" }}>{post[1]}</td>
+  <td style={cell}>{post[2]}</td>
+  <td style={cell}>{post[3]}</td>
+  <td style={cell}>
+    <span style={status}>Нийтлэгдсэн</span>
+  </td>
+  <td style={cell}>👁 ✎ 🗑</td>
+</tr>
                 ))}
               </tbody>
             </table>
@@ -232,6 +234,15 @@ const table = {
   width: "100%",
   borderCollapse: "collapse",
   fontSize: 14,
+};
+
+const cell = {
+  padding: "18px 8px",
+};
+
+const titleCell = {
+  padding: "18px 8px",
+  minWidth: "360px",
 };
 
 const tableHead = {
