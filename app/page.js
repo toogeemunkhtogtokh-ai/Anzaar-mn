@@ -38,7 +38,7 @@ export default function Home() {
       background:"#000",
       color:"#fff",
       minHeight:"100vh",
-      fontFamily:"Georgia, serif"
+      fontFamily:"'Times New Roman', serif"
     }}>
       <header style={{
         borderBottom:"1px solid rgba(255,255,255,.1)",
