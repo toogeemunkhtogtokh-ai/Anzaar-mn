@@ -12,8 +12,14 @@ export default function AdminPage() {
   return (
     <main style={page}>
       <aside style={sidebar}>
-        <h1 style={logo}>Anzaar.mn</h1>
-        <p style={slogan}>Өнөөдрийг анзаарч,<br />маргаашийг бүтээе</p>
+        <img
+  src="/anzaar-logo-horizontal.png"
+  alt="Anzaar.mn"
+  style={{
+    width: "150px",
+    marginBottom: "28px"
+  }}
+/>
 
         {["Хяналтын самбар", "Нийтлэлүүд", "Ангилал", "Хуудаснууд", "Сэтгэгдлүүд", "Медиа сан", "Баннерууд", "Хамтрагч байгууллагууд", "Хэрэглэгчид", "Тохиргоо"].map((item, i) => (
           <div key={item} style={i === 0 ? activeMenu : menu}>{item}</div>
