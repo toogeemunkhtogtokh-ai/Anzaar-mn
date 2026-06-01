@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { articles } from "../Lib/articles";
 export default function Home() {
   const nav = [
     "Нүүр",
@@ -13,11 +14,7 @@ export default function Home() {
     "Соёл"
   ];
 
-  const featured = [
-    ["Эдийн засаг", "Инфляцын өсөлт: Бодит орлого юу хэлж байна вэ?", "2026.06.17"],
-    ["Эрх зүй", "Шинэ эрх зүйн хууль батлагдлаа: Иргэд бидэнд ямар өөрчлөлт гарах вэ?", "2026.06.16"],
-    ["Эрүүл мэнд", "Өглөөний 30 минут таны амьдралыг өөрчилж чадна", "2026.06.15"]
-  ];
+ const featured = articles;
 
   const previous = [
     ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
