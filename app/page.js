@@ -215,7 +215,8 @@ backgroundBlendMode:"multiply",
         display:"flex",
         flexDirection:"column",
         transition:"all .35s ease",
-        cursor:"pointer"
+        cursor:"pointer",
+        transform:"translateY(0)"
       }}
         >
       <div style={{
@@ -236,7 +237,7 @@ backgroundBlendMode:"multiply",
       </div>
 
       <h3 style={{
-        fontSize:28,
+        fontSize:34,
         lineHeight:1.28,
         minHeight:120,
         marginTop:18,
