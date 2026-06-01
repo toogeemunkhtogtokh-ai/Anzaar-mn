@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function ArticlePage() {
   return (
     <main style={{
@@ -11,6 +12,19 @@ export default function ArticlePage() {
         margin:"0 auto",
         padding:"80px 24px"
       }}>
+  <Link
+  href="/"
+  style={{
+    display:"inline-block",
+    marginBottom:28,
+    color:"#888",
+    fontFamily:"Arial",
+    fontSize:14,
+    textDecoration:"none"
+  }}
+>
+  ← Нүүр хуудас
+</Link>
         <div style={{
           color:"#e11212",
           fontFamily:"Arial",
