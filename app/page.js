@@ -59,8 +59,8 @@ export default function Home() {
   <Image
   src="/anzaar-logo.png"
   alt="Anzaar.mn Logo"
-  width={260}
-  height={80}
+ width={340}
+height={100}
 />
             </div>
             <div style={{
