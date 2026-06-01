@@ -50,13 +50,7 @@ export default function Home() {
           alignItems:"center",
           gap:30
         }}>
-          <div>
-            <div style={{
-              fontSize:34,
-              fontWeight:700,
-              color:"#fff"
-            }}>
-<div>
+           <div>
   <Image
     src="/anzaar-logo-horizontal.png"
     alt="Anzaar.mn Logo"
