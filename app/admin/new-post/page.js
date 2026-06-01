@@ -10,6 +10,18 @@ export default function NewPostPage() {
       }}
     >
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <a
+  href="/admin"
+  style={{
+    color: "#aaa",
+    textDecoration: "none",
+    display: "inline-block",
+    marginBottom: "30px",
+    fontSize: "18px",
+  }}
+>
+  ← Хяналтын самбар руу буцах
+</a>
         <h1 style={{ fontSize: "48px", marginBottom: "18px" }}>
           Шинэ нийтлэл нэмэх
         </h1>
