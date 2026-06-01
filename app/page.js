@@ -349,7 +349,7 @@ backgroundBlendMode:"multiply",
             gap:"0 40px"
           }}>
             {previous.map(([cat,title,date]) => (
-              <Link key={item.id} href="/article" style={{textDecoration:"none", color:"inherit"}}>
+              <Link key={title} href="/article" style={{textDecoration:"none", color:"inherit"}}>
               <article style={{
                 display:"grid",
                 gridTemplateColumns:"92px 1fr",
@@ -370,14 +370,14 @@ backgroundBlendMode:"multiply",
                     fontWeight:700,
                     textTransform:"uppercase"
                   }}>
-                    {item.category}
+                    {cat}
                   </div>
                   <div style={{
                     marginTop:6,
                     fontSize:17,
                     lineHeight:1.35
                   }}>
-                    {item.title}
+                    {title}
                   </div>
                   <small style={{
                     display:"block",
@@ -385,7 +385,7 @@ backgroundBlendMode:"multiply",
                     color:"#777",
                     fontFamily:"Arial"
                   }}>
-                    {item.date}
+                    {date}
                   </small>
                 </div>
               </article>
