@@ -42,7 +42,9 @@ export default function AdminPage() {
           <section style={card}>
             <div style={sectionHead}>
               <h3>Сүүлийн нийтлэлүүд</h3>
-              <button style={redButton}>Шинэ нийтлэл нэмэх</button>
+              <Link href="/admin/new-post" style={{ textDecoration: "none" }}>
+  <button style={redButton}>Шинэ нийтлэл нэмэх</button>
+</Link>
             </div>
 
             <table style={table}>
