@@ -1,26 +1,16 @@
+import { articles } from "../../../lib/articles";
 import Link from "next/link";
 
 export default function DynamicArticle({ params }) {
-  const articles = {
-    1: {
-      category: "Нийгэм",
-      title: "Харагдаж байгаа бүхэн үнэн биш",
-      image: "/hero-main.png"
-    },
-    2: {
-      category: "Эдийн засаг",
-      title: "Инфляцын өсөлт: Бодит орлого юу хэлж байна вэ?",
-      image: "/feature-1.png"
-    },
-    3: {
-      category: "Эрх зүй",
-      title: "Шинэ эрх зүйн хууль батлагдлаа",
-      image: "/feature-1.png"
-    }
-  };
-
-  const article = articles[params.id] || articles[1];
-
+  
+  const article = articles.find((item) => item.id === Number(params.id));
+if (!article) {
+  return (
+    <main style={{ background: "#000", color: "#fff", minHeight: "100vh", padding: 40 }}>
+      Нийтлэл олдсонгүй
+    </main>
+  );
+}
   return (
     <main style={{
       background:"#000",
