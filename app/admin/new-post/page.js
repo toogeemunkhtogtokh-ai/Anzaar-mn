@@ -31,8 +31,16 @@ export default function NewPostPage() {
       content: form.content,
     };
 
-    console.log("Шинэ нийтлэл:", newArticle);
-    alert("Нийтлэл түр хадгалагдлаа. Дараагийн алхамд database-тэй холбоно.");
+  const existing =
+  JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+
+localStorage.setItem(
+  "anzaarArticles",
+  JSON.stringify([newArticle, ...existing])
+);
+
+alert("Нийтлэл амжилттай хадгалагдлаа");
+window.location.href = "/admin";
   };
 
   return (
