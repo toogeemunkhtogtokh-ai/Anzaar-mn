@@ -42,7 +42,7 @@ export default function Home() {
     }}>
       <header style={{
         borderBottom:"1px solid rgba(255,255,255,.1)",
-        padding:"28px 48px"
+        padding:"22px 48px"
       }}>
         <div style={{
           display:"flex",
@@ -54,10 +54,10 @@ export default function Home() {
   <Image
     src="/anzaar-logo-horizontal.png"
     alt="Anzaar.mn Logo"
-    width={420}
-    height={110}
+    width={360}
+    height={95}
     style={{
-      width: "420px",
+      width: "360px",
       height: "auto",
       objectFit: "contain"
     }}
