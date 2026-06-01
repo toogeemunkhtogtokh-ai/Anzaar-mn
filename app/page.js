@@ -59,19 +59,10 @@ export default function Home() {
 <Image
   src="/anzaar-logo-horizontal.png"
   alt="Anzaar.mn Logo"
-  width={280}
-  height={70}
+  width={560}
+  height={140}
 />
             </div>
-            <div style={{
-              marginTop:8,
-              fontSize:13,
-              color:"#aaa",
-              fontFamily:"Arial"
-            }}>
-              Өнөөдрийг анзаарч, маргаашийг бүтээе
-            </div>
-          </div>
 
           <nav style={{
             display:"flex",
