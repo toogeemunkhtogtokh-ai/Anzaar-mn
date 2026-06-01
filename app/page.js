@@ -222,10 +222,10 @@ backgroundBlendMode:"multiply",
   gap:22,
   marginTop:28
 }}>
-  {featured.map(([cat,title,date], index) => (
+  {featured.map((item, index) => (
     <Link href={`/article/${index + 1}`} style={{textDecoration:"none", color:"inherit"}}>
     <article
-      key={title}
+      key={item.id}
       style={{
         ...cardStyle,
         minHeight:420,
@@ -253,7 +253,7 @@ backgroundBlendMode:"multiply",
         fontWeight:700,
         textTransform:"uppercase"
       }}>
-        {cat}
+        {item.category}
       </div>
 
       <h3 style={{
@@ -263,7 +263,7 @@ backgroundBlendMode:"multiply",
         marginTop:18,
         marginBottom:28
       }}>
-        {title}
+        {item.title}
       </h3>
 
       <small style={{
@@ -272,7 +272,7 @@ backgroundBlendMode:"multiply",
         marginTop:"auto",
         display:"block"
       }}>
-        {date}
+        {item.date}
       </small>
     </article>
 </Link>
@@ -338,7 +338,7 @@ backgroundBlendMode:"multiply",
             gap:"0 40px"
           }}>
             {previous.map(([cat,title,date]) => (
-              <Link key={title} href="/article" style={{textDecoration:"none", color:"inherit"}}>
+              <Link key={item.id} href="/article" style={{textDecoration:"none", color:"inherit"}}>
               <article style={{
                 display:"grid",
                 gridTemplateColumns:"92px 1fr",
@@ -359,14 +359,14 @@ backgroundBlendMode:"multiply",
                     fontWeight:700,
                     textTransform:"uppercase"
                   }}>
-                    {cat}
+                    {item.category}
                   </div>
                   <div style={{
                     marginTop:6,
                     fontSize:17,
                     lineHeight:1.35
                   }}>
-                    {title}
+                    {item.title}
                   </div>
                   <small style={{
                     display:"block",
@@ -374,7 +374,7 @@ backgroundBlendMode:"multiply",
                     color:"#777",
                     fontFamily:"Arial"
                   }}>
-                    {date}
+                    {item.date}
                   </small>
                 </div>
               </article>
