@@ -12,7 +12,35 @@ export default function CategoryPage({ params }) {
     soyol: "Соёл"
   };
 
+  const articles = [
+    {
+      id: 1,
+      category: "niigem",
+      label: "Нийгэм",
+      title: "Харагдаж байгаа бүхэн үнэн биш",
+      date: "2026.06.18",
+      image: "/hero-main.png"
+    },
+    {
+      id: 2,
+      category: "ediinzasag",
+      label: "Эдийн засаг",
+      title: "Инфляцын өсөлт: Бодит орлого юу хэлж байна вэ?",
+      date: "2026.06.17",
+      image: "/feature-1.png"
+    },
+    {
+      id: 3,
+      category: "erhzui",
+      label: "Эрх зүй",
+      title: "Шинэ эрх зүйн хууль батлагдлаа",
+      date: "2026.06.16",
+      image: "/feature-1.png"
+    }
+  ];
+
   const title = names[params.id] || "Ангилал";
+  const filtered = articles.filter((item) => item.category === params.id);
 
   return (
     <main style={{
@@ -36,17 +64,88 @@ export default function CategoryPage({ params }) {
 
         <h1 style={{
           fontSize:56,
-          marginTop:40
+          marginTop:40,
+          marginBottom:16
         }}>
           {title}
         </h1>
 
         <p style={{
           color:"#aaa",
-          fontSize:20
+          fontSize:20,
+          marginBottom:44
         }}>
-          Энэ ангиллын мэдээнүүд энд харагдана.
+          Энэ ангиллын мэдээнүүд
         </p>
+
+        <div style={{
+          display:"grid",
+          gridTemplateColumns:"repeat(3,1fr)",
+          gap:24
+        }}>
+          {filtered.length > 0 ? filtered.map((item) => (
+            <Link
+              key={item.id}
+              href={`/article/${item.id}`}
+              style={{
+                textDecoration:"none",
+                color:"inherit"
+              }}
+            >
+              <article style={{
+                border:"1px solid rgba(255,255,255,.12)",
+                background:"linear-gradient(180deg,#111,#050505)",
+                padding:22,
+                minHeight:390
+              }}>
+                <div style={{
+                  height:170,
+                  backgroundImage:`url(${item.image})`,
+                  backgroundSize:"cover",
+                  backgroundPosition:"center",
+                  border:"1px solid rgba(255,255,255,.08)",
+                  marginBottom:22
+                }} />
+
+                <div style={{
+                  color:"#e11212",
+                  fontFamily:"Arial",
+                  fontSize:12,
+                  fontWeight:700,
+                  textTransform:"uppercase"
+                }}>
+                  {item.label}
+                </div>
+
+                <h2 style={{
+                  fontSize:28,
+                  lineHeight:1.25,
+                  marginTop:14
+                }}>
+                  {item.title}
+                </h2>
+
+                <div style={{
+                  color:"#777",
+                  fontFamily:"Arial",
+                  fontSize:13,
+                  marginTop:24
+                }}>
+                  {item.date}
+                </div>
+              </article>
+            </Link>
+          )) : (
+            <div style={{
+              color:"#777",
+              fontFamily:"Arial",
+              border:"1px solid rgba(255,255,255,.1)",
+              padding:28
+            }}>
+              Энэ ангилалд одоогоор мэдээ нэмэгдээгүй байна.
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );
