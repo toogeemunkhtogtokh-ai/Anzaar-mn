@@ -207,8 +207,8 @@ backgroundBlendMode:"multiply",
   gap:22,
   marginTop:28
 }}>
-  {featured.map(([cat,title,date]) => (
-    <Link href="/article" style={{textDecoration:"none", color:"inherit"}}>
+  {featured.map(([cat,title,date], index) => (
+    <Link href={`/article/${index + 1}`} style={{textDecoration:"none", color:"inherit"}}>
     <article
       key={title}
       style={{
