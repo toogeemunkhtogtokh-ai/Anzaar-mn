@@ -62,8 +62,6 @@ export default function Home() {
   width={260}
   height={80}
 />
-/>
-/>
             </div>
             <div style={{
               marginTop:8,
