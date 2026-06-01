@@ -200,46 +200,70 @@ backgroundBlendMode:"multiply",
           </aside>
         </div>
 
-        <section style={{
-          display:"grid",
-          gridTemplateColumns:"repeat(3,1fr)",
-          gap:22,
-          marginTop:28
-        }}>
-          {featured.map(([cat,title,date]) => (
-            <article key={title} style={cardStyle}>
-              <div style={{
-                height:160,
-                marginBottom:20,
-                background:"radial-gradient(circle at center,#333,#0a0a0a)",
-                border:"1px solid rgba(255,255,255,.08)"
-              }} />
-              <div style={{
-                color:"#e11212",
-                fontSize:12,
-                fontFamily:"Arial",
-                fontWeight:700,
-                textTransform:"uppercase"
-              }}>
-                {cat}
-              </div>
-              <h3 style={{
-                fontSize:22,
-                lineHeight:1.35,
-                minHeight:88
-              }}>
-                {title}
-              </h3>
-              <small style={{
-                color:"#777",
-                fontFamily:"Arial"
-              }}>
-                {date}
-              </small>
-            </article>
-          ))}
-        </section>
+      <section style={{
+  display:"grid",
+  gridTemplateColumns:"repeat(3,1fr)",
+  gap:22,
+  marginTop:28
+}}>
+  {featured.map(([cat,title,date]) => (
+    <article
+      key={title}
+      style={{
+        ...cardStyle,
+        minHeight:420,
+        display:"flex",
+        flexDirection:"column",
+        transition:"all .35s ease",
+        cursor:"pointer"
+      }}
+      onMouseEnter={(e)=>{
+        e.currentTarget.style.border="1px solid rgba(225,18,18,.45)";
+        e.currentTarget.style.transform="translateY(-6px)";
+      }}
+      onMouseLeave={(e)=>{
+        e.currentTarget.style.border="1px solid rgba(255,255,255,.1)";
+        e.currentTarget.style.transform="translateY(0)";
+      }}
+    >
+      <div style={{
+        height:190,
+        marginBottom:24,
+        background:"radial-gradient(circle at center,#333,#0a0a0a)",
+        border:"1px solid rgba(255,255,255,.08)"
+      }} />
 
+      <div style={{
+        color:"#e11212",
+        fontSize:12,
+        fontFamily:"Arial",
+        fontWeight:700,
+        textTransform:"uppercase"
+      }}>
+        {cat}
+      </div>
+
+      <h3 style={{
+        fontSize:28,
+        lineHeight:1.28,
+        minHeight:120,
+        marginTop:18,
+        marginBottom:28
+      }}>
+        {title}
+      </h3>
+
+      <small style={{
+        color:"#777",
+        fontFamily:"Arial",
+        marginTop:"auto",
+        display:"block"
+      }}>
+        {date}
+      </small>
+    </article>
+  ))}
+</section>
         <section style={{
           marginTop:32,
           ...cardStyle,
