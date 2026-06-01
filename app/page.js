@@ -56,14 +56,19 @@ export default function Home() {
               fontWeight:700,
               color:"#fff"
             }}>
-<Image
-  src="/anzaar-logo-horizontal.png"
-  alt="Anzaar.mn Logo"
-  width={420}
-  height={110}
-/>
-            </div>
-
+<div>
+  <Image
+    src="/anzaar-logo-horizontal.png"
+    alt="Anzaar.mn Logo"
+    width={420}
+    height={110}
+    style={{
+      width: "420px",
+      height: "auto",
+      objectFit: "contain"
+    }}
+  />
+</div>
           <nav style={{
             display:"flex",
             gap:24,
