@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Home() {
   const nav = [
     "Нүүр",
@@ -55,7 +56,12 @@ export default function Home() {
               fontWeight:700,
               color:"#fff"
             }}>
-              <span style={{color:"#e11212"}}>◜</span> Anzaar<span style={{color:"#e11212"}}>.</span>mn
+              <Image
+  src="/Өнөөдрийг анзаарч маргаашийг бүтээе.png"
+  alt="Anzaar.mn Logo"
+  width={260}
+  height={80}
+/>
             </div>
             <div style={{
               marginTop:8,
