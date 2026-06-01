@@ -121,7 +121,12 @@ export default function Home() {
               display:"flex",
               flexDirection:"column",
               justifyContent:"flex-end",
-              background:"linear-gradient(180deg,rgba(20,20,20,.2),#050505), radial-gradient(circle at 70% 30%, #333, #050505 55%)"
+              backgroundImage:"url('/hero-main.jpg')",
+backgroundSize:"cover",
+backgroundPosition:"center",
+backgroundRepeat:"no-repeat",
+backgroundColor:"rgba(0,0,0,0.55)",
+backgroundBlendMode:"multiply",
             }}>
               <div style={{
                 color:"#e11212",
