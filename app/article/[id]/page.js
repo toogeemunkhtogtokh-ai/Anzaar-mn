@@ -5,7 +5,7 @@ export default function DynamicArticle({ params }) {
     1: {
       category: "Нийгэм",
       title: "Харагдаж байгаа бүхэн үнэн биш",
-      image: "/hero-main.jpg"
+      image: "/hero-main.png"
     },
     2: {
       category: "Эдийн засаг",
