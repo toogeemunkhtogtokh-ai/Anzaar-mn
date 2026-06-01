@@ -76,7 +76,17 @@ export default function AdminPage() {
           </section>
 
           <aside>
-            <Box title="Түргэн үйлдлүүд" items={["＋ Шинэ нийтлэл нэмэх", "▧ Баннер нэмэх", "♙ Хамтрагч нэмэх", "▢ Хуудас үүсгэх"]} />
+            <div style={box}>
+  <h3 style={{ marginBottom: 18 }}>Түргэн үйлдлүүд</h3>
+
+  <Link href="/admin/new-post" style={boxItem}>
+    ＋ Шинэ нийтлэл нэмэх
+  </Link>
+
+  <p style={boxItem}>▧ Баннер нэмэх</p>
+  <p style={boxItem}>♙ Хамтрагч нэмэх</p>
+  <p style={boxItem}>▢ Хуудас үүсгэх</p>
+</div>
             <Box title="Нийтлэлийн ангилал" items={["Нийгэм — 28", "Эдийн засаг — 24", "Эрх зүй — 18", "Эрүүл мэнд — 16", "Боловсрол — 14", "Сэтгэл зүй — 12", "Спорт — 8", "Соёл — 6"]} />
             <Box title="Системийн мэдээлэл" items={["Системийн хувилбар — 1.0.0", "PHP хувилбар — 8.2.12", "Сүүлийн нөөцлөлт — 2024.06.15"]} />
           </aside>
@@ -277,6 +287,7 @@ const boxItem = {
   color: "#ddd",
   borderBottom: "1px solid #222",
   paddingBottom: 10,
+  textDecoration: "none",
 };
 
 const bottomGrid = {
