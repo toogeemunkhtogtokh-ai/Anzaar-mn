@@ -323,7 +323,8 @@ backgroundBlendMode:"multiply",
             gap:"0 40px"
           }}>
             {previous.map(([cat,title,date]) => (
-              <article key={title} style={{
+              <Link key={title} href="/article" style={{textDecoration:"none", color:"inherit"}}>
+              <article style={{
                 display:"grid",
                 gridTemplateColumns:"92px 1fr",
                 gap:16,
@@ -362,6 +363,7 @@ backgroundBlendMode:"multiply",
                   </small>
                 </div>
               </article>
+</Link>
             ))}
           </div>
         </section>
