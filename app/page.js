@@ -223,60 +223,71 @@ backgroundBlendMode:"multiply",
   marginTop:28
 }}>
   {featured.map((item, index) => (
-    <Link href={`/article/${index + 1}`} style={{textDecoration:"none", color:"inherit"}}>
+  <Link
+    key={item.id}
+    href={`/article/${item.id}`}
+    style={{ textDecoration: "none", color: "inherit" }}
+  >
     <article
-      key={item.id}
       style={{
         ...cardStyle,
-        minHeight:420,
-        display:"flex",
-        flexDirection:"column",
-        transition:"all .35s ease",
-        cursor:"pointer",
-        transform:"translateY(0)"
+        minHeight: 420,
+        display: "flex",
+        flexDirection: "column",
+        transition: "all .35s ease",
+        cursor: "pointer",
+        transform: "translateY(0)"
       }}
-        >
-  <div style={{
-  height:190,
-  marginBottom:24,
-  border:"1px solid rgba(255,255,255,.08)",
-  backgroundImage:"url('/feature-1.png')",
-  backgroundSize:"cover",
-  backgroundPosition:"center",
-  backgroundRepeat:"no-repeat"
-}} />
+    >
+      <div
+        style={{
+          height: 190,
+          marginBottom: 24,
+          border: "1px solid rgba(255,255,255,.08)",
+          backgroundImage: `url(${item.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      />
 
-      <div style={{
-        color:"#e11212",
-        fontSize:12,
-        fontFamily:"Arial",
-        fontWeight:700,
-        textTransform:"uppercase"
-      }}>
+      <div
+        style={{
+          color: "#e11212",
+          fontSize: 12,
+          fontFamily: "Arial",
+          fontWeight: 700,
+          textTransform: "uppercase"
+        }}
+      >
         {item.category}
       </div>
 
-      <h3 style={{
-        fontSize:30,
-        lineHeight:1.28,
-        minHeight:120,
-        marginTop:18,
-        marginBottom:28
-      }}>
+      <h3
+        style={{
+          fontSize: 30,
+          lineHeight: 1.28,
+          minHeight: 120,
+          marginTop: 18,
+          marginBottom: 28
+        }}
+      >
         {item.title}
       </h3>
 
-      <small style={{
-        color:"#777",
-        fontFamily:"Arial",
-        marginTop:"auto",
-        display:"block"
-      }}>
+      <small
+        style={{
+          color: "#777",
+          fontFamily: "Arial",
+          marginTop: "auto",
+          display: "block"
+        }}
+      >
         {item.date}
       </small>
     </article>
-</Link>
-  ))}
+  </Link>
+))}
 </section>
         <section style={{
           marginTop:32,
