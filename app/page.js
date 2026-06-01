@@ -208,6 +208,7 @@ backgroundBlendMode:"multiply",
   marginTop:28
 }}>
   {featured.map(([cat,title,date]) => (
+    <Link href="/article" style={{textDecoration:"none", color:"inherit"}}>
     <article
       key={title}
       style={{
@@ -259,6 +260,7 @@ backgroundBlendMode:"multiply",
         {date}
       </small>
     </article>
+</Link>
   ))}
 </section>
         <section style={{
