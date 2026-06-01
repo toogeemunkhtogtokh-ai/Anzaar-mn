@@ -72,28 +72,33 @@ export default function Home() {
             textTransform:"uppercase",
             whiteSpace:"nowrap"
           }}>
-            {nav.map((item, i) => (
-  <Link
-    key={item}
-    href={`/category/${
-      item==="Нийгэм" ? "niigem" :
-      item==="Эдийн засаг" ? "ediinzasag" :
-      item==="Эрх зүй" ? "erhzui" :
-      item==="Эрүүл мэнд" ? "eruulmend" :
-      item==="Боловсрол" ? "bolovsrol" :
-      item==="Сэтгэл зүй" ? "setgelzui" :
-      item==="Спорт" ? "sport" : "soyol"
-    }`}
-    style={{
-      textDecoration:"none",
-      color:i===0 ? "#fff" : "#aaa",
-      borderBottom:i===0 ? "2px solid #e11212" : "none",
-      paddingBottom:8
-    }}
-  >
-    {item}
-  </Link>
-))}
+           {nav.map((item, i) => {
+  const href =
+    item === "Нүүр" ? "/" :
+    item === "Нийгэм" ? "/category/niigem" :
+    item === "Эдийн засаг" ? "/category/ediinzasag" :
+    item === "Эрх зүй" ? "/category/erhzui" :
+    item === "Эрүүл мэнд" ? "/category/eruulmend" :
+    item === "Боловсрол" ? "/category/bolovsrol" :
+    item === "Сэтгэл зүй" ? "/category/setgelzui" :
+    item === "Спорт" ? "/category/sport" :
+    "/category/soyol";
+
+  return (
+    <Link
+      key={item}
+      href={href}
+      style={{
+        textDecoration:"none",
+        color:i===0 ? "#fff" : "#aaa",
+        borderBottom:i===0 ? "2px solid #e11212" : "none",
+        paddingBottom:8
+      }}
+    >
+      {item}
+    </Link>
+  );
+})}
           </nav>
         </div>
       </header>
