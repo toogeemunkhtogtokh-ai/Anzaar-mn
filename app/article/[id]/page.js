@@ -36,7 +36,7 @@ if (!article) {
           marginTop:30,
           fontFamily:"Arial"
         }}>
-          {article.category}
+          {article.label}
         </div>
 
         <h1 style={{
