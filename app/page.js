@@ -73,14 +73,27 @@ export default function Home() {
             whiteSpace:"nowrap"
           }}>
             {nav.map((item, i) => (
-              <span key={item} style={{
-                color:i===0 ? "#fff" : "#aaa",
-                borderBottom:i===0 ? "2px solid #e11212" : "none",
-                paddingBottom:8
-              }}>
-                {item}
-              </span>
-            ))}
+  <Link
+    key={item}
+    href={`/category/${
+      item==="Нийгэм" ? "niigem" :
+      item==="Эдийн засаг" ? "ediinzasag" :
+      item==="Эрх зүй" ? "erhzui" :
+      item==="Эрүүл мэнд" ? "eruulmend" :
+      item==="Боловсрол" ? "bolovsrol" :
+      item==="Сэтгэл зүй" ? "setgelzui" :
+      item==="Спорт" ? "sport" : "soyol"
+    }`}
+    style={{
+      textDecoration:"none",
+      color:i===0 ? "#fff" : "#aaa",
+      borderBottom:i===0 ? "2px solid #e11212" : "none",
+      paddingBottom:8
+    }}
+  >
+    {item}
+  </Link>
+))}
           </nav>
         </div>
       </header>
