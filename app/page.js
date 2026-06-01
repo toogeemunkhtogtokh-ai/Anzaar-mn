@@ -217,15 +217,7 @@ backgroundBlendMode:"multiply",
         transition:"all .35s ease",
         cursor:"pointer"
       }}
-      onMouseEnter={(e)=>{
-        e.currentTarget.style.border="1px solid rgba(225,18,18,.45)";
-        e.currentTarget.style.transform="translateY(-6px)";
-      }}
-      onMouseLeave={(e)=>{
-        e.currentTarget.style.border="1px solid rgba(255,255,255,.1)";
-        e.currentTarget.style.transform="translateY(0)";
-      }}
-    >
+        >
       <div style={{
         height:190,
         marginBottom:24,
