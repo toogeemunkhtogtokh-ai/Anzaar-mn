@@ -219,12 +219,15 @@ backgroundBlendMode:"multiply",
         transform:"translateY(0)"
       }}
         >
-      <div style={{
-        height:190,
-        marginBottom:24,
-        background:"radial-gradient(circle at center,#333,#0a0a0a)",
-        border:"1px solid rgba(255,255,255,.08)"
-      }} />
+  <div style={{
+  height:190,
+  marginBottom:24,
+  border:"1px solid rgba(255,255,255,.08)",
+  backgroundImage:"url('/feature-1.png')",
+  backgroundSize:"cover",
+  backgroundPosition:"center",
+  backgroundRepeat:"no-repeat"
+}} />
 
       <div style={{
         color:"#e11212",
