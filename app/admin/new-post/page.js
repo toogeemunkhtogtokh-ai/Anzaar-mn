@@ -9,12 +9,15 @@ export default function NewPostPage() {
     category: "",
     image: "",
     content: "",
+    featured: false,
   });
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -29,18 +32,26 @@ export default function NewPostPage() {
       date: new Date().toISOString().slice(0, 10).replaceAll("-", "."),
       image: form.image || "/feature-1.png",
       content: form.content,
+      featured: form.featured,
     };
 
-  const existing =
-  JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+    const existing =
+      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-localStorage.setItem(
-  "anzaarArticles",
-  JSON.stringify([newArticle, ...existing])
-);
+    const updatedArticles = form.featured
+      ? existing.map((article) => ({
+          ...article,
+          featured: false,
+        }))
+      : existing;
 
-alert("Нийтлэл амжилттай хадгалагдлаа");
-window.location.href = "/admin";
+    localStorage.setItem(
+      "anzaarArticles",
+      JSON.stringify([newArticle, ...updatedArticles])
+    );
+
+    alert("Нийтлэл амжилттай хадгалагдлаа");
+    window.location.href = "/admin";
   };
 
   return (
@@ -81,26 +92,37 @@ window.location.href = "/admin";
             <option value="soyol">Соёл</option>
           </select>
 
+          <label style={checkboxBox}>
+            <input
+              type="checkbox"
+              name="featured"
+              checked={form.featured}
+              onChange={handleChange}
+              style={checkboxInput}
+            />
+            <span>Онцлох мэдээ болгох</span>
+          </label>
+
           <input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (!file) return;
 
-    const reader = new FileReader();
+              const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setForm({
-        ...form,
-        image: reader.result,
-      });
-    };
+              reader.onloadend = () => {
+                setForm({
+                  ...form,
+                  image: reader.result,
+                });
+              };
 
-    reader.readAsDataURL(file);
-  }}
-  style={inputStyle}
-/>
+              reader.readAsDataURL(file);
+            }}
+            style={inputStyle}
+          />
 
           <textarea
             name="content"
@@ -115,24 +137,33 @@ window.location.href = "/admin";
           <div style={previewBox}>
             <p style={previewLabel}>Preview</p>
 
-              {form.image && (
-  <img
-    src={form.image}
-    alt="preview"
-    style={{
-      width: "100%",
-      maxHeight: "320px",
-      objectFit: "cover",
-      marginBottom: "20px",
-    }}
-  />
-)}
+            {form.image && (
+              <img
+                src={form.image}
+                alt="preview"
+                style={{
+                  width: "100%",
+                  maxHeight: "320px",
+                  objectFit: "cover",
+                  marginBottom: "20px",
+                }}
+              />
+            )}
+
             <h2 style={{ fontSize: 32, marginBottom: 10 }}>
               {form.title || "Нийтлэлийн гарчиг энд харагдана"}
             </h2>
+
             <p style={{ color: "#e11212", fontWeight: 700 }}>
               {getLabel(form.category) || "Ангилал"}
             </p>
+
+            {form.featured && (
+              <p style={{ color: "#facc15", fontWeight: 700 }}>
+                ★ Онцлох мэдээ
+              </p>
+            )}
+
             <p style={{ color: "#999" }}>
               {form.content || "Нийтлэлийн эхний агуулга энд харагдана."}
             </p>
@@ -205,6 +236,22 @@ const inputStyle = {
   border: "1px solid #222",
   color: "#fff",
   fontSize: "18px",
+};
+
+const checkboxBox = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  background: "#111",
+  border: "1px solid #222",
+  padding: "18px",
+  color: "#fff",
+  fontSize: "18px",
+};
+
+const checkboxInput = {
+  width: "18px",
+  height: "18px",
 };
 
 const previewBox = {
