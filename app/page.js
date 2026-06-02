@@ -1,25 +1,30 @@
 "use client";
-
+ 
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../lib/articles";
-
+ 
 export default function Home() {
   const [allArticles, setAllArticles] = useState(articles);
   const [banners, setBanners] = useState([]);
-
+  const [partners, setPartners] = useState([]);
+ 
   useEffect(() => {
     const savedArticles =
       JSON.parse(localStorage.getItem("anzaarArticles")) || [];
-
+ 
     const savedBanners =
       JSON.parse(localStorage.getItem("anzaarBanners")) || [];
-
+ 
+    const savedPartners =
+      JSON.parse(localStorage.getItem("anzaarPartners")) || [];
+ 
     setAllArticles([...savedArticles, ...articles]);
     setBanners(savedBanners);
+    setPartners(savedPartners);
   }, []);
-
+ 
   const nav = [
     "Нүүр",
     "Нийгэм",
@@ -31,22 +36,15 @@ export default function Home() {
     "Спорт",
     "Соёл",
   ];
-
+ 
   const heroArticle =
     allArticles.find((article) => article.featured === true) || allArticles[0];
-
-  const topBanner = banners.find(
-    (banner) => banner.position === "top" && banner.active
-  );
-
-  const inlineBanner = banners.find(
-    (banner) => banner.position === "inline" && banner.active
-  );
-
-  const sidebarBanner = banners.find(
-    (banner) => banner.position === "sidebar" && banner.active
-  );
-
+ 
+  const topBanner = banners.find((b) => b.position === "top" && b.active);
+  const inlineBanner = banners.find((b) => b.position === "inline" && b.active);
+  const sidebarBanner = banners.find((b) => b.position === "sidebar" && b.active);
+  const activePartners = partners.filter((partner) => partner.active !== false);
+ 
   const previous = [
     ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
     ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
@@ -55,13 +53,13 @@ export default function Home() {
     ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
     ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"],
   ];
-
+ 
   const cardStyle = {
     border: "1px solid rgba(255,255,255,.1)",
     background: "linear-gradient(180deg,#111,#050505)",
     padding: 22,
   };
-
+ 
   const renderBanner = (banner, fallbackText, fallbackSize, imageHeight = "100%") => {
     if (banner) {
       return (
@@ -69,15 +67,11 @@ export default function Home() {
           href={banner.url || "#"}
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            display: "block",
-            width: "100%",
-            height: "100%",
-          }}
+          style={{ display: "block", width: "100%", height: "100%" }}
         >
           <img
             src={banner.image}
-            alt={banner.title || "Anzaar.mn banner"}
+            alt={banner.title}
             style={{
               width: "100%",
               height: imageHeight,
@@ -88,7 +82,7 @@ export default function Home() {
         </a>
       );
     }
-
+ 
     return (
       <div
         style={{
@@ -114,7 +108,7 @@ export default function Home() {
           >
             {fallbackText}
           </div>
-
+ 
           <div
             style={{
               marginTop: 10,
@@ -129,7 +123,7 @@ export default function Home() {
       </div>
     );
   };
-
+ 
   return (
     <main
       style={{
@@ -169,7 +163,7 @@ export default function Home() {
               }}
             />
           </div>
-
+ 
           <nav
             style={{
               display: "flex",
@@ -199,7 +193,7 @@ export default function Home() {
                   : item === "Спорт"
                   ? "/category/sport"
                   : "/category/soyol";
-
+ 
               return (
                 <Link
                   key={item}
@@ -218,7 +212,7 @@ export default function Home() {
           </nav>
         </div>
       </header>
-
+ 
       <section
         style={{
           maxWidth: 1240,
@@ -226,25 +220,23 @@ export default function Home() {
           padding: "42px 24px",
         }}
       >
-        {topBanner && (
-          <section
-            style={{
-              ...cardStyle,
-              padding: 0,
-              overflow: "hidden",
-              marginBottom: 32,
-              minHeight: 180,
-            }}
-          >
-            {renderBanner(
-              topBanner,
-              "Энд таны сурталчилгаа байрлана",
-              "Top banner · 1200 × 300",
-              "300px"
-            )}
-          </section>
-        )}
-
+        <section
+          style={{
+            ...cardStyle,
+            padding: 0,
+            overflow: "hidden",
+            marginBottom: 32,
+            minHeight: 180,
+          }}
+        >
+          {renderBanner(
+            topBanner,
+            "Энд таны сурталчилгаа байрлана",
+            "Top banner · 1200 × 300",
+            "300px"
+          )}
+        </section>
+ 
         <div
           style={{
             display: "grid",
@@ -269,7 +261,7 @@ export default function Home() {
                   display: "block",
                 }}
               />
-
+ 
               <h1
                 style={{
                   fontSize: 42,
@@ -279,7 +271,7 @@ export default function Home() {
                 Өнөөдрийн онцлох
               </h1>
             </div>
-
+ 
             <Link
               href={`/article/${heroArticle?.id || ""}`}
               style={{ textDecoration: "none", color: "inherit" }}
@@ -311,7 +303,7 @@ export default function Home() {
                 >
                   {heroArticle?.label || "Нийгэм"}
                 </div>
-
+ 
                 <h2
                   style={{
                     fontSize: 52,
@@ -322,7 +314,7 @@ export default function Home() {
                 >
                   {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
                 </h2>
-
+ 
                 <p
                   style={{
                     fontSize: 20,
@@ -335,7 +327,7 @@ export default function Home() {
                   {heroArticle?.excerpt ||
                     "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
                 </p>
-
+ 
                 <div
                   style={{
                     marginTop: 22,
@@ -353,7 +345,7 @@ export default function Home() {
               </article>
             </Link>
           </div>
-
+ 
           <aside
             style={{
               ...cardStyle,
@@ -369,7 +361,7 @@ export default function Home() {
             )}
           </aside>
         </div>
-
+ 
         <section
           style={{
             display: "grid",
@@ -405,7 +397,7 @@ export default function Home() {
                     backgroundRepeat: "no-repeat",
                   }}
                 />
-
+ 
                 <div
                   style={{
                     color: "#e11212",
@@ -417,7 +409,7 @@ export default function Home() {
                 >
                   {item.label}
                 </div>
-
+ 
                 <h3
                   style={{
                     fontSize: 26,
@@ -429,7 +421,7 @@ export default function Home() {
                 >
                   {item.title}
                 </h3>
-
+ 
                 <small
                   style={{
                     color: "#777",
@@ -444,7 +436,7 @@ export default function Home() {
             </Link>
           ))}
         </section>
-
+ 
         <section
           style={{
             marginTop: 32,
@@ -461,7 +453,7 @@ export default function Home() {
             "150px"
           )}
         </section>
-
+ 
         <section style={{ marginTop: 50 }}>
           <div
             style={{
@@ -479,7 +471,7 @@ export default function Home() {
                 display: "block",
               }}
             />
-
+ 
             <h2
               style={{
                 fontSize: 34,
@@ -489,7 +481,7 @@ export default function Home() {
               Өмнөх мэдээнүүд
             </h2>
           </div>
-
+ 
           <div
             style={{
               display: "grid",
@@ -519,7 +511,7 @@ export default function Home() {
                       border: "1px solid rgba(255,255,255,.08)",
                     }}
                   />
-
+ 
                   <div>
                     <div
                       style={{
@@ -532,7 +524,7 @@ export default function Home() {
                     >
                       {cat}
                     </div>
-
+ 
                     <div
                       style={{
                         marginTop: 6,
@@ -542,7 +534,7 @@ export default function Home() {
                     >
                       {title}
                     </div>
-
+ 
                     <small
                       style={{
                         display: "block",
@@ -559,7 +551,7 @@ export default function Home() {
             ))}
           </div>
         </section>
-
+ 
         <section
           style={{
             marginTop: 52,
@@ -579,7 +571,7 @@ export default function Home() {
           >
             Хамтрагч байгууллагууд
           </div>
-
+ 
           <div
             style={{
               display: "grid",
@@ -587,26 +579,71 @@ export default function Home() {
               gap: 14,
             }}
           >
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                style={{
-                  border: "1px solid rgba(255,255,255,.1)",
-                  padding: "24px 12px",
-                  textAlign: "center",
-                  color: "#777",
-                  fontSize: 12,
-                  fontFamily: "Arial",
-                  textTransform: "uppercase",
-                }}
-              >
-                Энд хамтрагч байгууллагын нэр байрлана
-              </div>
-            ))}
+            {activePartners.length > 0
+              ? activePartners.slice(0, 8).map((partner) => (
+                  <a
+                    key={partner.id}
+                    href={partner.website || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      border: "1px solid rgba(255,255,255,.1)",
+                      padding: "18px 12px",
+                      minHeight: 90,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textAlign: "center",
+                      textDecoration: "none",
+                      color: "#fff",
+                      background: "rgba(255,255,255,.02)",
+                    }}
+                  >
+                    {partner.logo ? (
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: 56,
+                          objectFit: "contain",
+                          display: "block",
+                        }}
+                      />
+                    ) : (
+                      <span
+                        style={{
+                          color: "#777",
+                          fontSize: 12,
+                          fontFamily: "Arial",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {partner.name}
+                      </span>
+                    )}
+                  </a>
+                ))
+              : [1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    style={{
+                      border: "1px solid rgba(255,255,255,.1)",
+                      padding: "24px 12px",
+                      textAlign: "center",
+                      color: "#777",
+                      fontSize: 12,
+                      fontFamily: "Arial",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Энд хамтрагч байгууллагын нэр байрлана
+                  </div>
+                ))}
           </div>
         </section>
       </section>
-
+ 
       <footer
         style={{
           borderTop: "1px solid rgba(255,255,255,.1)",
