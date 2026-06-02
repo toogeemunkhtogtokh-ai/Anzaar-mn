@@ -8,13 +8,19 @@ import { articles } from "../lib/articles";
 export default function Home() {
   const [allArticles, setAllArticles] = useState(articles);
 
-  useEffect(() => {
-    const saved =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+  const [banners, setBanners] = useState([]);
+ useEffect(() => {
+  const savedArticles =
+    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-    setAllArticles([...saved, ...articles]);
-  }, []);
+  setAllArticles([...savedArticles, ...articles]);
 
+  const savedBanners =
+    JSON.parse(localStorage.getItem("anzaarBanners")) || [];
+
+  setBanners(savedBanners);
+}, []);
+  
   const nav = [
     "Нүүр",
     "Нийгэм",
@@ -29,6 +35,21 @@ export default function Home() {
 
   const heroArticle =
   allArticles.find((article) => article.featured === true) || allArticles[0];
+
+  const topBanner =
+  banners.find(
+    (b) => b.position === "top" && b.active
+  );
+
+const inlineBanner =
+  banners.find(
+    (b) => b.position === "inline" && b.active
+  );
+
+const sidebarBanner =
+  banners.find(
+    (b) => b.position === "sidebar" && b.active
+  );
 
   const previous = [
     ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
