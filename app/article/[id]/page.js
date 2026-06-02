@@ -49,14 +49,16 @@ export default function DynamicArticle({ params }) {
   return (
     <main style={page}>
       <header style={header}>
-        <Link href="/" style={logoLink}>
-          Anzaar.mn
-        </Link>
+  <div style={headerInner}>
+    <Link href="/" style={logoLink}>
+      Anzaar.mn
+    </Link>
 
-        <Link href="/" style={homeLink}>
-          Нүүр хуудас
-        </Link>
-      </header>
+    <Link href="/" style={homeLink}>
+      Нүүр хуудас
+    </Link>
+  </div>
+</header>
 
       <section style={container}>
         <Link href="/" style={backLink}>
@@ -156,7 +158,19 @@ const notFoundPage = {
 
 const header = {
   height: "92px",
-  padding: "0 64px",
+  borderBottom: "1px solid rgba(255,255,255,.1)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontFamily: "Arial, sans-serif",
+  const headerInner = {
+  width: "100%",
+  maxWidth: "1180px",
+  padding: "0 24px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
   borderBottom: "1px solid rgba(255,255,255,.1)",
   display: "flex",
   alignItems: "center",
