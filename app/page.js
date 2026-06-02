@@ -271,7 +271,7 @@ backgroundBlendMode:"multiply",
           textTransform: "uppercase"
         }}
       >
-        {item.category}
+        {item.label}
       </div>
 
       <h3
