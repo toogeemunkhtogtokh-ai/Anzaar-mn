@@ -173,12 +173,6 @@ const headerInner = {
   alignItems: "center",
   justifyContent: "space-between",
 };
-  borderBottom: "1px solid rgba(255,255,255,.1)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  fontFamily: "Arial, sans-serif",
-};
 
 const logoLink = {
   color: "#fff",
