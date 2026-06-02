@@ -170,7 +170,7 @@ export default function Home() {
               <article
                 style={{
                   ...cardStyle,
-                  minHeight: 430,
+                  minHeight: 560,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "flex-end",
@@ -291,7 +291,7 @@ export default function Home() {
               <article
                 style={{
                   ...cardStyle,
-                  minHeight: 420,
+                  minHeight: 360,
                   display: "flex",
                   flexDirection: "column",
                   transition: "all .35s ease",
@@ -324,7 +324,7 @@ export default function Home() {
 
                 <h3
                   style={{
-                    fontSize: 30,
+                    fontSize: 26,
                     lineHeight: 1.28,
                     minHeight: 120,
                     marginTop: 18,
