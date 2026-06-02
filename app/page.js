@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import { articles } from "../lib/articles";
 export default function Home() {
 
-const [featured, setFeatured] = useState(articles);
-
+const [allArticles, setAllArticles] = useState(articles);
 useEffect(() => {
   const saved =
     JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-  setFeatured([...saved, ...articles]);
+  setAllArticles([...saved, ...articles]);
 }, []);
 
 const nav = [
@@ -27,6 +26,7 @@ const nav = [
   "Соёл"
 ];
 
+  const heroArticle = allArticles[0];
 const previous = [
   ["Нийгэм", "Агаарын бохирдол буурахгүй байгааийн 5 шалтгаан", "2026.06.14"],
   ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
@@ -233,7 +233,7 @@ backgroundBlendMode:"multiply",
   gap:22,
   marginTop:28
 }}>
-  {featured.map((item, index) => (
+  {allArticles.slice(0,3).map((item, index) => (
   <Link
     key={item.id}
     href={`/article/${item.id}`}
