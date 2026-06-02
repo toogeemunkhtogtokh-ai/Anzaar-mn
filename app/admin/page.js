@@ -1,13 +1,16 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AdminPage() {
-  const posts = [
-    ["Хүмүүс яагаад худал дүр бүтээдэг вэ?", "Сэтгэл зүй", "2024.06.15", "1.2K"],
-    ["Шинэ эрх зүйн хууль батлагдлаа", "Эрх зүй", "2024.06.14", "856"],
-    ["Өглөөний 30 минут таны амьдралыг өөрчилж чадна", "Эрүүл мэнд", "2024.06.14", "1.8K"],
-    ["Монголын хөрөнгийн зах зээл: 2024 оны тойм", "Эдийн засаг", "2024.06.13", "642"],
-    ["Сурагчдын унших чадвар яагаад буурч байна вэ?", "Боловсрол", "2024.06.13", "1.1K"],
-  ];
+ const [posts, setPosts] = useState([]);
+
+useEffect(() => {
+  const saved =
+    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+
+  setPosts(saved);
+}, []);
 
   return (
     <main style={page}>
