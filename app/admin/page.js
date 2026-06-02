@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 export default function AdminPage() {
   const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const saved =
@@ -13,19 +14,17 @@ export default function AdminPage() {
     setPosts(saved);
   }, []);
 
+  const savePosts = (updatedPosts) => {
+    localStorage.setItem("anzaarArticles", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
+  };
+
   const handleDelete = (id) => {
     const confirmed = confirm("Энэ нийтлэлийг устгах уу?");
-
     if (!confirmed) return;
 
     const updated = posts.filter((post) => post.id !== id);
-
-    localStorage.setItem(
-      "anzaarArticles",
-      JSON.stringify(updated)
-    );
-
-    setPosts(updated);
+    savePosts(updated);
   };
 
   const handleFeatured = (id) => {
@@ -34,13 +33,33 @@ export default function AdminPage() {
       featured: post.id === id,
     }));
 
-    localStorage.setItem(
-      "anzaarArticles",
-      JSON.stringify(updated)
-    );
-
-    setPosts(updated);
+    savePosts(updated);
   };
+
+  const filteredPosts = useMemo(() => {
+    return posts.filter((post) => {
+      const keyword = search.toLowerCase();
+
+      return (
+        post.title?.toLowerCase().includes(keyword) ||
+        post.label?.toLowerCase().includes(keyword) ||
+        post.category?.toLowerCase().includes(keyword)
+      );
+    });
+  }, [posts, search]);
+
+  const totalViews = posts.reduce(
+    (sum, post) => sum + Number(post.views || 0),
+    0
+  );
+
+  const featuredPost = posts.find((post) => post.featured);
+
+  const categoryCounts = posts.reduce((acc, post) => {
+    const label = post.label || "Ангилалгүй";
+    acc[label] = (acc[label] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <main style={page}>
@@ -48,10 +67,7 @@ export default function AdminPage() {
         <img
           src="/anzaar-logo-horizontal.png"
           alt="Anzaar.mn"
-          style={{
-            width: "150px",
-            marginBottom: "28px",
-          }}
+          style={logoImage}
         />
 
         {[
@@ -79,20 +95,32 @@ export default function AdminPage() {
 
         <div style={statsGrid}>
           <Stat label="Нийт нийтлэл" value={posts.length} color="#e22" />
-          <Stat label="Нийт хандалт" value="215,430" color="#7b61ff" />
-          <Stat label="Сэтгэгдэл" value="342" color="#7b61ff" />
-          <Stat label="Бүртгэлтэй гишүүд" value="1,250" color="#c7962b" />
+          <Stat label="Нийт хандалт" value={totalViews} color="#7b61ff" />
+          <Stat label="Онцлох нийтлэл" value={featuredPost ? "1" : "0"} color="#facc15" />
+          <Stat label="Ангилал" value={Object.keys(categoryCounts).length} color="#c7962b" />
         </div>
 
         <div style={mainGrid}>
           <section style={card}>
             <div style={sectionHead}>
-              <h3>Сүүлийн нийтлэлүүд</h3>
+              <div>
+                <h3 style={{ margin: 0 }}>Сүүлийн нийтлэлүүд</h3>
+                <p style={mutedText}>
+                  Нийт {filteredPosts.length} нийтлэл харагдаж байна
+                </p>
+              </div>
 
               <Link href="/admin/new-post" style={{ textDecoration: "none" }}>
                 <button style={redButton}>Шинэ нийтлэл нэмэх</button>
               </Link>
             </div>
+
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Нийтлэл хайх..."
+              style={searchInput}
+            />
 
             <table style={table}>
               <thead>
@@ -107,29 +135,35 @@ export default function AdminPage() {
               </thead>
 
               <tbody>
-                {posts.map((post) => (
+                {filteredPosts.map((post) => (
                   <tr key={post.id} style={row}>
                     <td style={titleCell}>{post.title}</td>
+
                     <td style={{ ...cell, color: "#ff3333" }}>
                       {post.label}
                     </td>
+
                     <td style={cell}>{post.date}</td>
-                    <td style={cell}>0</td>
+
+                    <td style={cell}>{post.views || 0}</td>
+
                     <td style={cell}>
-                      <span style={status}>
+                      <span style={post.featured ? featuredStatus : status}>
                         {post.featured ? "Онцлох" : "Нийтлэгдсэн"}
                       </span>
                     </td>
+
                     <td style={cell}>
-                      <span style={{ marginRight: "8px" }}>👁</span>
+                      <Link
+                        href={`/article/${post.id}`}
+                        style={viewLink}
+                      >
+                        👁
+                      </Link>
 
                       <Link
                         href={`/admin/edit/${post.id}`}
-                        style={{
-                          color: "#fff",
-                          textDecoration: "none",
-                          marginRight: "8px",
-                        }}
+                        style={editLink}
                       >
                         EDIT
                       </Link>
@@ -169,24 +203,21 @@ export default function AdminPage() {
 
             <Box
               title="Нийтлэлийн ангилал"
-              items={[
-                "Нийгэм — 28",
-                "Эдийн засаг — 24",
-                "Эрх зүй — 18",
-                "Эрүүл мэнд — 16",
-                "Боловсрол — 14",
-                "Сэтгэл зүй — 12",
-                "Спорт — 8",
-                "Соёл — 6",
-              ]}
+              items={
+                Object.keys(categoryCounts).length > 0
+                  ? Object.entries(categoryCounts).map(
+                      ([label, count]) => `${label} — ${count}`
+                    )
+                  : ["Одоогоор нийтлэл алга"]
+              }
             />
 
             <Box
-              title="Системийн мэдээлэл"
+              title="Онцлох нийтлэл"
               items={[
-                "Системийн хувилбар — 1.0.0",
-                "PHP хувилбар — 8.2.12",
-                "Сүүлийн нөөцлөлт — 2024.06.15",
+                featuredPost
+                  ? featuredPost.title
+                  : "Одоогоор онцлох нийтлэл сонгоогүй байна",
               ]}
             />
           </aside>
@@ -195,21 +226,25 @@ export default function AdminPage() {
         <div style={bottomGrid}>
           <Box
             title="Хамгийн их хандалттай нийтлэлүүд"
-            items={[
-              "1. Хүмүүс яагаад худал дүр бүтээдэг вэ? — 1.2K",
-              "2. Өглөөний 30 минут — 1.1K",
-              "3. Агаарын бохирдол — 986",
-              "4. Шинэ эрх зүйн хууль — 856",
-              "5. Хөрөнгийн зах зээл — 642",
-            ]}
+            items={
+              posts.length > 0
+                ? [...posts]
+                    .sort((a, b) => Number(b.views || 0) - Number(a.views || 0))
+                    .slice(0, 5)
+                    .map(
+                      (post, index) =>
+                        `${index + 1}. ${post.title} — ${post.views || 0}`
+                    )
+                : ["Одоогоор нийтлэл алга"]
+            }
           />
 
           <Box
-            title="Сүүлийн сэтгэгдлүүд"
+            title="Системийн мэдээлэл"
             items={[
-              "Болд: 10 минутын өмнө",
-              "Сараа: 25 минутын өмнө",
-              "Отгон: 1 цагийн өмнө",
+              "CMS хувилбар — LocalStorage 1.0",
+              "Frontend — Next.js",
+              "Storage — Browser LocalStorage",
             ]}
           />
         </div>
@@ -225,7 +260,9 @@ function Stat({ label, value, color }) {
       <div>
         <p style={small}>{label}</p>
         <h3 style={statValue}>{value}</h3>
-        <p style={{ color: "#45d96b", fontSize: 13 }}>+12 энэ 7 хоногт</p>
+        <p style={{ color: "#45d96b", fontSize: 13 }}>
+          Шууд шинэчлэгдэнэ
+        </p>
       </div>
     </div>
   );
@@ -259,6 +296,11 @@ const sidebar = {
   display: "flex",
   flexDirection: "column",
   gap: 14,
+};
+
+const logoImage = {
+  width: "150px",
+  marginBottom: "28px",
 };
 
 const menu = {
@@ -340,6 +382,12 @@ const sectionHead = {
   marginBottom: 18,
 };
 
+const mutedText = {
+  color: "#777",
+  fontSize: 13,
+  marginTop: 6,
+};
+
 const redButton = {
   background: "#d71919",
   color: "#fff",
@@ -347,6 +395,16 @@ const redButton = {
   padding: "12px 18px",
   borderRadius: 6,
   cursor: "pointer",
+};
+
+const searchInput = {
+  width: "100%",
+  padding: "14px",
+  marginBottom: "18px",
+  background: "#0d0d0d",
+  border: "1px solid #222",
+  color: "#fff",
+  fontSize: "15px",
 };
 
 const table = {
@@ -382,6 +440,43 @@ const status = {
   borderRadius: 6,
 };
 
+const featuredStatus = {
+  background: "#3a2d08",
+  color: "#facc15",
+  padding: "6px 10px",
+  borderRadius: 6,
+};
+
+const viewLink = {
+  color: "#fff",
+  textDecoration: "none",
+  marginRight: "8px",
+};
+
+const editLink = {
+  color: "#fff",
+  textDecoration: "none",
+  marginRight: "8px",
+};
+
+const featuredButton = {
+  background: "#222",
+  color: "#facc15",
+  border: "1px solid #444",
+  padding: "6px 10px",
+  cursor: "pointer",
+  marginRight: "8px",
+  fontSize: "13px",
+};
+
+const deleteButton = {
+  background: "transparent",
+  border: "none",
+  color: "#fff",
+  cursor: "pointer",
+  fontSize: "16px",
+};
+
 const box = {
   background: "linear-gradient(145deg,#111,#080808)",
   border: "1px solid #222",
@@ -403,22 +498,4 @@ const bottomGrid = {
   gridTemplateColumns: "1fr 1fr",
   gap: 18,
   marginTop: 18,
-};
-
-const featuredButton = {
-  background: "#222",
-  color: "#facc15",
-  border: "1px solid #444",
-  padding: "6px 10px",
-  cursor: "pointer",
-  marginRight: "8px",
-  fontSize: "13px",
-};
-
-const deleteButton = {
-  background: "transparent",
-  border: "none",
-  color: "#fff",
-  cursor: "pointer",
-  fontSize: "16px",
 };
