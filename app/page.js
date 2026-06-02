@@ -262,41 +262,50 @@ const sidebarBanner =
             </Link>
           </div>
 
-          <aside
-            style={{
-              ...cardStyle,
-              minHeight: 560,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center"
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  color: "#fff",
-                  fontSize: 24,
-                  fontFamily: "Arial",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  lineHeight: 1.5
-                }}
-              >
-                Энд таны сурталчилгаа байрлана
-              </div>
-              <div
-                style={{
-                  marginTop: 16,
-                  color: "#777",
-                  fontFamily: "Arial",
-                  fontSize: 13
-                }}
-              >
-                Premium banner · 300 × 600
-              </div>
-            </div>
-          </aside>
+         <aside
+  style={{
+    ...cardStyle,
+    minHeight: 560,
+    padding: 0,
+    overflow: "hidden"
+  }}
+>
+  {sidebarBanner ? (
+    <a
+      href={sidebarBanner.url || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "block",
+        width: "100%",
+        height: "100%"
+      }}
+    >
+      <img
+        src={sidebarBanner.image}
+        alt={sidebarBanner.title}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          display: "block"
+        }}
+      />
+    </a>
+  ) : (
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center"
+      }}
+    >
+      Энд таны сурталчилгаа байрлана
+    </div>
+  )}
+</aside>
         </div>
 
         <section
@@ -374,17 +383,45 @@ const sidebarBanner =
           ))}
         </section>
 
-        <section
-          style={{
-            marginTop: 32,
-            ...cardStyle,
-            minHeight: 130,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center"
-          }}
-        >
+       <section
+  style={{
+    marginTop: 32,
+    ...cardStyle,
+    minHeight: 130,
+    padding: 0,
+    overflow: "hidden"
+  }}
+>
+  {inlineBanner ? (
+    <a
+      href={inlineBanner.url || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={inlineBanner.image}
+        alt={inlineBanner.title}
+        style={{
+          width: "100%",
+          height: "150px",
+          objectFit: "cover",
+          display: "block"
+        }}
+      />
+    </a>
+  ) : (
+    <div
+      style={{
+        minHeight: 130,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      Энд таны сурталчилгаа байрлана
+    </div>
+  )}
+</section>
           <div>
             <div
               style={{
