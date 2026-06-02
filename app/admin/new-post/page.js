@@ -82,12 +82,25 @@ window.location.href = "/admin";
           </select>
 
           <input
-            name="image"
-            value={form.image}
-            onChange={handleChange}
-            placeholder="Зургийн path жишээ: /feature-1.png"
-            style={inputStyle}
-          />
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setForm({
+        ...form,
+        image: reader.result,
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }}
+  style={inputStyle}
+/>
 
           <textarea
             name="content"
@@ -101,6 +114,19 @@ window.location.href = "/admin";
 
           <div style={previewBox}>
             <p style={previewLabel}>Preview</p>
+
+              {form.image && (
+  <img
+    src={form.image}
+    alt="preview"
+    style={{
+      width: "100%",
+      maxHeight: "320px",
+      objectFit: "cover",
+      marginBottom: "20px",
+    }}
+  />
+)}
             <h2 style={{ fontSize: 32, marginBottom: 10 }}>
               {form.title || "Нийтлэлийн гарчиг энд харагдана"}
             </h2>
