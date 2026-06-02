@@ -61,18 +61,18 @@ export default function AdminPage() {
     return acc;
   }, {});
 
-  const menuItems = [
-    "Хяналтын самбар",
-    "Нийтлэл",
-    "Ангилал",
-    "Хуудас",
-    "Сэтгэгдэл",
-    "Медиа",
-    "Баннер",
-    "Хамтрагч",
-    "Хэрэглэгч",
-    "Тохиргоо",
-  ];
+const menuItems = [
+  { title: "Хяналтын самбар", href: "/admin" },
+  { title: "Нийтлэл", href: "/admin/articles" },
+  { title: "Ангилал", href: "/admin/categories" },
+  { title: "Хуудас", href: "/admin/pages" },
+  { title: "Сэтгэгдэл", href: "/admin/comments" },
+  { title: "Медиа", href: "/admin/media" },
+  { title: "Баннер", href: "/admin/banners" },
+  { title: "Хамтрагч", href: "/admin/partners" },
+  { title: "Хэрэглэгч", href: "/admin/users" },
+  { title: "Тохиргоо", href: "/admin/settings" },
+];
 
   return (
     <main style={page}>
@@ -83,11 +83,19 @@ export default function AdminPage() {
           style={logoImage}
         />
 
-        {menuItems.map((item, i) => (
-          <div key={item} style={i === 0 ? activeMenu : menu}>
-            {item}
-          </div>
-        ))}
+       {menuItems.map((item, i) => (
+  <Link
+    key={item.href}
+    href={item.href}
+    style={{
+      textDecoration: "none",
+    }}
+  >
+    <div style={i === 0 ? activeMenu : menu}>
+      {item.title}
+    </div>
+  </Link>
+))}
 
         <div style={logoutText}>Гарах</div>
       </aside>
