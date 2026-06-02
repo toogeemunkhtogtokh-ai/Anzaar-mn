@@ -85,13 +85,19 @@ const handleDelete = (id) => {
     <span style={status}>Нийтлэгдсэн</span>
   </td>
   <td style={cell}>
-  👁 ✏{" "}
-  <button
-    onClick={() => handleDelete(post.id)}
-    style={deleteButton}
-  >
-    🗑
-  </button>
+  👁{" "}
+<a
+  href={`/admin/edit/${post.id}`}
+  style={{ color: "#fff", textDecoration: "none" }}
+>
+  EDIT
+</a>{" "}
+<button
+  onClick={() => handleDelete(post.id)}
+  style={deleteButton}
+>
+  🗑
+</button>
 </td>
 </tr>
                 ))}
