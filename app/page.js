@@ -55,19 +55,22 @@ export default function Home() {
       }}
     >
       <header
-        style={{
-          borderBottom: "1px solid rgba(255,255,255,.1)",
-          padding: "22px 48px"
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 30
-          }}
-        >
+  style={{
+    borderBottom: "1px solid rgba(255,255,255,.1)",
+    padding: "22px 0"
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1240,
+      margin: "0 auto",
+      padding: "0 24px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: 30
+    }}
+  >
           <div>
             <Image
               src="/anzaar-logo-horizontal.png"
