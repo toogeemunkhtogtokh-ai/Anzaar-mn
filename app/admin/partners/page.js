@@ -1,257 +1,660 @@
 "use client";
-
+ 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-
-export default function PartnersPage() {
+import { articles } from "../lib/articles";
+ 
+export default function Home() {
+  const [allArticles, setAllArticles] = useState(articles);
+  const [banners, setBanners] = useState([]);
   const [partners, setPartners] = useState([]);
-  const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
-  const [logo, setLogo] = useState("");
-
+ 
   useEffect(() => {
-    const saved =
+    const savedArticles =
+      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+ 
+    const savedBanners =
+      JSON.parse(localStorage.getItem("anzaarBanners")) || [];
+ 
+    const savedPartners =
       JSON.parse(localStorage.getItem("anzaarPartners")) || [];
-
-    setPartners(saved);
+ 
+    setAllArticles([...savedArticles, ...articles]);
+    setBanners(savedBanners);
+    setPartners(savedPartners);
   }, []);
-
-  const handleLogo = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setLogo(reader.result);
-    };
-
-    reader.readAsDataURL(file);
+ 
+  const nav = [
+    "Нүүр",
+    "Нийгэм",
+    "Эдийн засаг",
+    "Эрх зүй",
+    "Эрүүл мэнд",
+    "Боловсрол",
+    "Сэтгэл зүй",
+    "Спорт",
+    "Соёл",
+  ];
+ 
+  const heroArticle =
+    allArticles.find((article) => article.featured === true) || allArticles[0];
+ 
+  const topBanner = banners.find((b) => b.position === "top" && b.active);
+  const inlineBanner = banners.find((b) => b.position === "inline" && b.active);
+  const sidebarBanner = banners.find((b) => b.position === "sidebar" && b.active);
+  const activePartners = partners.filter((partner) => partner.active !== false);
+ 
+  const previous = [
+    ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
+    ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
+    ["Боловсрол", "Сурагчдын унших чадвар яагаад буурч байна вэ?", "2026.06.13"],
+    ["Соёл", "Соёл урлаг нийгмийн сэтгэл зүйд хэрхэн нөлөөлдөг вэ?", "2026.06.13"],
+    ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
+    ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"],
+  ];
+ 
+  const cardStyle = {
+    border: "1px solid rgba(255,255,255,.1)",
+    background: "linear-gradient(180deg,#111,#050505)",
+    padding: 22,
   };
-
-  const savePartner = () => {
-    if (!name || !logo) {
-      alert("Нэр болон лого оруулна уу");
-      return;
+ 
+  const renderBanner = (banner, fallbackText, fallbackSize, imageHeight = "100%") => {
+    if (banner) {
+      return (
+        <a
+          href={banner.url || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: "block", width: "100%", height: "100%" }}
+        >
+          <img
+            src={banner.image}
+            alt={banner.title}
+            style={{
+              width: "100%",
+              height: imageHeight,
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </a>
+      );
     }
-
-    const newPartner = {
-      id: Date.now(),
-      name,
-      website,
-      logo,
-      active: true,
-    };
-
-    const updated = [...partners, newPartner];
-
-    setPartners(updated);
-
-    localStorage.setItem(
-      "anzaarPartners",
-      JSON.stringify(updated)
+ 
+    return (
+      <div
+        style={{
+          height: "100%",
+          minHeight: imageHeight === "150px" ? 130 : "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          padding: 22,
+        }}
+      >
+        <div>
+          <div
+            style={{
+              color: "#fff",
+              fontSize: 22,
+              fontFamily: "Arial",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              lineHeight: 1.5,
+            }}
+          >
+            {fallbackText}
+          </div>
+ 
+          <div
+            style={{
+              marginTop: 10,
+              color: "#777",
+              fontFamily: "Arial",
+              fontSize: 13,
+            }}
+          >
+            {fallbackSize}
+          </div>
+        </div>
+      </div>
     );
-
-    setName("");
-    setWebsite("");
-    setLogo("");
-
-    alert("Хамтрагч хадгалагдлаа");
   };
-
-  const deletePartner = (id) => {
-    const updated = partners.filter((p) => p.id !== id);
-
-    setPartners(updated);
-
-    localStorage.setItem(
-      "anzaarPartners",
-      JSON.stringify(updated)
-    );
-  };
-
+ 
   return (
     <main
       style={{
-        background: "#050505",
+        background: "#000",
         color: "#fff",
         minHeight: "100vh",
-        padding: "60px",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "'Times New Roman', serif",
       }}
     >
-      <a
-        href="/admin"
+      <header
         style={{
-          color: "#aaa",
-          textDecoration: "none",
-        }}
-      >
-        ← Хяналтын самбар руу буцах
-      </a>
-
-      <h1
-        style={{
-          fontSize: 56,
-          marginTop: 20,
-          marginBottom: 40,
-        }}
-      >
-        Хамтрагч байгууллагууд
-      </h1>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "420px 1fr",
-          gap: 30,
+          borderBottom: "1px solid rgba(255,255,255,.1)",
+          padding: "22px 0",
         }}
       >
         <div
           style={{
-            border: "1px solid rgba(255,255,255,.08)",
-            padding: 24,
+            maxWidth: 1240,
+            margin: "0 auto",
+            padding: "0 24px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 30,
           }}
         >
-          <h2>Шинэ хамтрагч</h2>
-
-          <input
-            placeholder="Байгууллагын нэр"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={inputStyle}
-          />
-
-          <input
-            placeholder="Website"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-            style={inputStyle}
-          />
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleLogo}
-            style={inputStyle}
-          />
-
-          {logo && (
-            <img
-              src={logo}
-              alt=""
+          <div>
+            <Image
+              src="/anzaar-logo-horizontal.png"
+              alt="Anzaar.mn Logo"
+              width={360}
+              height={95}
               style={{
-                width: "100%",
-                marginTop: 20,
-                border: "1px solid rgba(255,255,255,.08)",
+                width: "360px",
+                height: "auto",
+                objectFit: "contain",
               }}
             />
-          )}
-
-          <button
-            onClick={savePartner}
-            style={saveButton}
+          </div>
+ 
+          <nav
+            style={{
+              display: "flex",
+              gap: 24,
+              fontSize: 14,
+              fontFamily: "Arial",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+            }}
           >
-            Хамтрагч хадгалах
-          </button>
+            {nav.map((item, i) => {
+              const href =
+                item === "Нүүр"
+                  ? "/"
+                  : item === "Нийгэм"
+                  ? "/category/niigem"
+                  : item === "Эдийн засаг"
+                  ? "/category/ediinzasag"
+                  : item === "Эрх зүй"
+                  ? "/category/erhzui"
+                  : item === "Эрүүл мэнд"
+                  ? "/category/eruulmend"
+                  : item === "Боловсрол"
+                  ? "/category/bolovsrol"
+                  : item === "Сэтгэл зүй"
+                  ? "/category/setgelzui"
+                  : item === "Спорт"
+                  ? "/category/sport"
+                  : "/category/soyol";
+ 
+              return (
+                <Link
+                  key={item}
+                  href={href}
+                  style={{
+                    textDecoration: "none",
+                    color: i === 0 ? "#fff" : "#aaa",
+                    borderBottom: i === 0 ? "2px solid #e11212" : "none",
+                    paddingBottom: 8,
+                  }}
+                >
+                  {item}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-
-        <div
+      </header>
+ 
+      <section
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "42px 24px",
+        }}
+      >
+        <section
           style={{
-            border: "1px solid rgba(255,255,255,.08)",
-            padding: 24,
+            ...cardStyle,
+            padding: 0,
+            overflow: "hidden",
+            marginBottom: 32,
+            minHeight: 180,
           }}
         >
-          <h2>
-            Хамтрагчид ({partners.length})
-          </h2>
-
-          {partners.length === 0 && (
-            <p style={{ color: "#888" }}>
-              Хамтрагч алга
-            </p>
+          {renderBanner(
+            topBanner,
+            "Энд таны сурталчилгаа байрлана",
+            "Top banner · 1200 × 300",
+            "300px"
           )}
-
-          {partners.map((partner) => (
+        </section>
+ 
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 320px",
+            gap: 28,
+          }}
+        >
+          <div>
             <div
-              key={partner.id}
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 20,
-                padding: 20,
-                border: "1px solid rgba(255,255,255,.08)",
-                marginBottom: 16,
+                gap: 12,
+                marginBottom: 20,
               }}
             >
-              <img
-                src={partner.logo}
-                alt=""
+              <span
                 style={{
-                  width: 120,
-                  height: 70,
-                  objectFit: "contain",
-                  background: "#111",
+                  width: 34,
+                  height: 2,
+                  background: "#e11212",
+                  display: "block",
                 }}
               />
-
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                  }}
-                >
-                  {partner.name}
-                </div>
-
-                <div
-                  style={{
-                    color: "#888",
-                    marginTop: 6,
-                  }}
-                >
-                  {partner.website}
-                </div>
-              </div>
-
-              <button
-                onClick={() =>
-                  deletePartner(partner.id)
-                }
+ 
+              <h1
                 style={{
-                  background: "#b40000",
-                  color: "#fff",
-                  border: 0,
-                  padding: "10px 18px",
+                  fontSize: 42,
+                  margin: 0,
+                }}
+              >
+                Өнөөдрийн онцлох
+              </h1>
+            </div>
+ 
+            <Link
+              href={`/article/${heroArticle?.id || ""}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <article
+                style={{
+                  ...cardStyle,
+                  minHeight: 560,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "rgba(0,0,0,0.55)",
+                  backgroundBlendMode: "multiply",
                   cursor: "pointer",
                 }}
               >
-                Устгах
-              </button>
-            </div>
-          ))}
+                <div
+                  style={{
+                    color: "#e11212",
+                    fontSize: 13,
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {heroArticle?.label || "Нийгэм"}
+                </div>
+ 
+                <h2
+                  style={{
+                    fontSize: 52,
+                    lineHeight: 1.05,
+                    maxWidth: 720,
+                    margin: "14px 0",
+                  }}
+                >
+                  {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
+                </h2>
+ 
+                <p
+                  style={{
+                    fontSize: 20,
+                    color: "#ccc",
+                    maxWidth: 650,
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
+                  {heroArticle?.excerpt ||
+                    "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
+                </p>
+ 
+                <div
+                  style={{
+                    marginTop: 22,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: "#999",
+                    fontSize: 14,
+                    fontFamily: "Arial",
+                  }}
+                >
+                  <span>{heroArticle?.date || "2026.06.18"}</span>
+                  <span style={{ color: "#fff" }}>Унших →</span>
+                </div>
+              </article>
+            </Link>
+          </div>
+ 
+          <aside
+            style={{
+              ...cardStyle,
+              minHeight: 560,
+              padding: 0,
+              overflow: "hidden",
+            }}
+          >
+            {renderBanner(
+              sidebarBanner,
+              "Энд таны сурталчилгаа байрлана",
+              "Premium banner · 300 × 600"
+            )}
+          </aside>
         </div>
-      </div>
+ 
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3,1fr)",
+            gap: 22,
+            marginTop: 28,
+          }}
+        >
+          {allArticles.slice(1, 4).map((item) => (
+            <Link
+              key={item.id}
+              href={`/article/${item.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <article
+                style={{
+                  ...cardStyle,
+                  minHeight: 360,
+                  display: "flex",
+                  flexDirection: "column",
+                  transition: "all .35s ease",
+                  cursor: "pointer",
+                }}
+              >
+                <div
+                  style={{
+                    height: 190,
+                    marginBottom: 24,
+                    border: "1px solid rgba(255,255,255,.08)",
+                    backgroundImage: `url(${item.image || "/hero-main.png"})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+ 
+                <div
+                  style={{
+                    color: "#e11212",
+                    fontSize: 12,
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {item.label}
+                </div>
+ 
+                <h3
+                  style={{
+                    fontSize: 26,
+                    lineHeight: 1.28,
+                    minHeight: 120,
+                    marginTop: 18,
+                    marginBottom: 28,
+                  }}
+                >
+                  {item.title}
+                </h3>
+ 
+                <small
+                  style={{
+                    color: "#777",
+                    fontFamily: "Arial",
+                    marginTop: "auto",
+                    display: "block",
+                  }}
+                >
+                  {item.date}
+                </small>
+              </article>
+            </Link>
+          ))}
+        </section>
+ 
+        <section
+          style={{
+            marginTop: 32,
+            ...cardStyle,
+            minHeight: 130,
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          {renderBanner(
+            inlineBanner,
+            "Энд таны сурталчилгаа байрлана",
+            "Inline banner · 1200 × 150",
+            "150px"
+          )}
+        </section>
+ 
+        <section style={{ marginTop: 50 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              marginBottom: 24,
+            }}
+          >
+            <span
+              style={{
+                width: 34,
+                height: 2,
+                background: "#e11212",
+                display: "block",
+              }}
+            />
+ 
+            <h2
+              style={{
+                fontSize: 34,
+                margin: 0,
+              }}
+            >
+              Өмнөх мэдээнүүд
+            </h2>
+          </div>
+ 
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "0 40px",
+            }}
+          >
+            {previous.map(([cat, title, date]) => (
+              <Link
+                key={title}
+                href="/article"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <article
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "92px 1fr",
+                    gap: 16,
+                    padding: "18px 0",
+                    borderBottom: "1px solid rgba(255,255,255,.08)",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: 70,
+                      background: "radial-gradient(circle,#444,#090909)",
+                      border: "1px solid rgba(255,255,255,.08)",
+                    }}
+                  />
+ 
+                  <div>
+                    <div
+                      style={{
+                        color: "#e11212",
+                        fontSize: 12,
+                        fontFamily: "Arial",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {cat}
+                    </div>
+ 
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontSize: 17,
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {title}
+                    </div>
+ 
+                    <small
+                      style={{
+                        display: "block",
+                        marginTop: 8,
+                        color: "#777",
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {date}
+                    </small>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+ 
+        <section
+          style={{
+            marginTop: 52,
+            borderTop: "1px solid rgba(255,255,255,.1)",
+            borderBottom: "1px solid rgba(255,255,255,.1)",
+            padding: "28px 0",
+          }}
+        >
+          <div
+            style={{
+              color: "#aaa",
+              fontSize: 13,
+              fontFamily: "Arial",
+              textTransform: "uppercase",
+              marginBottom: 18,
+            }}
+          >
+            Хамтрагч байгууллагууд
+          </div>
+ 
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4,1fr)",
+              gap: 14,
+            }}
+          >
+            {activePartners.length > 0
+              ? activePartners.slice(0, 8).map((partner) => (
+                  <a
+                    key={partner.id}
+                    href={partner.website || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      border: "1px solid rgba(255,255,255,.1)",
+                      padding: "18px 12px",
+                      minHeight: 90,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textAlign: "center",
+                      textDecoration: "none",
+                      color: "#fff",
+                      background: "rgba(255,255,255,.02)",
+                    }}
+                  >
+                    {partner.logo ? (
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: 56,
+                          objectFit: "contain",
+                          display: "block",
+                        }}
+                      />
+                    ) : (
+                      <span
+                        style={{
+                          color: "#777",
+                          fontSize: 12,
+                          fontFamily: "Arial",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {partner.name}
+                      </span>
+                    )}
+                  </a>
+                ))
+              : [1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    style={{
+                      border: "1px solid rgba(255,255,255,.1)",
+                      padding: "24px 12px",
+                      textAlign: "center",
+                      color: "#777",
+                      fontSize: 12,
+                      fontFamily: "Arial",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Энд хамтрагч байгууллагын нэр байрлана
+                  </div>
+                ))}
+          </div>
+        </section>
+      </section>
+ 
+      <footer
+        style={{
+          borderTop: "1px solid rgba(255,255,255,.1)",
+          padding: "34px 48px",
+          color: "#666",
+          fontFamily: "Arial",
+          fontSize: 13,
+        }}
+      >
+        © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+      </footer>
     </main>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: 14,
-  marginTop: 16,
-  background: "#111",
-  border: "1px solid rgba(255,255,255,.08)",
-  color: "#fff",
-};
-
-const saveButton = {
-  width: "100%",
-  marginTop: 20,
-  background: "#e11212",
-  color: "#fff",
-  border: 0,
-  padding: 16,
-  cursor: "pointer",
-  fontWeight: 700,
-};
