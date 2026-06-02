@@ -163,7 +163,9 @@ const header = {
   alignItems: "center",
   justifyContent: "center",
   fontFamily: "Arial, sans-serif",
-  const headerInner = {
+};
+
+const headerInner = {
   width: "100%",
   maxWidth: "1180px",
   padding: "0 24px",
