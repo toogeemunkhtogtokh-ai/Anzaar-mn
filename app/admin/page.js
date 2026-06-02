@@ -64,10 +64,10 @@ useEffect(() => {
               <tbody>
                 {posts.map((post, i) => (
                   <tr key={i} style={row}>
-  <td style={titleCell}>{post[0]}</td>
-  <td style={{ ...cell, color: "#ff3333" }}>{post[1]}</td>
-  <td style={cell}>{post[2]}</td>
-  <td style={cell}>{post[3]}</td>
+  <td style={titleCell}>{post.title}</td>
+<td style={{ ...cell, color: "#ff3333" }}>{post.label}</td>
+<td style={cell}>{post.date}</td>
+<td style={cell}>0</td>
   <td style={cell}>
     <span style={status}>Нийтлэгдсэн</span>
   </td>
