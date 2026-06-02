@@ -4,37 +4,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../lib/articles";
+
 export default function Home() {
+  const [allArticles, setAllArticles] = useState(articles);
 
-const [allArticles, setAllArticles] = useState(articles);
-useEffect(() => {
-  const saved =
-    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+  useEffect(() => {
+    const saved =
+      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-  setAllArticles([...saved, ...articles]);
-}, []);
+    setAllArticles([...saved, ...articles]);
+  }, []);
 
-const nav = [
-  "Нүүр",
-  "Нийгэм",
-  "Эдийн засаг",
-  "Эрх зүй",
-  "Эрүүл мэнд",
-  "Боловсрол",
-  "Сэтгэл зүй",
-  "Спорт",
-  "Соёл"
-];
+  const nav = [
+    "Нүүр",
+    "Нийгэм",
+    "Эдийн засаг",
+    "Эрх зүй",
+    "Эрүүл мэнд",
+    "Боловсрол",
+    "Сэтгэл зүй",
+    "Спорт",
+    "Соёл"
+  ];
 
   const heroArticle = allArticles[0];
-const previous = [
-  ["Нийгэм", "Агаарын бохирдол буурахгүй байгааийн 5 шалтгаан", "2026.06.14"],
-  ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
-  ["Боловсрол", "Сурагчдын унших чадвар яагаад буурч байна вэ?", "2026.06.13"],
-  ["Соёл", "Соёл урлаг нийгмийн сэтгэл зүйд хэрхэн нөлөөлдөг вэ?", "2026.06.13"],
-  ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
-  ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"]
-];
+
+  const previous = [
+    ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
+    ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
+    ["Боловсрол", "Сурагчдын унших чадвар яагаад буурч байна вэ?", "2026.06.13"],
+    ["Соёл", "Соёл урлаг нийгмийн сэтгэл зүйд хэрхэн нөлөөлдөг вэ?", "2026.06.13"],
+    ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
+    ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"]
+  ];
 
   const cardStyle = {
     border: "1px solid rgba(255,255,255,.1)",
@@ -43,398 +45,481 @@ const previous = [
   };
 
   return (
-    <main style={{
-      background:"#000",
-      color:"#fff",
-      minHeight:"100vh",
-      fontFamily:"'Times New Roman', serif"
-    }}>
-      <header style={{
-        borderBottom:"1px solid rgba(255,255,255,.1)",
-        padding:"22px 48px"
-      }}>
-        <div style={{
-          display:"flex",
-          justifyContent:"space-between",
-          alignItems:"center",
-          gap:30
-        }}>
-           <div>
-  <Image
-    src="/anzaar-logo-horizontal.png"
-    alt="Anzaar.mn Logo"
-    width={360}
-    height={95}
-    style={{
-      width: "360px",
-      height: "auto",
-      objectFit: "contain"
-    }}
-  />
-</div>
-          <nav style={{
-            display:"flex",
-            gap:24,
-            fontSize:14,
-            fontFamily:"Arial",
-            textTransform:"uppercase",
-            whiteSpace:"nowrap"
-          }}>
-           {nav.map((item, i) => {
-  const href =
-    item === "Нүүр" ? "/" :
-    item === "Нийгэм" ? "/category/niigem" :
-    item === "Эдийн засаг" ? "/category/ediinzasag" :
-    item === "Эрх зүй" ? "/category/erhzui" :
-    item === "Эрүүл мэнд" ? "/category/eruulmend" :
-    item === "Боловсрол" ? "/category/bolovsrol" :
-    item === "Сэтгэл зүй" ? "/category/setgelzui" :
-    item === "Спорт" ? "/category/sport" :
-    "/category/soyol";
-
-  return (
-    <Link
-      key={item}
-      href={href}
+    <main
       style={{
-        textDecoration:"none",
-        color:i===0 ? "#fff" : "#aaa",
-        borderBottom:i===0 ? "2px solid #e11212" : "none",
-        paddingBottom:8
+        background: "#000",
+        color: "#fff",
+        minHeight: "100vh",
+        fontFamily: "'Times New Roman', serif"
       }}
     >
-      {item}
-    </Link>
-  );
-})}
+      <header
+        style={{
+          borderBottom: "1px solid rgba(255,255,255,.1)",
+          padding: "22px 48px"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 30
+          }}
+        >
+          <div>
+            <Image
+              src="/anzaar-logo-horizontal.png"
+              alt="Anzaar.mn Logo"
+              width={360}
+              height={95}
+              style={{
+                width: "360px",
+                height: "auto",
+                objectFit: "contain"
+              }}
+            />
+          </div>
+
+          <nav
+            style={{
+              display: "flex",
+              gap: 24,
+              fontSize: 14,
+              fontFamily: "Arial",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap"
+            }}
+          >
+            {nav.map((item, i) => {
+              const href =
+                item === "Нүүр" ? "/" :
+                item === "Нийгэм" ? "/category/niigem" :
+                item === "Эдийн засаг" ? "/category/ediinzasag" :
+                item === "Эрх зүй" ? "/category/erhzui" :
+                item === "Эрүүл мэнд" ? "/category/eruulmend" :
+                item === "Боловсрол" ? "/category/bolovsrol" :
+                item === "Сэтгэл зүй" ? "/category/setgelzui" :
+                item === "Спорт" ? "/category/sport" :
+                "/category/soyol";
+
+              return (
+                <Link
+                  key={item}
+                  href={href}
+                  style={{
+                    textDecoration: "none",
+                    color: i === 0 ? "#fff" : "#aaa",
+                    borderBottom: i === 0 ? "2px solid #e11212" : "none",
+                    paddingBottom: 8
+                  }}
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </nav>
         </div>
       </header>
 
-      <section style={{
-        maxWidth:1240,
-        margin:"0 auto",
-        padding:"42px 24px"
-      }}>
-        <div style={{
-          display:"grid",
-          gridTemplateColumns:"1fr 320px",
-          gap:28
-        }}>
+      <section
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "42px 24px"
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 320px",
+            gap: 28
+          }}
+        >
           <div>
-            <div style={{
-              display:"flex",
-              alignItems:"center",
-              gap:12,
-              marginBottom:20
-            }}>
-              <span style={{
-                width:34,
-                height:2,
-                background:"#e11212",
-                display:"block"
-              }} />
-              <h1 style={{
-                fontSize:42,
-                margin:0
-              }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 20
+              }}
+            >
+              <span
+                style={{
+                  width: 34,
+                  height: 2,
+                  background: "#e11212",
+                  display: "block"
+                }}
+              />
+              <h1
+                style={{
+                  fontSize: 42,
+                  margin: 0
+                }}
+              >
                 Өнөөдрийн онцлох
               </h1>
             </div>
 
-            <article style={{
-              ...cardStyle,
-              minHeight:430,
-              display:"flex",
-              flexDirection:"column",
-              justifyContent:"flex-end",
-              backgroundImage:"url('/hero-main.png')",
-backgroundSize:"cover",
-backgroundPosition:"center",
-backgroundRepeat:"no-repeat",
-backgroundColor:"rgba(0,0,0,0.55)",
-backgroundBlendMode:"multiply",
-            }}>
-              <div style={{
-                color:"#e11212",
-                fontSize:13,
-                fontFamily:"Arial",
-                fontWeight:700,
-                textTransform:"uppercase"
-              }}>
-                Нийгэм
-              </div>
-              <h2 style={{
-                fontSize:52,
-                lineHeight:1.05,
-                maxWidth:720,
-                margin:"14px 0"
-              }}>
-                Харагдаж байгаа бүхэн үнэн биш
-              </h2>
-              <p style={{
-                fontSize:20,
-                color:"#ccc",
-                maxWidth:650,
-                lineHeight:1.6,
-                margin:0
-              }}>
-                Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?
-              </p>
-              <div style={{
-                marginTop:22,
-                display:"flex",
-                justifyContent:"space-between",
-                alignItems:"center",
-                color:"#999",
-                fontSize:14,
-                fontFamily:"Arial"
-              }}>
-                <span>2026.06.18</span>
-                <span style={{color:"#fff"}}>Унших →</span>
-              </div>
-            </article>
+            <Link
+              href={`/article/${heroArticle?.id || ""}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <article
+                style={{
+                  ...cardStyle,
+                  minHeight: 430,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "rgba(0,0,0,0.55)",
+                  backgroundBlendMode: "multiply",
+                  cursor: "pointer"
+                }}
+              >
+                <div
+                  style={{
+                    color: "#e11212",
+                    fontSize: 13,
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    textTransform: "uppercase"
+                  }}
+                >
+                  {heroArticle?.label || "Нийгэм"}
+                </div>
+
+                <h2
+                  style={{
+                    fontSize: 52,
+                    lineHeight: 1.05,
+                    maxWidth: 720,
+                    margin: "14px 0"
+                  }}
+                >
+                  {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
+                </h2>
+
+                <p
+                  style={{
+                    fontSize: 20,
+                    color: "#ccc",
+                    maxWidth: 650,
+                    lineHeight: 1.6,
+                    margin: 0
+                  }}
+                >
+                  {heroArticle?.excerpt ||
+                    "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
+                </p>
+
+                <div
+                  style={{
+                    marginTop: 22,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: "#999",
+                    fontSize: 14,
+                    fontFamily: "Arial"
+                  }}
+                >
+                  <span>{heroArticle?.date || "2026.06.18"}</span>
+                  <span style={{ color: "#fff" }}>Унших →</span>
+                </div>
+              </article>
+            </Link>
           </div>
 
-          <aside style={{
-            ...cardStyle,
-            minHeight:560,
-            display:"flex",
-            alignItems:"center",
-            justifyContent:"center",
-            textAlign:"center"
-          }}>
+          <aside
+            style={{
+              ...cardStyle,
+              minHeight: 560,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center"
+            }}
+          >
             <div>
-              <div style={{
-                color:"#fff",
-                fontSize:24,
-                fontFamily:"Arial",
-                fontWeight:700,
-                textTransform:"uppercase",
-                lineHeight:1.5
-              }}>
+              <div
+                style={{
+                  color: "#fff",
+                  fontSize: 24,
+                  fontFamily: "Arial",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  lineHeight: 1.5
+                }}
+              >
                 Энд таны сурталчилгаа байрлана
               </div>
-              <div style={{
-                marginTop:16,
-                color:"#777",
-                fontFamily:"Arial",
-                fontSize:13
-              }}>
+              <div
+                style={{
+                  marginTop: 16,
+                  color: "#777",
+                  fontFamily: "Arial",
+                  fontSize: 13
+                }}
+              >
                 Premium banner · 300 × 600
               </div>
             </div>
           </aside>
         </div>
 
-      <section style={{
-  display:"grid",
-  gridTemplateColumns:"repeat(3,1fr)",
-  gap:22,
-  marginTop:28
-}}>
-  {allArticles.slice(0,3).map((item, index) => (
-  <Link
-    key={item.id}
-    href={`/article/${item.id}`}
-    style={{ textDecoration: "none", color: "inherit" }}
-  >
-    <article
-      style={{
-        ...cardStyle,
-        minHeight: 420,
-        display: "flex",
-        flexDirection: "column",
-        transition: "all .35s ease",
-        cursor: "pointer",
-        transform: "translateY(0)"
-      }}
-    >
-      <div
-        style={{
-          height: 190,
-          marginBottom: 24,
-          border: "1px solid rgba(255,255,255,.08)",
-          backgroundImage: `url(${item.image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat"
-        }}
-      />
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3,1fr)",
+            gap: 22,
+            marginTop: 28
+          }}
+        >
+          {allArticles.slice(0, 3).map((item) => (
+            <Link
+              key={item.id}
+              href={`/article/${item.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <article
+                style={{
+                  ...cardStyle,
+                  minHeight: 420,
+                  display: "flex",
+                  flexDirection: "column",
+                  transition: "all .35s ease",
+                  cursor: "pointer"
+                }}
+              >
+                <div
+                  style={{
+                    height: 190,
+                    marginBottom: 24,
+                    border: "1px solid rgba(255,255,255,.08)",
+                    backgroundImage: `url(${item.image || "/hero-main.png"})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
+                  }}
+                />
 
-      <div
-        style={{
-          color: "#e11212",
-          fontSize: 12,
-          fontFamily: "Arial",
-          fontWeight: 700,
-          textTransform: "uppercase"
-        }}
-      >
-        {item.label}
-      </div>
+                <div
+                  style={{
+                    color: "#e11212",
+                    fontSize: 12,
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    textTransform: "uppercase"
+                  }}
+                >
+                  {item.label}
+                </div>
 
-      <h3
-        style={{
-          fontSize: 30,
-          lineHeight: 1.28,
-          minHeight: 120,
-          marginTop: 18,
-          marginBottom: 28
-        }}
-      >
-        {item.title}
-      </h3>
+                <h3
+                  style={{
+                    fontSize: 30,
+                    lineHeight: 1.28,
+                    minHeight: 120,
+                    marginTop: 18,
+                    marginBottom: 28
+                  }}
+                >
+                  {item.title}
+                </h3>
 
-      <small
-        style={{
-          color: "#777",
-          fontFamily: "Arial",
-          marginTop: "auto",
-          display: "block"
-        }}
-      >
-        {item.date}
-      </small>
-    </article>
-  </Link>
-))}
-</section>
-        <section style={{
-          marginTop:32,
-          ...cardStyle,
-          minHeight:130,
-          display:"flex",
-          alignItems:"center",
-          justifyContent:"center",
-          textAlign:"center"
-        }}>
+                <small
+                  style={{
+                    color: "#777",
+                    fontFamily: "Arial",
+                    marginTop: "auto",
+                    display: "block"
+                  }}
+                >
+                  {item.date}
+                </small>
+              </article>
+            </Link>
+          ))}
+        </section>
+
+        <section
+          style={{
+            marginTop: 32,
+            ...cardStyle,
+            minHeight: 130,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center"
+          }}
+        >
           <div>
-            <div style={{
-              color:"#fff",
-              fontSize:22,
-              fontFamily:"Arial",
-              fontWeight:700,
-              textTransform:"uppercase",
-              letterSpacing:2
-            }}>
+            <div
+              style={{
+                color: "#fff",
+                fontSize: 22,
+                fontFamily: "Arial",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: 2
+              }}
+            >
               Энд таны сурталчилгаа байрлана
             </div>
-            <div style={{
-              marginTop:10,
-              color:"#777",
-              fontFamily:"Arial",
-              fontSize:13
-            }}>
+            <div
+              style={{
+                marginTop: 10,
+                color: "#777",
+                fontFamily: "Arial",
+                fontSize: 13
+              }}
+            >
               Inline banner · 1200 × 150
             </div>
           </div>
         </section>
 
-        <section style={{
-          marginTop:50
-        }}>
-          <div style={{
-            display:"flex",
-            alignItems:"center",
-            gap:12,
-            marginBottom:24
-          }}>
-            <span style={{
-              width:34,
-              height:2,
-              background:"#e11212",
-              display:"block"
-            }} />
-            <h2 style={{
-              fontSize:34,
-              margin:0
-            }}>
+        <section style={{ marginTop: 50 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              marginBottom: 24
+            }}
+          >
+            <span
+              style={{
+                width: 34,
+                height: 2,
+                background: "#e11212",
+                display: "block"
+              }}
+            />
+            <h2
+              style={{
+                fontSize: 34,
+                margin: 0
+              }}
+            >
               Өмнөх мэдээнүүд
             </h2>
           </div>
 
-          <div style={{
-            display:"grid",
-            gridTemplateColumns:"1fr 1fr",
-            gap:"0 40px"
-          }}>
-            {previous.map(([cat,title,date]) => (
-              <Link key={title} href="/article" style={{textDecoration:"none", color:"inherit"}}>
-              <article style={{
-                display:"grid",
-                gridTemplateColumns:"92px 1fr",
-                gap:16,
-                padding:"18px 0",
-                borderBottom:"1px solid rgba(255,255,255,.08)"
-              }}>
-                <div style={{
-                  height:70,
-                  background:"radial-gradient(circle,#444,#090909)",
-                  border:"1px solid rgba(255,255,255,.08)"
-                }} />
-                <div>
-                  <div style={{
-                    color:"#e11212",
-                    fontSize:12,
-                    fontFamily:"Arial",
-                    fontWeight:700,
-                    textTransform:"uppercase"
-                  }}>
-                    {cat}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "0 40px"
+            }}
+          >
+            {previous.map(([cat, title, date]) => (
+              <Link
+                key={title}
+                href="/article"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <article
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "92px 1fr",
+                    gap: 16,
+                    padding: "18px 0",
+                    borderBottom: "1px solid rgba(255,255,255,.08)"
+                  }}
+                >
+                  <div
+                    style={{
+                      height: 70,
+                      background: "radial-gradient(circle,#444,#090909)",
+                      border: "1px solid rgba(255,255,255,.08)"
+                    }}
+                  />
+                  <div>
+                    <div
+                      style={{
+                        color: "#e11212",
+                        fontSize: 12,
+                        fontFamily: "Arial",
+                        fontWeight: 700,
+                        textTransform: "uppercase"
+                      }}
+                    >
+                      {cat}
+                    </div>
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontSize: 17,
+                        lineHeight: 1.35
+                      }}
+                    >
+                      {title}
+                    </div>
+                    <small
+                      style={{
+                        display: "block",
+                        marginTop: 8,
+                        color: "#777",
+                        fontFamily: "Arial"
+                      }}
+                    >
+                      {date}
+                    </small>
                   </div>
-                  <div style={{
-                    marginTop:6,
-                    fontSize:17,
-                    lineHeight:1.35
-                  }}>
-                    {title}
-                  </div>
-                  <small style={{
-                    display:"block",
-                    marginTop:8,
-                    color:"#777",
-                    fontFamily:"Arial"
-                  }}>
-                    {date}
-                  </small>
-                </div>
-              </article>
-</Link>
+                </article>
+              </Link>
             ))}
           </div>
         </section>
 
-        <section style={{
-          marginTop:52,
-          borderTop:"1px solid rgba(255,255,255,.1)",
-          borderBottom:"1px solid rgba(255,255,255,.1)",
-          padding:"28px 0"
-        }}>
-          <div style={{
-            color:"#aaa",
-            fontSize:13,
-            fontFamily:"Arial",
-            textTransform:"uppercase",
-            marginBottom:18
-          }}>
+        <section
+          style={{
+            marginTop: 52,
+            borderTop: "1px solid rgba(255,255,255,.1)",
+            borderBottom: "1px solid rgba(255,255,255,.1)",
+            padding: "28px 0"
+          }}
+        >
+          <div
+            style={{
+              color: "#aaa",
+              fontSize: 13,
+              fontFamily: "Arial",
+              textTransform: "uppercase",
+              marginBottom: 18
+            }}
+          >
             Хамтрагч байгууллагууд
           </div>
-          <div style={{
-            display:"grid",
-            gridTemplateColumns:"repeat(4,1fr)",
-            gap:14
-          }}>
-            {[1,2,3,4].map((i)=>(
-              <div key={i} style={{
-                border:"1px solid rgba(255,255,255,.1)",
-                padding:"24px 12px",
-                textAlign:"center",
-                color:"#777",
-                fontSize:12,
-                fontFamily:"Arial",
-                textTransform:"uppercase"
-              }}>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4,1fr)",
+              gap: 14
+            }}
+          >
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                style={{
+                  border: "1px solid rgba(255,255,255,.1)",
+                  padding: "24px 12px",
+                  textAlign: "center",
+                  color: "#777",
+                  fontSize: 12,
+                  fontFamily: "Arial",
+                  textTransform: "uppercase"
+                }}
+              >
                 Энд хамтрагч байгууллагын нэр байрлана
               </div>
             ))}
@@ -442,13 +527,15 @@ backgroundBlendMode:"multiply",
         </section>
       </section>
 
-      <footer style={{
-        borderTop:"1px solid rgba(255,255,255,.1)",
-        padding:"34px 48px",
-        color:"#666",
-        fontFamily:"Arial",
-        fontSize:13
-      }}>
+      <footer
+        style={{
+          borderTop: "1px solid rgba(255,255,255,.1)",
+          padding: "34px 48px",
+          color: "#666",
+          fontFamily: "Arial",
+          fontSize: 13
+        }}
+      >
         © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
       </footer>
     </main>
