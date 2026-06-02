@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../../../lib/articles";
@@ -50,9 +51,19 @@ export default function DynamicArticle({ params }) {
     <main style={page}>
       <header style={header}>
   <div style={headerInner}>
-    <Link href="/" style={logoLink}>
-      Anzaar.mn
-    </Link>
+   <Link href="/" style={logoLink}>
+  <Image
+    src="/anzaar-logo-horizontal.png"
+    alt="Anzaar.mn Logo"
+    width={260}
+    height={70}
+    style={{
+      width: "260px",
+      height: "auto",
+      objectFit: "contain",
+    }}
+  />
+</Link>
 
     <Link href="/" style={homeLink}>
       Нүүр хуудас
