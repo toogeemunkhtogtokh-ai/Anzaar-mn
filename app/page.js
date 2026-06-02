@@ -30,13 +30,6 @@ export default function Home() {
   const heroArticle =
   allArticles.find((article) => article.featured === true) || allArticles[0];
 
-  const categories = [
-  { key: "niigem", title: "Нийгэм" },
-  { key: "ediinzasag", title: "Эдийн засаг" },
-  { key: "erhzui", title: "Эрх зүй" },
-  { key: "eruulmend", title: "Эрүүл мэнд" },
-];
-
   const previous = [
     ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
     ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
@@ -394,118 +387,7 @@ export default function Home() {
           </div>
         </section>
 
-        {categories.map((category) => {
-  const categoryArticles = allArticles
-    .filter((item) => item.category === category.key)
-    .slice(0, 3);
-
-  if (categoryArticles.length === 0) return null;
-
-  return (
-    <section
-      key={category.key}
-      style={{
-        marginTop: 60,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          marginBottom: 24,
-        }}
-      >
-        <span
-          style={{
-            width: 34,
-            height: 2,
-            background: "#e11212",
-            display: "block",
-          }}
-        />
-
-        <h2
-          style={{
-            fontSize: 34,
-            margin: 0,
-          }}
-        >
-          {category.title}
-        </h2>
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gap: 22,
-        }}
-      >
-        {categoryArticles.map((item) => (
-          <Link
-            key={item.id}
-            href={`/article/${item.id}`}
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <article
-              style={{
-                ...cardStyle,
-                minHeight: 300,
-              }}
-            >
-              <div
-                style={{
-                  height: 160,
-                  marginBottom: 18,
-                  backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  border: "1px solid rgba(255,255,255,.08)",
-                }}
-              />
-
-              <div
-                style={{
-                  color: "#e11212",
-                  fontSize: 12,
-                  fontFamily: "Arial",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                }}
-              >
-                {item.label}
-              </div>
-
-              <h3
-                style={{
-                  fontSize: 22,
-                  lineHeight: 1.35,
-                  marginTop: 12,
-                }}
-              >
-                {item.title}
-              </h3>
-
-              <small
-                style={{
-                  color: "#777",
-                  fontFamily: "Arial",
-                }}
-              >
-                {item.date}
-              </small>
-            </article>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-})}
-        <section style={{ marginTop: 50 }}>
+              <section style={{ marginTop: 50 }}>
           <div
             style={{
               display: "flex",
