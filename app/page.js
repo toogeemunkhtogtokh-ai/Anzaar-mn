@@ -220,22 +220,6 @@ export default function Home() {
           padding: "42px 24px",
         }}
       >
-        <section
-          style={{
-            ...cardStyle,
-            padding: 0,
-            overflow: "hidden",
-            marginBottom: 32,
-            minHeight: 180,
-          }}
-        >
-          {renderBanner(
-            topBanner,
-            "Энд таны сурталчилгаа байрлана",
-            "Top banner · 1200 × 300",
-            "300px"
-          )}
-        </section>
  
      <div>
   <Link
@@ -245,7 +229,7 @@ export default function Home() {
     <article
       style={{
         ...cardStyle,
-        minHeight: 640,
+        minHeight: 520,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
@@ -261,7 +245,7 @@ export default function Home() {
       <div style={{ marginBottom: 22 }}>
         <h1
           style={{
-            fontSize: 48,
+            fontSize: 28,
             margin: 0,
             color: "#fff",
           }}
@@ -271,8 +255,8 @@ export default function Home() {
 
         <div
           style={{
-            width: 230,
-            height: 3,
+            width: 150,
+            height: 2,
             background: "#e11212",
             marginTop: 12,
           }}
@@ -350,7 +334,7 @@ export default function Home() {
               <article
                 style={{
                   ...cardStyle,
-                  minHeight: 360,
+                  minHeight: 300,
                   display: "flex",
                   flexDirection: "column",
                   transition: "all .35s ease",
@@ -359,7 +343,7 @@ export default function Home() {
               >
                 <div
                   style={{
-                    height: 190,
+                    height: 150,
                     marginBottom: 24,
                     border: "1px solid rgba(255,255,255,.08)",
                     backgroundImage: `url(${item.image || "/hero-main.png"})`,
@@ -383,11 +367,11 @@ export default function Home() {
  
                 <h3
                   style={{
-                    fontSize: 26,
+                    fontSize: 22,
                     lineHeight: 1.28,
-                    minHeight: 120,
+                    minHeight: 70,
                     marginTop: 18,
-                    marginBottom: 28,
+                    marginBottom: 18,
                   }}
                 >
                   {item.title}
