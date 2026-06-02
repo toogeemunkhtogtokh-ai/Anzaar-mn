@@ -37,9 +37,9 @@ export default function AdminPage() {
   };
 
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const keyword = search.toLowerCase();
+    const keyword = search.toLowerCase();
 
+    return posts.filter((post) => {
       return (
         post.title?.toLowerCase().includes(keyword) ||
         post.label?.toLowerCase().includes(keyword) ||
@@ -61,6 +61,19 @@ export default function AdminPage() {
     return acc;
   }, {});
 
+  const menuItems = [
+    "Хяналтын самбар",
+    "Нийтлэл",
+    "Ангилал",
+    "Хуудас",
+    "Сэтгэгдэл",
+    "Медиа",
+    "Баннер",
+    "Хамтрагч",
+    "Хэрэглэгч",
+    "Тохиргоо",
+  ];
+
   return (
     <main style={page}>
       <aside style={sidebar}>
@@ -70,24 +83,13 @@ export default function AdminPage() {
           style={logoImage}
         />
 
-        {[
-          "Хяналтын самбар",
-          "Нийтлэлүүд",
-          "Ангилал",
-          "Хуудаснууд",
-          "Сэтгэгдлүүд",
-          "Медиа сан",
-          "Баннерууд",
-          "Хамтрагч байгууллагууд",
-          "Хэрэглэгчид",
-          "Тохиргоо",
-        ].map((item, i) => (
+        {menuItems.map((item, i) => (
           <div key={item} style={i === 0 ? activeMenu : menu}>
             {item}
           </div>
         ))}
 
-        <div style={{ marginTop: "auto", color: "#aaa" }}>Гарах</div>
+        <div style={logoutText}>Гарах</div>
       </aside>
 
       <section style={content}>
@@ -96,22 +98,30 @@ export default function AdminPage() {
         <div style={statsGrid}>
           <Stat label="Нийт нийтлэл" value={posts.length} color="#e22" />
           <Stat label="Нийт хандалт" value={totalViews} color="#7b61ff" />
-          <Stat label="Онцлох нийтлэл" value={featuredPost ? "1" : "0"} color="#facc15" />
-          <Stat label="Ангилал" value={Object.keys(categoryCounts).length} color="#c7962b" />
+          <Stat
+            label="Онцлох нийтлэл"
+            value={featuredPost ? "1" : "0"}
+            color="#facc15"
+          />
+          <Stat
+            label="Ангилал"
+            value={Object.keys(categoryCounts).length}
+            color="#c7962b"
+          />
         </div>
 
         <div style={mainGrid}>
           <section style={card}>
             <div style={sectionHead}>
               <div>
-                <h3 style={{ margin: 0 }}>Сүүлийн нийтлэлүүд</h3>
+                <h3 style={{ margin: 0 }}>Сүүлийн нийтлэл</h3>
                 <p style={mutedText}>
                   Нийт {filteredPosts.length} нийтлэл харагдаж байна
                 </p>
               </div>
 
               <Link href="/admin/new-post" style={{ textDecoration: "none" }}>
-                <button style={redButton}>Шинэ нийтлэл нэмэх</button>
+                <button style={redButton}>Нийтлэл нэмэх</button>
               </Link>
             </div>
 
@@ -154,17 +164,11 @@ export default function AdminPage() {
                     </td>
 
                     <td style={cell}>
-                      <Link
-                        href={`/article/${post.id}`}
-                        style={viewLink}
-                      >
+                      <Link href={`/article/${post.id}`} style={viewLink}>
                         👁
                       </Link>
 
-                      <Link
-                        href={`/admin/edit/${post.id}`}
-                        style={editLink}
-                      >
+                      <Link href={`/admin/edit/${post.id}`} style={editLink}>
                         EDIT
                       </Link>
 
@@ -190,15 +194,15 @@ export default function AdminPage() {
 
           <aside>
             <div style={box}>
-              <h3 style={{ marginBottom: 18 }}>Түргэн үйлдлүүд</h3>
+              <h3 style={{ marginBottom: 18 }}>Түргэн үйлдэл</h3>
 
               <Link href="/admin/new-post" style={boxItem}>
-                ＋ Шинэ нийтлэл нэмэх
+                ＋ Нийтлэл нэмэх
               </Link>
 
               <p style={boxItem}>▧ Баннер нэмэх</p>
               <p style={boxItem}>♙ Хамтрагч нэмэх</p>
-              <p style={boxItem}>▢ Хуудас үүсгэх</p>
+              <p style={boxItem}>▢ Хуудас нэмэх</p>
             </div>
 
             <Box
@@ -225,7 +229,7 @@ export default function AdminPage() {
 
         <div style={bottomGrid}>
           <Box
-            title="Хамгийн их хандалттай нийтлэлүүд"
+            title="Хамгийн их хандалттай нийтлэл"
             items={
               posts.length > 0
                 ? [...posts]
@@ -301,6 +305,11 @@ const sidebar = {
 const logoImage = {
   width: "150px",
   marginBottom: "28px",
+};
+
+const logoutText = {
+  marginTop: "auto",
+  color: "#aaa",
 };
 
 const menu = {
