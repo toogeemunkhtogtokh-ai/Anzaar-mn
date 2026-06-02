@@ -221,7 +221,14 @@ export default function Home() {
         }}
       >
  
-     <div>
+     <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr",
+    gap: 24,
+    alignItems: "stretch",
+  }}
+>
   <Link
     href={`/article/${heroArticle?.id || ""}`}
     style={{ textDecoration: "none", color: "inherit" }}
@@ -229,7 +236,8 @@ export default function Home() {
     <article
       style={{
         ...cardStyle,
-        minHeight: 440,
+        minHeight: 460,
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
@@ -242,14 +250,8 @@ export default function Home() {
         cursor: "pointer",
       }}
     >
-      <div style={{ marginBottom: 22 }}>
-        <h1
-          style={{
-            fontSize: 28,
-            margin: 0,
-            color: "#fff",
-          }}
-        >
+      <div style={{ marginBottom: 20 }}>
+        <h1 style={{ fontSize: 28, margin: 0, color: "#fff" }}>
           Өнөөдрийн онцлох
         </h1>
 
@@ -277,9 +279,9 @@ export default function Home() {
 
       <h2
         style={{
-          fontSize: 52,
+          fontSize: 46,
           lineHeight: 1.05,
-          maxWidth: 900,
+          maxWidth: 760,
           margin: "14px 0",
         }}
       >
@@ -288,9 +290,9 @@ export default function Home() {
 
       <p
         style={{
-          fontSize: 20,
+          fontSize: 18,
           color: "#ccc",
-          maxWidth: 760,
+          maxWidth: 680,
           lineHeight: 1.6,
           margin: 0,
         }}
@@ -315,87 +317,81 @@ export default function Home() {
       </div>
     </article>
   </Link>
-</div>
- 
-        <section
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 18,
+    }}
+  >
+    {allArticles.slice(1, 5).map((item) => (
+      <Link
+        key={item.id}
+        href={`/article/${item.id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <article
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: 22,
-            marginTop: 28,
+            ...cardStyle,
+            minHeight: 221,
+            display: "flex",
+            flexDirection: "column",
+            cursor: "pointer",
+            padding: 14,
           }}
         >
-          {allArticles.slice(1, 4).map((item) => (
-            <Link
-              key={item.id}
-              href={`/article/${item.id}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <article
-                style={{
-                  ...cardStyle,
-                  minHeight: 300,
-                  display: "flex",
-                  flexDirection: "column",
-                  transition: "all .35s ease",
-                  cursor: "pointer",
-                }}
-              >
-                <div
-                  style={{
-                    height: 150,
-                    marginBottom: 24,
-                    border: "1px solid rgba(255,255,255,.08)",
-                    backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                />
- 
-                <div
-                  style={{
-                    color: "#e11212",
-                    fontSize: 12,
-                    fontFamily: "Arial",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {item.label}
-                </div>
- 
-                <h3
-                  style={{
-                    fontSize: 22,
-                    lineHeight: 1.28,
-                    minHeight: 70,
-                    marginTop: 18,
-                    marginBottom: 18,
-                  }}
-                >
-                  {item.title}
-                </h3>
- 
-                <small
-                  style={{
-                    color: "#777",
-                    fontFamily: "Arial",
-                    marginTop: "auto",
-                    display: "block",
-                  }}
-                >
-                  {item.date}
-                </small>
-              </article>
-            </Link>
-          ))}
-        </section>
- 
-        <section
-          style={{
-            marginTop: 32,
-            ...cardStyle,
+          <div
+            style={{
+              height: 105,
+              marginBottom: 14,
+              border: "1px solid rgba(255,255,255,.08)",
+              backgroundImage: `url(${item.image || "/hero-main.png"})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+
+          <div
+            style={{
+              color: "#e11212",
+              fontSize: 11,
+              fontFamily: "Arial",
+              fontWeight: 700,
+              textTransform: "uppercase",
+            }}
+          >
+            {item.label}
+          </div>
+
+          <h3
+            style={{
+              fontSize: 18,
+              lineHeight: 1.25,
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          >
+            {item.title}
+          </h3>
+
+          <small
+            style={{
+              color: "#777",
+              fontFamily: "Arial",
+              marginTop: "auto",
+              display: "block",
+              fontSize: 12,
+            }}
+          >
+            {item.date}
+          </small>
+        </article>
+      </Link>
+    ))}
+  </div>
+</div>
             minHeight: 130,
             padding: 0,
             overflow: "hidden",
