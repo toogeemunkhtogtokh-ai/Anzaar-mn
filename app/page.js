@@ -27,7 +27,8 @@ export default function Home() {
     "Соёл"
   ];
 
-  const heroArticle = allArticles[0];
+  const heroArticle =
+  allArticles.find((article) => article.featured === true) || allArticles[0];
 
   const previous = [
     ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
