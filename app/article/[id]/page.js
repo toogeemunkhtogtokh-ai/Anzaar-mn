@@ -55,8 +55,8 @@ export default function DynamicArticle({ params }) {
   <Image
     src="/anzaar-logo-horizontal.png"
     alt="Anzaar.mn Logo"
-    width={260}
-    height={70}
+    width={320}
+    height={85}
     style={{
       width: "260px",
       height: "auto",
@@ -65,9 +65,6 @@ export default function DynamicArticle({ params }) {
   />
 </Link>
 
-    <Link href="/" style={homeLink}>
-      Нүүр хуудас
-    </Link>
   </div>
 </header>
 
