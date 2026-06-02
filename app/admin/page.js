@@ -11,7 +11,20 @@ useEffect(() => {
 
   setPosts(saved);
 }, []);
+const handleDelete = (id) => {
+  const confirmed = confirm("Энэ нийтлэлийг устгах уу?");
 
+  if (!confirmed) return;
+
+  const updated = posts.filter((post) => post.id !== id);
+
+  localStorage.setItem(
+    "anzaarArticles",
+    JSON.stringify(updated)
+  );
+
+  setPosts(updated);
+};
   return (
     <main style={page}>
       <aside style={sidebar}>
@@ -71,7 +84,15 @@ useEffect(() => {
   <td style={cell}>
     <span style={status}>Нийтлэгдсэн</span>
   </td>
-  <td style={cell}>👁 ✎ 🗑</td>
+  <td style={cell}>
+  👁 ✏{" "}
+  <button
+    onClick={() => handleDelete(post.id)}
+    style={deleteButton}
+  >
+    🗑
+  </button>
+</td>
 </tr>
                 ))}
               </tbody>
@@ -298,4 +319,12 @@ const bottomGrid = {
   gridTemplateColumns: "1fr 1fr",
   gap: 18,
   marginTop: 18,
+};
+
+const deleteButton = {
+  background: "transparent",
+  border: "none",
+  color: "#fff",
+  cursor: "pointer",
+  fontSize: "16px",
 };
