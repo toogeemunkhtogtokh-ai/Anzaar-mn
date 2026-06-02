@@ -1,44 +1,74 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AdminPage() {
- const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-useEffect(() => {
-  const saved =
-    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+  useEffect(() => {
+    const saved =
+      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-  setPosts(saved);
-}, []);
-const handleDelete = (id) => {
-  const confirmed = confirm("Энэ нийтлэлийг устгах уу?");
+    setPosts(saved);
+  }, []);
 
-  if (!confirmed) return;
+  const handleDelete = (id) => {
+    const confirmed = confirm("Энэ нийтлэлийг устгах уу?");
 
-  const updated = posts.filter((post) => post.id !== id);
+    if (!confirmed) return;
 
-  localStorage.setItem(
-    "anzaarArticles",
-    JSON.stringify(updated)
-  );
+    const updated = posts.filter((post) => post.id !== id);
 
-  setPosts(updated);
-};
+    localStorage.setItem(
+      "anzaarArticles",
+      JSON.stringify(updated)
+    );
+
+    setPosts(updated);
+  };
+
+  const handleFeatured = (id) => {
+    const updated = posts.map((post) => ({
+      ...post,
+      featured: post.id === id,
+    }));
+
+    localStorage.setItem(
+      "anzaarArticles",
+      JSON.stringify(updated)
+    );
+
+    setPosts(updated);
+  };
+
   return (
     <main style={page}>
       <aside style={sidebar}>
         <img
-  src="/anzaar-logo-horizontal.png"
-  alt="Anzaar.mn"
-  style={{
-    width: "150px",
-    marginBottom: "28px"
-  }}
-/>
+          src="/anzaar-logo-horizontal.png"
+          alt="Anzaar.mn"
+          style={{
+            width: "150px",
+            marginBottom: "28px",
+          }}
+        />
 
-        {["Хяналтын самбар", "Нийтлэлүүд", "Ангилал", "Хуудаснууд", "Сэтгэгдлүүд", "Медиа сан", "Баннерууд", "Хамтрагч байгууллагууд", "Хэрэглэгчид", "Тохиргоо"].map((item, i) => (
-          <div key={item} style={i === 0 ? activeMenu : menu}>{item}</div>
+        {[
+          "Хяналтын самбар",
+          "Нийтлэлүүд",
+          "Ангилал",
+          "Хуудаснууд",
+          "Сэтгэгдлүүд",
+          "Медиа сан",
+          "Баннерууд",
+          "Хамтрагч байгууллагууд",
+          "Хэрэглэгчид",
+          "Тохиргоо",
+        ].map((item, i) => (
+          <div key={item} style={i === 0 ? activeMenu : menu}>
+            {item}
+          </div>
         ))}
 
         <div style={{ marginTop: "auto", color: "#aaa" }}>Гарах</div>
@@ -58,9 +88,10 @@ const handleDelete = (id) => {
           <section style={card}>
             <div style={sectionHead}>
               <h3>Сүүлийн нийтлэлүүд</h3>
+
               <Link href="/admin/new-post" style={{ textDecoration: "none" }}>
-  <button style={redButton}>Шинэ нийтлэл нэмэх</button>
-</Link>
+                <button style={redButton}>Шинэ нийтлэл нэмэх</button>
+              </Link>
             </div>
 
             <table style={table}>
@@ -74,32 +105,50 @@ const handleDelete = (id) => {
                   <th>Үйлдэл</th>
                 </tr>
               </thead>
+
               <tbody>
-                {posts.map((post, i) => (
-                  <tr key={i} style={row}>
-  <td style={titleCell}>{post.title}</td>
-<td style={{ ...cell, color: "#ff3333" }}>{post.label}</td>
-<td style={cell}>{post.date}</td>
-<td style={cell}>0</td>
-  <td style={cell}>
-    <span style={status}>Нийтлэгдсэн</span>
-  </td>
-  <td style={cell}>
-  👁{" "}
-<a
-  href={`/admin/edit/${post.id}`}
-  style={{ color: "#fff", textDecoration: "none" }}
->
-  EDIT
-</a>{" "}
-<button
-  onClick={() => handleDelete(post.id)}
-  style={deleteButton}
->
-  🗑
-</button>
-</td>
-</tr>
+                {posts.map((post) => (
+                  <tr key={post.id} style={row}>
+                    <td style={titleCell}>{post.title}</td>
+                    <td style={{ ...cell, color: "#ff3333" }}>
+                      {post.label}
+                    </td>
+                    <td style={cell}>{post.date}</td>
+                    <td style={cell}>0</td>
+                    <td style={cell}>
+                      <span style={status}>
+                        {post.featured ? "Онцлох" : "Нийтлэгдсэн"}
+                      </span>
+                    </td>
+                    <td style={cell}>
+                      <span style={{ marginRight: "8px" }}>👁</span>
+
+                      <Link
+                        href={`/admin/edit/${post.id}`}
+                        style={{
+                          color: "#fff",
+                          textDecoration: "none",
+                          marginRight: "8px",
+                        }}
+                      >
+                        EDIT
+                      </Link>
+
+                      <button
+                        onClick={() => handleFeatured(post.id)}
+                        style={featuredButton}
+                      >
+                        {post.featured ? "★ Онцлох" : "☆ Онцлох"}
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        style={deleteButton}
+                      >
+                        🗑
+                      </button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
@@ -107,24 +156,62 @@ const handleDelete = (id) => {
 
           <aside>
             <div style={box}>
-  <h3 style={{ marginBottom: 18 }}>Түргэн үйлдлүүд</h3>
+              <h3 style={{ marginBottom: 18 }}>Түргэн үйлдлүүд</h3>
 
-  <Link href="/admin/new-post" style={boxItem}>
-    ＋ Шинэ нийтлэл нэмэх
-  </Link>
+              <Link href="/admin/new-post" style={boxItem}>
+                ＋ Шинэ нийтлэл нэмэх
+              </Link>
 
-  <p style={boxItem}>▧ Баннер нэмэх</p>
-  <p style={boxItem}>♙ Хамтрагч нэмэх</p>
-  <p style={boxItem}>▢ Хуудас үүсгэх</p>
-</div>
-            <Box title="Нийтлэлийн ангилал" items={["Нийгэм — 28", "Эдийн засаг — 24", "Эрх зүй — 18", "Эрүүл мэнд — 16", "Боловсрол — 14", "Сэтгэл зүй — 12", "Спорт — 8", "Соёл — 6"]} />
-            <Box title="Системийн мэдээлэл" items={["Системийн хувилбар — 1.0.0", "PHP хувилбар — 8.2.12", "Сүүлийн нөөцлөлт — 2024.06.15"]} />
+              <p style={boxItem}>▧ Баннер нэмэх</p>
+              <p style={boxItem}>♙ Хамтрагч нэмэх</p>
+              <p style={boxItem}>▢ Хуудас үүсгэх</p>
+            </div>
+
+            <Box
+              title="Нийтлэлийн ангилал"
+              items={[
+                "Нийгэм — 28",
+                "Эдийн засаг — 24",
+                "Эрх зүй — 18",
+                "Эрүүл мэнд — 16",
+                "Боловсрол — 14",
+                "Сэтгэл зүй — 12",
+                "Спорт — 8",
+                "Соёл — 6",
+              ]}
+            />
+
+            <Box
+              title="Системийн мэдээлэл"
+              items={[
+                "Системийн хувилбар — 1.0.0",
+                "PHP хувилбар — 8.2.12",
+                "Сүүлийн нөөцлөлт — 2024.06.15",
+              ]}
+            />
           </aside>
         </div>
 
         <div style={bottomGrid}>
-          <Box title="Хамгийн их хандалттай нийтлэлүүд" items={["1. Хүмүүс яагаад худал дүр бүтээдэг вэ? — 1.2K", "2. Өглөөний 30 минут — 1.1K", "3. Агаарын бохирдол — 986", "4. Шинэ эрх зүйн хууль — 856", "5. Хөрөнгийн зах зээл — 642"]} />
-          <Box title="Сүүлийн сэтгэгдлүүд" items={["Болд: 10 минутын өмнө", "Сараа: 25 минутын өмнө", "Отгон: 1 цагийн өмнө"]} />
+          <Box
+            title="Хамгийн их хандалттай нийтлэлүүд"
+            items={[
+              "1. Хүмүүс яагаад худал дүр бүтээдэг вэ? — 1.2K",
+              "2. Өглөөний 30 минут — 1.1K",
+              "3. Агаарын бохирдол — 986",
+              "4. Шинэ эрх зүйн хууль — 856",
+              "5. Хөрөнгийн зах зээл — 642",
+            ]}
+          />
+
+          <Box
+            title="Сүүлийн сэтгэгдлүүд"
+            items={[
+              "Болд: 10 минутын өмнө",
+              "Сараа: 25 минутын өмнө",
+              "Отгон: 1 цагийн өмнө",
+            ]}
+          />
         </div>
       </section>
     </main>
@@ -149,7 +236,9 @@ function Box({ title, items }) {
     <div style={box}>
       <h3 style={{ marginBottom: 18 }}>{title}</h3>
       {items.map((item) => (
-        <p key={item} style={boxItem}>{item}</p>
+        <p key={item} style={boxItem}>
+          {item}
+        </p>
       ))}
     </div>
   );
@@ -170,18 +259,6 @@ const sidebar = {
   display: "flex",
   flexDirection: "column",
   gap: 14,
-};
-
-const logo = {
-  fontFamily: "'Times New Roman', serif",
-  fontSize: 34,
-  marginBottom: 10,
-};
-
-const slogan = {
-  color: "#aaa",
-  lineHeight: 1.6,
-  marginBottom: 28,
 };
 
 const menu = {
@@ -318,6 +395,7 @@ const boxItem = {
   borderBottom: "1px solid #222",
   paddingBottom: 10,
   textDecoration: "none",
+  display: "block",
 };
 
 const bottomGrid = {
@@ -325,6 +403,16 @@ const bottomGrid = {
   gridTemplateColumns: "1fr 1fr",
   gap: 18,
   marginTop: 18,
+};
+
+const featuredButton = {
+  background: "#222",
+  color: "#facc15",
+  border: "1px solid #444",
+  padding: "6px 10px",
+  cursor: "pointer",
+  marginRight: "8px",
+  fontSize: "13px",
 };
 
 const deleteButton = {
