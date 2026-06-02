@@ -237,130 +237,101 @@ export default function Home() {
           )}
         </section>
  
-        <div
+     <div>
+  <Link
+    href={`/article/${heroArticle?.id || ""}`}
+    style={{ textDecoration: "none", color: "inherit" }}
+  >
+    <article
+      style={{
+        ...cardStyle,
+        minHeight: 640,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "rgba(0,0,0,0.55)",
+        backgroundBlendMode: "multiply",
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ marginBottom: 22 }}>
+        <h1
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 320px",
-            gap: 28,
+            fontSize: 48,
+            margin: 0,
+            color: "#fff",
           }}
         >
-          <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 20,
-              }}
-            >
-              <span
-                style={{
-                  width: 34,
-                  height: 2,
-                  background: "#e11212",
-                  display: "block",
-                }}
-              />
- 
-              <h1
-                style={{
-                  fontSize: 42,
-                  margin: 0,
-                }}
-              >
-                Өнөөдрийн онцлох
-              </h1>
-            </div>
- 
-            <Link
-              href={`/article/${heroArticle?.id || ""}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <article
-                style={{
-                  ...cardStyle,
-                  minHeight: 560,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                  backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: "rgba(0,0,0,0.55)",
-                  backgroundBlendMode: "multiply",
-                  cursor: "pointer",
-                }}
-              >
-                <div
-                  style={{
-                    color: "#e11212",
-                    fontSize: 13,
-                    fontFamily: "Arial",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {heroArticle?.label || "Нийгэм"}
-                </div>
- 
-                <h2
-                  style={{
-                    fontSize: 52,
-                    lineHeight: 1.05,
-                    maxWidth: 720,
-                    margin: "14px 0",
-                  }}
-                >
-                  {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
-                </h2>
- 
-                <p
-                  style={{
-                    fontSize: 20,
-                    color: "#ccc",
-                    maxWidth: 650,
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}
-                >
-                  {heroArticle?.excerpt ||
-                    "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
-                </p>
- 
-                <div
-                  style={{
-                    marginTop: 22,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    color: "#999",
-                    fontSize: 14,
-                    fontFamily: "Arial",
-                  }}
-                >
-                  <span>{heroArticle?.date || "2026.06.18"}</span>
-                  <span style={{ color: "#fff" }}>Унших →</span>
-                </div>
-              </article>
-            </Link>
-          </div>
- 
-          <aside
-            style={{
-              ...cardStyle,
-              minHeight: 560,
-              padding: 0,
-              overflow: "hidden",
-            }}
-          >
-            {renderBanner(
-              sidebarBanner,
-              "Энд таны сурталчилгаа байрлана",
-              "Premium banner · 300 × 600"
-            )}
-          </aside>
-        </div>
+          Өнөөдрийн онцлох
+        </h1>
+
+        <div
+          style={{
+            width: 230,
+            height: 3,
+            background: "#e11212",
+            marginTop: 12,
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          color: "#e11212",
+          fontSize: 13,
+          fontFamily: "Arial",
+          fontWeight: 700,
+          textTransform: "uppercase",
+        }}
+      >
+        {heroArticle?.label || "Нийгэм"}
+      </div>
+
+      <h2
+        style={{
+          fontSize: 58,
+          lineHeight: 1.05,
+          maxWidth: 900,
+          margin: "14px 0",
+        }}
+      >
+        {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
+      </h2>
+
+      <p
+        style={{
+          fontSize: 20,
+          color: "#ccc",
+          maxWidth: 760,
+          lineHeight: 1.6,
+          margin: 0,
+        }}
+      >
+        {heroArticle?.excerpt ||
+          "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
+      </p>
+
+      <div
+        style={{
+          marginTop: 22,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          color: "#999",
+          fontSize: 14,
+          fontFamily: "Arial",
+        }}
+      >
+        <span>{heroArticle?.date || "2026.06.18"}</span>
+        <span style={{ color: "#fff" }}>Унших →</span>
+      </div>
+    </article>
+  </Link>
+</div>
  
         <section
           style={{
