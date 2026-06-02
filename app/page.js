@@ -7,20 +7,19 @@ import { articles } from "../lib/articles";
 
 export default function Home() {
   const [allArticles, setAllArticles] = useState(articles);
-
   const [banners, setBanners] = useState([]);
- useEffect(() => {
-  const savedArticles =
-    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-  setAllArticles([...savedArticles, ...articles]);
+  useEffect(() => {
+    const savedArticles =
+      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-  const savedBanners =
-    JSON.parse(localStorage.getItem("anzaarBanners")) || [];
+    const savedBanners =
+      JSON.parse(localStorage.getItem("anzaarBanners")) || [];
 
-  setBanners(savedBanners);
-}, []);
-  
+    setAllArticles([...savedArticles, ...articles]);
+    setBanners(savedBanners);
+  }, []);
+
   const nav = [
     "Нүүр",
     "Нийгэм",
@@ -30,25 +29,22 @@ export default function Home() {
     "Боловсрол",
     "Сэтгэл зүй",
     "Спорт",
-    "Соёл"
+    "Соёл",
   ];
 
   const heroArticle =
-  allArticles.find((article) => article.featured === true) || allArticles[0];
+    allArticles.find((article) => article.featured === true) || allArticles[0];
 
-  const topBanner =
-  banners.find(
-    (b) => b.position === "top" && b.active
+  const topBanner = banners.find(
+    (banner) => banner.position === "top" && banner.active
   );
 
-const inlineBanner =
-  banners.find(
-    (b) => b.position === "inline" && b.active
+  const inlineBanner = banners.find(
+    (banner) => banner.position === "inline" && banner.active
   );
 
-const sidebarBanner =
-  banners.find(
-    (b) => b.position === "sidebar" && b.active
+  const sidebarBanner = banners.find(
+    (banner) => banner.position === "sidebar" && banner.active
   );
 
   const previous = [
@@ -57,13 +53,81 @@ const sidebarBanner =
     ["Боловсрол", "Сурагчдын унших чадвар яагаад буурч байна вэ?", "2026.06.13"],
     ["Соёл", "Соёл урлаг нийгмийн сэтгэл зүйд хэрхэн нөлөөлдөг вэ?", "2026.06.13"],
     ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
-    ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"]
+    ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"],
   ];
 
   const cardStyle = {
     border: "1px solid rgba(255,255,255,.1)",
     background: "linear-gradient(180deg,#111,#050505)",
-    padding: 22
+    padding: 22,
+  };
+
+  const renderBanner = (banner, fallbackText, fallbackSize, imageHeight = "100%") => {
+    if (banner) {
+      return (
+        <a
+          href={banner.url || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <img
+            src={banner.image}
+            alt={banner.title || "Anzaar.mn banner"}
+            style={{
+              width: "100%",
+              height: imageHeight,
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </a>
+      );
+    }
+
+    return (
+      <div
+        style={{
+          height: "100%",
+          minHeight: imageHeight === "150px" ? 130 : "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          padding: 22,
+        }}
+      >
+        <div>
+          <div
+            style={{
+              color: "#fff",
+              fontSize: 22,
+              fontFamily: "Arial",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              lineHeight: 1.5,
+            }}
+          >
+            {fallbackText}
+          </div>
+
+          <div
+            style={{
+              marginTop: 10,
+              color: "#777",
+              fontFamily: "Arial",
+              fontSize: 13,
+            }}
+          >
+            {fallbackSize}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -72,26 +136,26 @@ const sidebarBanner =
         background: "#000",
         color: "#fff",
         minHeight: "100vh",
-        fontFamily: "'Times New Roman', serif"
+        fontFamily: "'Times New Roman', serif",
       }}
     >
       <header
-  style={{
-    borderBottom: "1px solid rgba(255,255,255,.1)",
-    padding: "22px 0"
-  }}
->
-  <div
-    style={{
-      maxWidth: 1240,
-      margin: "0 auto",
-      padding: "0 24px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      gap: 30
-    }}
-  >
+        style={{
+          borderBottom: "1px solid rgba(255,255,255,.1)",
+          padding: "22px 0",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            padding: "0 24px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 30,
+          }}
+        >
           <div>
             <Image
               src="/anzaar-logo-horizontal.png"
@@ -101,7 +165,7 @@ const sidebarBanner =
               style={{
                 width: "360px",
                 height: "auto",
-                objectFit: "contain"
+                objectFit: "contain",
               }}
             />
           </div>
@@ -113,20 +177,28 @@ const sidebarBanner =
               fontSize: 14,
               fontFamily: "Arial",
               textTransform: "uppercase",
-              whiteSpace: "nowrap"
+              whiteSpace: "nowrap",
             }}
           >
             {nav.map((item, i) => {
               const href =
-                item === "Нүүр" ? "/" :
-                item === "Нийгэм" ? "/category/niigem" :
-                item === "Эдийн засаг" ? "/category/ediinzasag" :
-                item === "Эрх зүй" ? "/category/erhzui" :
-                item === "Эрүүл мэнд" ? "/category/eruulmend" :
-                item === "Боловсрол" ? "/category/bolovsrol" :
-                item === "Сэтгэл зүй" ? "/category/setgelzui" :
-                item === "Спорт" ? "/category/sport" :
-                "/category/soyol";
+                item === "Нүүр"
+                  ? "/"
+                  : item === "Нийгэм"
+                  ? "/category/niigem"
+                  : item === "Эдийн засаг"
+                  ? "/category/ediinzasag"
+                  : item === "Эрх зүй"
+                  ? "/category/erhzui"
+                  : item === "Эрүүл мэнд"
+                  ? "/category/eruulmend"
+                  : item === "Боловсрол"
+                  ? "/category/bolovsrol"
+                  : item === "Сэтгэл зүй"
+                  ? "/category/setgelzui"
+                  : item === "Спорт"
+                  ? "/category/sport"
+                  : "/category/soyol";
 
               return (
                 <Link
@@ -136,7 +208,7 @@ const sidebarBanner =
                     textDecoration: "none",
                     color: i === 0 ? "#fff" : "#aaa",
                     borderBottom: i === 0 ? "2px solid #e11212" : "none",
-                    paddingBottom: 8
+                    paddingBottom: 8,
                   }}
                 >
                   {item}
@@ -151,14 +223,33 @@ const sidebarBanner =
         style={{
           maxWidth: 1240,
           margin: "0 auto",
-          padding: "42px 24px"
+          padding: "42px 24px",
         }}
       >
+        {topBanner && (
+          <section
+            style={{
+              ...cardStyle,
+              padding: 0,
+              overflow: "hidden",
+              marginBottom: 32,
+              minHeight: 180,
+            }}
+          >
+            {renderBanner(
+              topBanner,
+              "Энд таны сурталчилгаа байрлана",
+              "Top banner · 1200 × 300",
+              "300px"
+            )}
+          </section>
+        )}
+
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 320px",
-            gap: 28
+            gap: 28,
           }}
         >
           <div>
@@ -167,7 +258,7 @@ const sidebarBanner =
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                marginBottom: 20
+                marginBottom: 20,
               }}
             >
               <span
@@ -175,13 +266,14 @@ const sidebarBanner =
                   width: 34,
                   height: 2,
                   background: "#e11212",
-                  display: "block"
+                  display: "block",
                 }}
               />
+
               <h1
                 style={{
                   fontSize: 42,
-                  margin: 0
+                  margin: 0,
                 }}
               >
                 Өнөөдрийн онцлох
@@ -205,7 +297,7 @@ const sidebarBanner =
                   backgroundRepeat: "no-repeat",
                   backgroundColor: "rgba(0,0,0,0.55)",
                   backgroundBlendMode: "multiply",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               >
                 <div
@@ -214,7 +306,7 @@ const sidebarBanner =
                     fontSize: 13,
                     fontFamily: "Arial",
                     fontWeight: 700,
-                    textTransform: "uppercase"
+                    textTransform: "uppercase",
                   }}
                 >
                   {heroArticle?.label || "Нийгэм"}
@@ -225,7 +317,7 @@ const sidebarBanner =
                     fontSize: 52,
                     lineHeight: 1.05,
                     maxWidth: 720,
-                    margin: "14px 0"
+                    margin: "14px 0",
                   }}
                 >
                   {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
@@ -237,7 +329,7 @@ const sidebarBanner =
                     color: "#ccc",
                     maxWidth: 650,
                     lineHeight: 1.6,
-                    margin: 0
+                    margin: 0,
                   }}
                 >
                   {heroArticle?.excerpt ||
@@ -252,7 +344,7 @@ const sidebarBanner =
                     alignItems: "center",
                     color: "#999",
                     fontSize: 14,
-                    fontFamily: "Arial"
+                    fontFamily: "Arial",
                   }}
                 >
                   <span>{heroArticle?.date || "2026.06.18"}</span>
@@ -262,50 +354,20 @@ const sidebarBanner =
             </Link>
           </div>
 
-         <aside
-  style={{
-    ...cardStyle,
-    minHeight: 560,
-    padding: 0,
-    overflow: "hidden"
-  }}
->
-  {sidebarBanner ? (
-    <a
-      href={sidebarBanner.url || "#"}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        display: "block",
-        width: "100%",
-        height: "100%"
-      }}
-    >
-      <img
-        src={sidebarBanner.image}
-        alt={sidebarBanner.title}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block"
-        }}
-      />
-    </a>
-  ) : (
-    <div
-      style={{
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center"
-      }}
-    >
-      Энд таны сурталчилгаа байрлана
-    </div>
-  )}
-</aside>
+          <aside
+            style={{
+              ...cardStyle,
+              minHeight: 560,
+              padding: 0,
+              overflow: "hidden",
+            }}
+          >
+            {renderBanner(
+              sidebarBanner,
+              "Энд таны сурталчилгаа байрлана",
+              "Premium banner · 300 × 600"
+            )}
+          </aside>
         </div>
 
         <section
@@ -313,7 +375,7 @@ const sidebarBanner =
             display: "grid",
             gridTemplateColumns: "repeat(3,1fr)",
             gap: 22,
-            marginTop: 28
+            marginTop: 28,
           }}
         >
           {allArticles.slice(1, 4).map((item) => (
@@ -329,7 +391,7 @@ const sidebarBanner =
                   display: "flex",
                   flexDirection: "column",
                   transition: "all .35s ease",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               >
                 <div
@@ -340,7 +402,7 @@ const sidebarBanner =
                     backgroundImage: `url(${item.image || "/hero-main.png"})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat"
+                    backgroundRepeat: "no-repeat",
                   }}
                 />
 
@@ -350,7 +412,7 @@ const sidebarBanner =
                     fontSize: 12,
                     fontFamily: "Arial",
                     fontWeight: 700,
-                    textTransform: "uppercase"
+                    textTransform: "uppercase",
                   }}
                 >
                   {item.label}
@@ -362,7 +424,7 @@ const sidebarBanner =
                     lineHeight: 1.28,
                     minHeight: 120,
                     marginTop: 18,
-                    marginBottom: 28
+                    marginBottom: 28,
                   }}
                 >
                   {item.title}
@@ -373,7 +435,7 @@ const sidebarBanner =
                     color: "#777",
                     fontFamily: "Arial",
                     marginTop: "auto",
-                    display: "block"
+                    display: "block",
                   }}
                 >
                   {item.date}
@@ -383,78 +445,30 @@ const sidebarBanner =
           ))}
         </section>
 
-       <section
-  style={{
-    marginTop: 32,
-    ...cardStyle,
-    minHeight: 130,
-    padding: 0,
-    overflow: "hidden"
-  }}
->
-  {inlineBanner ? (
-    <a
-      href={inlineBanner.url || "#"}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src={inlineBanner.image}
-        alt={inlineBanner.title}
-        style={{
-          width: "100%",
-          height: "150px",
-          objectFit: "cover",
-          display: "block"
-        }}
-      />
-    </a>
-  ) : (
-    <div
-      style={{
-        minHeight: 130,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
-      Энд таны сурталчилгаа байрлана
-    </div>
-  )}
-</section>
-          <div>
-            <div
-              style={{
-                color: "#fff",
-                fontSize: 22,
-                fontFamily: "Arial",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: 2
-              }}
-            >
-              Энд таны сурталчилгаа байрлана
-            </div>
-            <div
-              style={{
-                marginTop: 10,
-                color: "#777",
-                fontFamily: "Arial",
-                fontSize: 13
-              }}
-            >
-              Inline banner · 1200 × 150
-            </div>
-          </div>
+        <section
+          style={{
+            marginTop: 32,
+            ...cardStyle,
+            minHeight: 130,
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          {renderBanner(
+            inlineBanner,
+            "Энд таны сурталчилгаа байрлана",
+            "Inline banner · 1200 × 150",
+            "150px"
+          )}
         </section>
 
-              <section style={{ marginTop: 50 }}>
+        <section style={{ marginTop: 50 }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 12,
-              marginBottom: 24
+              marginBottom: 24,
             }}
           >
             <span
@@ -462,13 +476,14 @@ const sidebarBanner =
                 width: 34,
                 height: 2,
                 background: "#e11212",
-                display: "block"
+                display: "block",
               }}
             />
+
             <h2
               style={{
                 fontSize: 34,
-                margin: 0
+                margin: 0,
               }}
             >
               Өмнөх мэдээнүүд
@@ -479,7 +494,7 @@ const sidebarBanner =
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: "0 40px"
+              gap: "0 40px",
             }}
           >
             {previous.map(([cat, title, date]) => (
@@ -494,16 +509,17 @@ const sidebarBanner =
                     gridTemplateColumns: "92px 1fr",
                     gap: 16,
                     padding: "18px 0",
-                    borderBottom: "1px solid rgba(255,255,255,.08)"
+                    borderBottom: "1px solid rgba(255,255,255,.08)",
                   }}
                 >
                   <div
                     style={{
                       height: 70,
                       background: "radial-gradient(circle,#444,#090909)",
-                      border: "1px solid rgba(255,255,255,.08)"
+                      border: "1px solid rgba(255,255,255,.08)",
                     }}
                   />
+
                   <div>
                     <div
                       style={{
@@ -511,26 +527,28 @@ const sidebarBanner =
                         fontSize: 12,
                         fontFamily: "Arial",
                         fontWeight: 700,
-                        textTransform: "uppercase"
+                        textTransform: "uppercase",
                       }}
                     >
                       {cat}
                     </div>
+
                     <div
                       style={{
                         marginTop: 6,
                         fontSize: 17,
-                        lineHeight: 1.35
+                        lineHeight: 1.35,
                       }}
                     >
                       {title}
                     </div>
+
                     <small
                       style={{
                         display: "block",
                         marginTop: 8,
                         color: "#777",
-                        fontFamily: "Arial"
+                        fontFamily: "Arial",
                       }}
                     >
                       {date}
@@ -547,7 +565,7 @@ const sidebarBanner =
             marginTop: 52,
             borderTop: "1px solid rgba(255,255,255,.1)",
             borderBottom: "1px solid rgba(255,255,255,.1)",
-            padding: "28px 0"
+            padding: "28px 0",
           }}
         >
           <div
@@ -556,7 +574,7 @@ const sidebarBanner =
               fontSize: 13,
               fontFamily: "Arial",
               textTransform: "uppercase",
-              marginBottom: 18
+              marginBottom: 18,
             }}
           >
             Хамтрагч байгууллагууд
@@ -566,7 +584,7 @@ const sidebarBanner =
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4,1fr)",
-              gap: 14
+              gap: 14,
             }}
           >
             {[1, 2, 3, 4].map((i) => (
@@ -579,7 +597,7 @@ const sidebarBanner =
                   color: "#777",
                   fontSize: 12,
                   fontFamily: "Arial",
-                  textTransform: "uppercase"
+                  textTransform: "uppercase",
                 }}
               >
                 Энд хамтрагч байгууллагын нэр байрлана
@@ -595,7 +613,7 @@ const sidebarBanner =
           padding: "34px 48px",
           color: "#666",
           fontFamily: "Arial",
-          fontSize: 13
+          fontSize: 13,
         }}
       >
         © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
