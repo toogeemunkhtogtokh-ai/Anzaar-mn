@@ -30,6 +30,7 @@ export default function EditPage({ params }) {
     );
 
     alert("Нийтлэл амжилттай шинэчлэгдлээ");
+    window.location.href = "/admin";
   };
 
   if (!article) return <div>Уншиж байна...</div>;
