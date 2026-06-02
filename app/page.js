@@ -282,7 +282,7 @@ export default function Home() {
             marginTop: 28
           }}
         >
-          {allArticles.slice(0, 3).map((item) => (
+          {allArticles.slice(1, 4).map((item) => (
             <Link
               key={item.id}
               href={`/article/${item.id}`}
