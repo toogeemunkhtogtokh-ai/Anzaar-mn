@@ -35,7 +35,7 @@ useEffect(() => {
         <h2 style={title}>Хяналтын самбар</h2>
 
         <div style={statsGrid}>
-          <Stat label="Нийт нийтлэл" value={posts.length}
+          <Stat label="Нийт нийтлэл" value={posts.length} color="#e22" />
           <Stat label="Нийт хандалт" value="215,430" color="#7b61ff" />
           <Stat label="Сэтгэгдэл" value="342" color="#7b61ff" />
           <Stat label="Бүртгэлтэй гишүүд" value="1,250" color="#c7962b" />
