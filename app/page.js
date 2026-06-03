@@ -910,13 +910,13 @@ minHeight: isMobile ? 96 : 110,
         </section>
 
         <section
-          style={{
-            marginTop: 52,
-            borderTop: "1px solid rgba(255,255,255,.1)",
-            borderBottom: "1px solid rgba(255,255,255,.1)",
-            padding: "28px 0",
-          }}
-        >
+  style={{
+    marginTop: isMobile ? 36 : 52,
+    borderTop: "1px solid rgba(255,255,255,.1)",
+    borderBottom: "1px solid rgba(255,255,255,.1)",
+    padding: isMobile ? "22px 0" : "28px 0",
+  }}
+>
           <div
             style={{
               color: "#aaa",
@@ -930,12 +930,12 @@ minHeight: isMobile ? 96 : 110,
           </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4,1fr)",
-              gap: 14,
-            }}
-          >
+  style={{
+    display: "grid",
+    gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)",
+    gap: isMobile ? 12 : 14,
+  }}
+>
             {activePartners.length > 0
               ? activePartners.slice(0, 8).map((partner) => (
                   <a
@@ -944,10 +944,10 @@ minHeight: isMobile ? 96 : 110,
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      border: "1px solid rgba(255,255,255,.1)",
-                      padding: "18px 12px",
-                      minHeight: 90,
-                      display: "flex",
+  border: "1px solid rgba(255,255,255,.1)",
+  padding: isMobile ? "14px 10px" : "18px 12px",
+  minHeight: isMobile ? 72 : 90,
+  display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       textAlign: "center",
@@ -985,9 +985,10 @@ minHeight: isMobile ? 96 : 110,
                   <div
                     key={i}
                     style={{
-                      border: "1px solid rgba(255,255,255,.1)",
-                      padding: "24px 12px",
-                      textAlign: "center",
+  border: "1px solid rgba(255,255,255,.1)",
+  padding: isMobile ? "18px 10px" : "24px 12px",
+  minHeight: isMobile ? 72 : "auto",
+  textAlign: "center",
                       color: "#777",
                       fontSize: 12,
                       fontFamily: "Arial",
