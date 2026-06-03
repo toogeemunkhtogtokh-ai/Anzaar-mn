@@ -285,24 +285,23 @@ export default function Home() {
           padding: "28px 24px 42px",
         }}
       >
-        <div
-          style={{
-            width: "760px",
-            maxWidth: "100%",
-            height: 76,
-            margin: "0 0 34px auto",
-            ...cardStyle,
-            padding: 0,
-            overflow: "hidden",
-          }}
-        >
-          {renderBanner(
-            topBanner,
-            "Энд таны сурталчилгаа байрлана",
-            "Top banner · 760 × 90",
-            "90px"
-          )}
-        </div>
+       <div
+  style={{
+    width: "100%",
+    height: 76,
+    margin: "0 0 34px 0",
+    ...cardStyle,
+    padding: 0,
+    overflow: "hidden",
+  }}
+>
+  {renderBanner(
+    topBanner,
+    "Энд таны сурталчилгаа байрлана",
+    "Top banner · 1200 × 90",
+    "90px"
+  )}
+</div>
 
         <div
           style={{
