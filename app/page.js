@@ -208,17 +208,21 @@ export default function Home() {
             {item?.label || "Нийгэм"}
           </div>
 
-          <h3
-            style={{
-              margin: 0,
-              color: "#fff",
-              fontSize: 16,
-              lineHeight: 1.25,
-              fontWeight: 700,
-            }}
-          >
-            {item?.title || "Онцлох мэдээ"}
-          </h3>
+       <h3
+  style={{
+    margin: 0,
+    color: "#fff",
+    fontSize: 16,
+    lineHeight: 1.25,
+    fontWeight: 700,
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  }}
+>
+  {item?.title || "Онцлох мэдээ"}
+</h3>
         </div>
       </article>
     </Link>
@@ -420,15 +424,19 @@ export default function Home() {
       {getArticle(4)?.label || "Нийгэм"}
     </div>
 
-    <h3
-      style={{
-        fontSize: 26,
-        lineHeight: 1.18,
-        margin: 0,
-        color: "#fff",
-        textShadow: "0 3px 16px rgba(0,0,0,.75)",
-      }}
-    >
+   <h3
+  style={{
+    fontSize: 26,
+    lineHeight: 1.18,
+    margin: 0,
+    color: "#fff",
+    textShadow: "0 3px 16px rgba(0,0,0,.75)",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  }}
+>
       {getArticle(4)?.title || "Онцлох мэдээ"}
     </h3>
   </div>
