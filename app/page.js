@@ -27,8 +27,8 @@ const [isMobile, setIsMobile] = useState(false);
   setPartners(savedPartners);
 
   const checkMobile = () => {
-    setIsMobile(window.innerWidth <= 768);
-  };
+  setIsMobile(window.innerWidth <= 1024);
+};
 
   checkMobile();
   window.addEventListener("resize", checkMobile);
@@ -271,13 +271,15 @@ const [isMobile, setIsMobile] = useState(false);
 
   return (
     <main
-      style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        fontFamily: "'Times New Roman', serif",
-      }}
-    >
+  style={{
+    background: "#000",
+    color: "#fff",
+    minHeight: "100vh",
+    width: "100%",
+    overflowX: "hidden",
+    fontFamily: "'Times New Roman', serif",
+  }}
+>
       <header
         style={{
           borderBottom: "1px solid rgba(255,255,255,.1)",
@@ -363,12 +365,14 @@ const [isMobile, setIsMobile] = useState(false);
       </header>
 
       <section
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "28px 24px 42px",
-        }}
-      >
+  style={{
+    maxWidth: 1240,
+    margin: "0 auto",
+    padding: isMobile ? "22px 16px 36px" : "28px 24px 42px",
+    width: "100%",
+    boxSizing: "border-box",
+  }}
+>
         <div
   style={{
 width: isMobile ? "100%" : "46%",
@@ -471,8 +475,9 @@ minWidth: isMobile ? "0" : 420,
   style={{
     display: "grid",
     gridTemplateColumns: isMobile ? "1fr" : "200px 1fr 200px",
-    gap: isMobile ? 22 : 32,
+    gap: isMobile ? 18 : 32,
     alignItems: "stretch",
+    width: "100%",
   }}
 >
           <aside
