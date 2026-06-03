@@ -390,15 +390,16 @@ export default function Home() {
 </div>
         </div>
 
-        <section
-          style={{
-            marginTop: 32,
-            ...cardStyle,
-            minHeight: 130,
-            padding: 0,
-            overflow: "hidden",
-          }}
-        >
+       <section
+  style={{
+    marginTop: 70,
+    ...cardStyle,
+    minHeight: 130,
+    padding: 0,
+    overflow: "hidden",
+    border: "1px solid rgba(255,255,255,.12)",
+  }}
+>
           {renderBanner(
             inlineBanner,
             "Энд таны сурталчилгаа байрлана",
