@@ -377,46 +377,64 @@ export default function Home() {
               }}
             >
               <article
-                style={{
-                  ...cardStyle,
-                  height: 190,
-                  padding: 0,
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  backgroundImage: `url(${getArticle(4)?.image || "/hero-main.png"})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: "rgba(0,0,0,0.45)",
-                  backgroundBlendMode: "multiply",
-                  display: "flex",
-                  alignItems: "flex-end",
-                }}
-              >
-                <div style={{ padding: 22 }}>
-                  <div
-                    style={{
-                      color: "#e11212",
-                      fontSize: 12,
-                      fontFamily: "Arial",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {getArticle(4)?.label || "Нийгэм"}
-                  </div>
+  style={{
+    ...cardStyle,
+    height: 190,
+    padding: 0,
+    overflow: "hidden",
+    cursor: "pointer",
+    backgroundImage: `url(${getArticle(4)?.image || "/hero-main.png"})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    position: "relative",
+  }}
+>
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      background:
+        "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.78) 100%)",
+      zIndex: 1,
+    }}
+  />
 
-                  <h3
-                    style={{
-                      fontSize: 28,
-                      lineHeight: 1.2,
-                      margin: "8px 0 0",
-                    }}
-                  >
-                    {getArticle(4)?.title || "Онцлох мэдээ"}
-                  </h3>
-                </div>
-              </article>
+  <div
+    style={{
+      position: "absolute",
+      left: 22,
+      right: 22,
+      bottom: 20,
+      zIndex: 2,
+    }}
+  >
+    <div
+      style={{
+        color: "#e11212",
+        fontSize: 12,
+        fontFamily: "Arial",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        marginBottom: 8,
+      }}
+    >
+      {getArticle(4)?.label || "Нийгэм"}
+    </div>
+
+    <h3
+      style={{
+        fontSize: 26,
+        lineHeight: 1.18,
+        margin: 0,
+        color: "#fff",
+        textShadow: "0 3px 16px rgba(0,0,0,.75)",
+      }}
+    >
+      {getArticle(4)?.title || "Онцлох мэдээ"}
+    </h3>
+  </div>
+</article>
             </Link>
 
             <Link
