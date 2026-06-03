@@ -112,16 +112,18 @@ const [searchQuery, setSearchQuery] = useState("");
             height: "100%",
           }}
         >
-          <img
-            src={banner.image}
-            alt={banner.title}
-            style={{
-              width: "100%",
-              height: imageHeight,
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
+<img
+  src={banner.image}
+  alt={banner.title}
+  style={{
+    width: "100%",
+    height: imageHeight,
+    objectFit: "contain",
+    objectPosition: "center center",
+    display: "block",
+    background: "#000",
+  }}
+/>
         </a>
       );
     }
@@ -698,16 +700,16 @@ const [searchQuery, setSearchQuery] = useState("");
           </aside>
         </div>
 
-        <section
-          style={{
-            marginTop: 34,
-            ...cardStyle,
-            height: 96,
-            padding: 0,
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,.12)",
-          }}
-        >
+       <section
+  style={{
+    marginTop: 34,
+    height: 120,
+    padding: 0,
+    overflow: "hidden",
+    border: "1px solid rgba(255,255,255,.12)",
+    background: "#000",
+  }}
+>
           {renderBanner(
             inlineBanner,
             "Энд таны сурталчилгаа байрлана",
