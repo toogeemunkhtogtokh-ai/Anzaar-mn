@@ -163,22 +163,20 @@ export default function Home() {
         display: "block",
       }}
     >
-      <article
-        style={{
-          ...cardStyle,
-          height,
-          padding: 0,
-          overflow: "hidden",
-          cursor: "pointer",
-          position: "relative",
-          backgroundImage: `url(${item?.image || "/hero-main.png"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: "rgba(0,0,0,0.35)",
-          backgroundBlendMode: "multiply",
-        }}
-      >
+ <article
+  style={{
+    height,
+    padding: 0,
+    overflow: "hidden",
+    cursor: "pointer",
+    position: "relative",
+    backgroundImage: `url(${item?.image || "/hero-main.png"})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundColor: "#111",
+  }}
+>
         <div
           style={{
             position: "absolute",
@@ -376,10 +374,10 @@ export default function Home() {
                 display: "block",
               }}
             >
-              <article
+  <article
   style={{
-    ...cardStyle,
     height: 190,
+    background: "#111",
     padding: 0,
     overflow: "hidden",
     cursor: "pointer",
@@ -445,10 +443,10 @@ export default function Home() {
                 display: "block",
               }}
             >
-             <article
+   <article
   style={{
-    ...cardStyle,
     height: 420,
+    background: "#111",
     padding: 0,
     display: "flex",
     flexDirection: "column",
