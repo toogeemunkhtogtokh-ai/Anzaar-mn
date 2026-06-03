@@ -282,22 +282,24 @@ export default function DynamicArticle({ params }) {
         </p>
 
         <div
-          style={{
-            background: "#080808",
-            overflow: "hidden",
-          }}
-        >
-          <img
-            src={article.image || "/hero-main.png"}
-            alt={article.title}
-            style={{
-              width: "100%",
-              maxHeight: isMobile ? 360 : 560,
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </div>
+  style={{
+    maxWidth: isMobile ? "100%" : 720,
+    margin: "0 auto",
+    background: "#080808",
+    overflow: "hidden",
+  }}
+>
+  <img
+    src={article.image || "/hero-main.png"}
+    alt={article.title}
+    style={{
+      width: "100%",
+      maxHeight: isMobile ? 300 : 420,
+      objectFit: "cover",
+      display: "block",
+    }}
+  />
+</div>
 
         <div
           style={{
