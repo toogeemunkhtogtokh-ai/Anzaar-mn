@@ -218,14 +218,14 @@ export default function Home() {
           padding: "42px 24px",
         }}
       >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "2fr 1fr",
-            gap: 24,
-            alignItems: "stretch",
-          }}
-        >
+       <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr",
+    gap: 24,
+    alignItems: "stretch",
+  }}
+>
       <Link
   href={`/article/${heroArticle?.id || ""}`}
   style={{
@@ -236,11 +236,10 @@ export default function Home() {
   }}
 >
             <article
-              style={{
-                ...cardStyle,
-                minHeight: 460,
-                height: "100%",
-                display: "flex",
+  style={{
+    ...cardStyle,
+    height: 560,
+    display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-end",
                 backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
@@ -325,7 +324,7 @@ export default function Home() {
     display: "flex",
     flexDirection: "column",
     gap: 24,
-    height: "100%",
+    height: 560,
     alignSelf: "stretch",
   }}
 >
