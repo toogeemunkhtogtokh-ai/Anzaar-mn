@@ -81,6 +81,33 @@ const [menuOpen, setMenuOpen] = useState(false);
       : item === "Спорт"
       ? "/category/sport"
       : "/category/soyol";
+const shareArticle = (platform) => {
+  const url = window.location.href;
+  const text = article?.title || "Anzaar.mn";
+
+  if (platform === "facebook") {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  if (platform === "x") {
+    window.open(
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        url
+      )}&text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  if (platform === "copy") {
+    navigator.clipboard.writeText(url);
+    alert("Линк хууллаа");
+  }
+};
 
   if (!article) {
     return (
@@ -468,6 +495,88 @@ const [menuOpen, setMenuOpen] = useState(false);
   </div>
 </aside>
         </div>
+<div
+  style={{
+    marginTop: 26,
+    borderTop: "1px solid rgba(255,255,255,.08)",
+    paddingTop: 22,
+  }}
+>
+  <h3
+    style={{
+      fontSize: 20,
+      margin: 0,
+      lineHeight: 1.2,
+    }}
+  >
+    Хуваалцах
+  </h3>
+
+  <div
+    style={{
+      width: 74,
+      height: 2,
+      background: "#e11212",
+      marginTop: 9,
+      marginBottom: 14,
+    }}
+  />
+
+  <div
+    style={{
+      display: "grid",
+      gap: 9,
+    }}
+  >
+    <button
+      onClick={() => shareArticle("facebook")}
+      style={{
+        border: "1px solid rgba(255,255,255,.12)",
+        background: "#111",
+        color: "#fff",
+        padding: "10px 12px",
+        cursor: "pointer",
+        textAlign: "left",
+        fontFamily: "Arial",
+        fontSize: 12,
+      }}
+    >
+      Facebook дээр хуваалцах
+    </button>
+
+    <button
+      onClick={() => shareArticle("x")}
+      style={{
+        border: "1px solid rgba(255,255,255,.12)",
+        background: "#111",
+        color: "#fff",
+        padding: "10px 12px",
+        cursor: "pointer",
+        textAlign: "left",
+        fontFamily: "Arial",
+        fontSize: 12,
+      }}
+    >
+      X дээр хуваалцах
+    </button>
+
+    <button
+      onClick={() => shareArticle("copy")}
+      style={{
+        border: "1px solid rgba(255,255,255,.12)",
+        background: "#111",
+        color: "#fff",
+        padding: "10px 12px",
+        cursor: "pointer",
+        textAlign: "left",
+        fontFamily: "Arial",
+        fontSize: 12,
+      }}
+    >
+      Линк хуулах
+    </button>
+  </div>
+</div>
 
         {relatedArticles.length > 0 && (
           <section
