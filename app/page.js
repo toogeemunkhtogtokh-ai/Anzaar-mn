@@ -364,16 +364,38 @@ const [searchQuery, setSearchQuery] = useState("");
     padding: "11px 14px",
   }}
 >
-  <span
-    style={{
-      color: "#aaa",
-      fontSize: 18,
-      fontFamily: "Arial",
-      lineHeight: 1,
-    }}
+ <span
+  style={{
+    width: 18,
+    height: 18,
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  }}
+>
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    🔍
-  </span>
+    <circle
+      cx="11"
+      cy="11"
+      r="7"
+      stroke="#fff"
+      strokeWidth="2"
+    />
+    <path
+      d="M16.5 16.5L21 21"
+      stroke="#fff"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+</span>
 
   <input
     type="text"
