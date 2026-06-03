@@ -7,8 +7,9 @@ import { articles } from "../lib/articles";
 
 export default function Home() {
   const [allArticles, setAllArticles] = useState(articles);
-  const [banners, setBanners] = useState([]);
-  const [partners, setPartners] = useState([]);
+const [banners, setBanners] = useState([]);
+const [partners, setPartners] = useState([]);
+const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const savedArticles =
@@ -46,7 +47,21 @@ export default function Home() {
     image: "/hero-main.png",
   };
 
-  const safeArticles = allArticles.length > 0 ? allArticles : [fallbackArticle];
+  const filteredArticles = allArticles.filter((article) => {
+  const query = searchQuery.toLowerCase().trim();
+
+  if (!query) return true;
+
+  return (
+    article.title?.toLowerCase().includes(query) ||
+    article.label?.toLowerCase().includes(query) ||
+    article.category?.toLowerCase().includes(query) ||
+    article.content?.toLowerCase().includes(query) ||
+    article.excerpt?.toLowerCase().includes(query)
+  );
+});
+  const safeArticles =
+  filteredArticles.length > 0 ? filteredArticles : [fallbackArticle];
 
   const getArticle = (index) => {
     return safeArticles[index % safeArticles.length] || fallbackArticle;
@@ -336,6 +351,64 @@ export default function Home() {
           padding: "28px 24px 42px",
         }}
       >
+        <div
+  style={{
+    marginBottom: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 18,
+    border: "1px solid rgba(255,255,255,.1)",
+    background: "rgba(255,255,255,.03)",
+    padding: "14px 16px",
+  }}
+>
+  <div
+    style={{
+      fontFamily: "Arial",
+      fontSize: 13,
+      color: "#aaa",
+      textTransform: "uppercase",
+      whiteSpace: "nowrap",
+    }}
+  >
+    Мэдээ хайх
+  </div>
+
+  <input
+    type="text"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    placeholder="Гарчиг, ангилал, түлхүүр үгээр хайх..."
+    style={{
+      width: "100%",
+      border: "none",
+      outline: "none",
+      background: "transparent",
+      color: "#fff",
+      fontSize: 15,
+      fontFamily: "Arial",
+    }}
+  />
+
+  {searchQuery && (
+    <button
+      onClick={() => setSearchQuery("")}
+      style={{
+        border: "none",
+        background: "#e11212",
+        color: "#fff",
+        padding: "8px 12px",
+        cursor: "pointer",
+        fontSize: 12,
+        fontFamily: "Arial",
+        textTransform: "uppercase",
+      }}
+    >
+      Clear
+    </button>
+  )}
+</div>
        <div
   style={{
     width: "100%",
