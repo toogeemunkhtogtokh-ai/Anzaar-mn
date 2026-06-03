@@ -623,34 +623,51 @@ export default function Home() {
 
         <section style={{ marginTop: 36 }}>
           <div
-            style={{
-              display: "inline-flex",
-              flexDirection: "column",
-              gap: 9,
-              marginBottom: 28,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 20,
-                margin: 0,
-                fontFamily: "Arial",
-                textTransform: "uppercase",
-                letterSpacing: ".02em",
-              }}
-            >
-              Өмнөх мэдээнүүд
-            </h2>
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 20,
+    marginBottom: 28,
+    borderBottom: "1px solid rgba(255,255,255,.1)",
+    paddingBottom: 14,
+  }}
+>
+  <div>
+    <h2
+      style={{
+        fontSize: 28,
+        margin: 0,
+        fontFamily: "'Times New Roman', serif",
+        lineHeight: 1.1,
+      }}
+    >
+      Өмнөх мэдээнүүд
+    </h2>
 
-            <span
-              style={{
-                width: 120,
-                height: 2,
-                background: "#e11212",
-                display: "block",
-              }}
-            />
-          </div>
+    <div
+      style={{
+        width: 120,
+        height: 2,
+        background: "#e11212",
+        marginTop: 10,
+      }}
+    />
+  </div>
+
+  <Link
+    href="/article"
+    style={{
+      color: "#aaa",
+      textDecoration: "none",
+      fontSize: 13,
+      fontFamily: "Arial",
+      textTransform: "uppercase",
+    }}
+  >
+    Бүгдийг үзэх →
+  </Link>
+</div>
 
           <div
             style={{
@@ -704,14 +721,18 @@ export default function Home() {
                     </div>
 
                     <h3
-                      style={{
-                        margin: "8px 0 8px",
-                        fontSize: 19,
-                        lineHeight: 1.35,
-                      }}
-                    >
-                      {item.title}
-                    </h3>
+  style={{
+    margin: "8px 0 8px",
+    fontSize: 19,
+    lineHeight: 1.35,
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  }}
+>
+  {item.title}
+</h3>
 
                     <small
                       style={{
