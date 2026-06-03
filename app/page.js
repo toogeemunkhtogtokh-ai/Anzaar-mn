@@ -305,7 +305,7 @@ const [isMobile, setIsMobile] = useState(false);
   width={260}
   height={69}
   style={{
-    width: isMobile ? "210px" : "240px",
+    width: isMobile ? "180px" : "240px",
     height: "auto",
     objectFit: "contain",
   }}
@@ -323,6 +323,8 @@ const [isMobile, setIsMobile] = useState(false);
     width: isMobile ? "100%" : "auto",
     overflowX: isMobile ? "auto" : "visible",
     paddingBottom: isMobile ? 6 : 0,
+    scrollbarWidth: "none",
+msOverflowStyle: "none",
   }}
 >
             {nav.map((item, i) => {
