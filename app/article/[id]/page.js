@@ -610,6 +610,7 @@ const shareArticle = (platform) => {
     </svg>
   </button>
 </div>
+</div>
 
         {relatedArticles.length > 0 && (
           <section
