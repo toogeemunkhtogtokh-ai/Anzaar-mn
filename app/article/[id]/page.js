@@ -8,11 +8,11 @@ import { articles } from "../../../lib/articles";
 export default function DynamicArticle({ params }) {
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const saved =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
-
+    const saved = JSON.parse(localStorage.getItem("anzaarArticles")) || [];
     const allArticles = [...saved, ...articles];
 
     const found = allArticles.find(
@@ -32,84 +32,342 @@ export default function DynamicArticle({ params }) {
 
       setRelatedArticles(related);
     }
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
   }, [params.id]);
+
+  const nav = [
+    "Нүүр",
+    "Нийгэм",
+    "Эдийн засаг",
+    "Эрх зүй",
+    "Эрүүл мэнд",
+    "Боловсрол",
+    "Сэтгэл зүй",
+    "Спорт",
+    "Соёл",
+  ];
+
+  const getHref = (item) =>
+    item === "Нүүр"
+      ? "/"
+      : item === "Нийгэм"
+      ? "/category/niigem"
+      : item === "Эдийн засаг"
+      ? "/category/ediinzasag"
+      : item === "Эрх зүй"
+      ? "/category/erhzui"
+      : item === "Эрүүл мэнд"
+      ? "/category/eruulmend"
+      : item === "Боловсрол"
+      ? "/category/bolovsrol"
+      : item === "Сэтгэл зүй"
+      ? "/category/setgelzui"
+      : item === "Спорт"
+      ? "/category/sport"
+      : "/category/soyol";
 
   if (!article) {
     return (
-      <main style={notFoundPage}>
-        <div>
-          <h1>Нийтлэл олдсонгүй</h1>
-          <Link href="/" style={backLink}>
-            ← Нүүр хуудас руу буцах
-          </Link>
-        </div>
+      <main
+        style={{
+          background: "#000",
+          color: "#fff",
+          minHeight: "100vh",
+          padding: 40,
+          fontFamily: "Arial, sans-serif",
+        }}
+      >
+        <h1>Нийтлэл олдсонгүй</h1>
+
+        <Link
+          href="/"
+          style={{
+            color: "#aaa",
+            textDecoration: "none",
+            fontSize: 15,
+          }}
+        >
+          ← Нүүр хуудас руу буцах
+        </Link>
       </main>
     );
   }
 
   return (
-    <main style={page}>
-      <header style={header}>
-  <div style={headerInner}>
-   <Link href="/" style={logoLink}>
-  <Image
-    src="/anzaar-logo-horizontal.png"
-    alt="Anzaar.mn Logo"
-    width={320}
-    height={85}
-    style={{
-      width: "260px",
-      height: "auto",
-      objectFit: "contain",
-    }}
-  />
-</Link>
+    <main
+      style={{
+        background: "#000",
+        color: "#fff",
+        minHeight: "100vh",
+        width: "100%",
+        overflowX: "hidden",
+        fontFamily: "'Times New Roman', serif",
+      }}
+    >
+      <header
+        style={{
+          borderBottom: "1px solid rgba(255,255,255,.1)",
+          padding: "18px 0 20px",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            padding: isMobile ? "0 16px" : "0 24px",
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "space-between",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: isMobile ? 18 : 30,
+          }}
+        >
+          <div
+            style={{
+              width: isMobile ? "100%" : "auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Link href="/" style={{ display: "block" }}>
+              <Image
+                src="/anzaar-logo-horizontal.png"
+                alt="Anzaar.mn Logo"
+                width={260}
+                height={69}
+                style={{
+                  width: isMobile ? "180px" : "240px",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+            </Link>
 
-  </div>
-</header>
+            {isMobile && (
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                style={{
+                  width: 42,
+                  height: 42,
+                  border: "1px solid rgba(255,255,255,.15)",
+                  background: "#0f0f0f",
+                  color: "#fff",
+                  fontSize: 22,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {menuOpen ? "×" : "☰"}
+              </button>
+            )}
+          </div>
 
-      <section style={container}>
-        <Link href="/" style={backLink}>
+          <nav
+            style={{
+              display: isMobile ? (menuOpen ? "flex" : "none") : "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? 14 : 22,
+              fontSize: 13,
+              fontFamily: "Arial",
+              textTransform: "uppercase",
+              whiteSpace: isMobile ? "normal" : "nowrap",
+              width: isMobile ? "100%" : "auto",
+              paddingTop: isMobile ? 10 : 0,
+              paddingBottom: isMobile ? 8 : 0,
+              borderTop: isMobile
+                ? "1px solid rgba(255,255,255,.08)"
+                : "none",
+            }}
+          >
+            {nav.map((item, i) => (
+              <Link
+                key={item}
+                href={getHref(item)}
+                style={{
+                  textDecoration: "none",
+                  color: i === 0 ? "#fff" : "#aaa",
+                  borderBottom: i === 0 ? "2px solid #e11212" : "none",
+                  paddingBottom: 8,
+                }}
+              >
+                {item}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </header>
+
+      <section
+        style={{
+          maxWidth: 980,
+          margin: "0 auto",
+          padding: isMobile ? "34px 18px 60px" : "58px 24px 90px",
+          boxSizing: "border-box",
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            color: "#aaa",
+            textDecoration: "none",
+            fontFamily: "Arial",
+            fontSize: isMobile ? 13 : 14,
+          }}
+        >
           ← Нүүр хуудас
         </Link>
 
-        <div style={metaRow}>
-          <span style={categoryLabel}>{article.label}</span>
-          <span style={dot}>•</span>
-          <span>{article.date}</span>
-          <span style={dot}>•</span>
-          <span>Anzaar.mn редакц</span>
+        <div
+          style={{
+            marginTop: isMobile ? 28 : 42,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 10,
+            alignItems: "center",
+            color: "#999",
+            fontFamily: "Arial",
+            fontSize: isMobile ? 12 : 13,
+            textTransform: "uppercase",
+          }}
+        >
+          <span
+            style={{
+              color: "#e11212",
+              fontWeight: 700,
+            }}
+          >
+            {article.label || "Нийгэм"}
+          </span>
+          <span style={{ color: "#444" }}>•</span>
+          <span>{article.date || "2026.06.18"}</span>
+          <span style={{ color: "#444" }}>•</span>
+          <span>Anzaar.mn</span>
         </div>
 
-        <h1 style={title}>{article.title}</h1>
+        <h1
+          style={{
+            fontSize: isMobile ? 38 : 64,
+            lineHeight: 1.05,
+            margin: isMobile ? "18px 0 16px" : "24px 0 20px",
+            maxWidth: 900,
+          }}
+        >
+          {article.title}
+        </h1>
 
-        <p style={excerpt}>
+        <p
+          style={{
+            maxWidth: 760,
+            fontSize: isMobile ? 18 : 23,
+            lineHeight: 1.6,
+            color: "#bbb",
+            margin: isMobile ? "0 0 28px" : "0 0 42px",
+          }}
+        >
           {article.excerpt ||
             "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
         </p>
 
-        <div style={coverWrap}>
+        <div
+          style={{
+            background: "#080808",
+            overflow: "hidden",
+          }}
+        >
           <img
             src={article.image || "/hero-main.png"}
             alt={article.title}
-            style={coverImage}
+            style={{
+              width: "100%",
+              maxHeight: isMobile ? 360 : 560,
+              objectFit: "cover",
+              display: "block",
+            }}
           />
         </div>
 
-        <div style={contentGrid}>
-          <aside style={shareBox}>
-            <div style={shareTitle}>Хуваалцах</div>
-            <button style={shareButton}>Facebook</button>
-            <button style={shareButton}>X</button>
-            <button style={shareButton}>Copy link</button>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "160px 1fr",
+            gap: isMobile ? 28 : 48,
+            marginTop: isMobile ? 34 : 56,
+          }}
+        >
+          <aside
+            style={{
+              display: isMobile ? "none" : "block",
+              position: "sticky",
+              top: 24,
+              alignSelf: "start",
+              border: "1px solid rgba(255,255,255,.1)",
+              background: "#080808",
+              padding: 18,
+              fontFamily: "Arial",
+            }}
+          >
+            <div
+              style={{
+                color: "#777",
+                fontSize: 12,
+                textTransform: "uppercase",
+                marginBottom: 14,
+              }}
+            >
+              Хуваалцах
+            </div>
+
+            {["Facebook", "X", "Copy link"].map((item) => (
+              <button
+                key={item}
+                style={{
+                  width: "100%",
+                  display: "block",
+                  background: "#111",
+                  color: "#fff",
+                  border: "1px solid rgba(255,255,255,.12)",
+                  padding: 11,
+                  marginBottom: 10,
+                  cursor: "pointer",
+                  textAlign: "left",
+                }}
+              >
+                {item}
+              </button>
+            ))}
           </aside>
 
-          <article style={articleBody}>
-            {article.content
+          <article
+            style={{
+              maxWidth: 760,
+            }}
+          >
+            {(article.content || "")
               .split("\n")
               .filter((paragraph) => paragraph.trim() !== "")
               .map((paragraph, index) => (
-                <p key={index} style={paragraphStyle}>
+                <p
+                  key={index}
+                  style={{
+                    fontSize: isMobile ? 18 : 22,
+                    lineHeight: isMobile ? 1.75 : 1.85,
+                    color: "#ddd",
+                    margin: "0 0 28px",
+                  }}
+                >
                   {paragraph}
                 </p>
               ))}
@@ -117,247 +375,118 @@ export default function DynamicArticle({ params }) {
         </div>
 
         {relatedArticles.length > 0 && (
-          <section style={relatedSection}>
-            <div style={sectionHead}>
-              <span style={redLine}></span>
-              <h2 style={relatedTitle}>Холбоотой нийтлэлүүд</h2>
+          <section
+            style={{
+              marginTop: isMobile ? 54 : 80,
+              borderTop: "1px solid rgba(255,255,255,.1)",
+              paddingTop: isMobile ? 30 : 42,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 28,
+              }}
+            >
+              <span
+                style={{
+                  width: 34,
+                  height: 2,
+                  background: "#e11212",
+                  display: "block",
+                }}
+              />
+
+              <h2
+                style={{
+                  fontSize: isMobile ? 26 : 34,
+                  margin: 0,
+                }}
+              >
+                Холбоотой нийтлэлүүд
+              </h2>
             </div>
 
-            <div style={relatedGrid}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
+                gap: isMobile ? 18 : 22,
+              }}
+            >
               {relatedArticles.map((item) => (
                 <Link
                   key={item.id}
                   href={`/article/${item.id}`}
-                  style={relatedCard}
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    border: "1px solid rgba(255,255,255,.1)",
+                    background: "linear-gradient(180deg,#111,#050505)",
+                    padding: 18,
+                  }}
                 >
                   <div
                     style={{
-                      ...relatedImage,
+                      height: isMobile ? 170 : 150,
                       backgroundImage: `url(${item.image || "/hero-main.png"})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      marginBottom: 16,
                     }}
                   />
-                  <div style={categoryLabel}>{item.label}</div>
-                  <h3 style={relatedCardTitle}>{item.title}</h3>
-                  <small style={relatedDate}>{item.date}</small>
+
+                  <div
+                    style={{
+                      color: "#e11212",
+                      fontFamily: "Arial",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {item.label}
+                  </div>
+
+                  <h3
+                    style={{
+                      fontSize: isMobile ? 22 : 23,
+                      lineHeight: 1.25,
+                      margin: "10px 0",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <small
+                    style={{
+                      color: "#777",
+                      fontFamily: "Arial",
+                    }}
+                  >
+                    {item.date}
+                  </small>
                 </Link>
               ))}
             </div>
           </section>
         )}
       </section>
+
+      <footer
+        style={{
+          borderTop: "1px solid rgba(255,255,255,.1)",
+          padding: isMobile ? "28px 24px" : "34px 48px",
+          color: "#666",
+          fontFamily: "Arial",
+          fontSize: 13,
+          textAlign: isMobile ? "center" : "left",
+        }}
+      >
+        © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+      </footer>
     </main>
   );
 }
-
-const page = {
-  background: "#000",
-  color: "#fff",
-  minHeight: "100vh",
-  fontFamily: "Times New Roman, serif",
-};
-
-const notFoundPage = {
-  background: "#000",
-  color: "#fff",
-  minHeight: "100vh",
-  padding: 40,
-  fontFamily: "Arial, sans-serif",
-};
-
-const header = {
-  height: "92px",
-  borderBottom: "1px solid rgba(255,255,255,.1)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontFamily: "Arial, sans-serif",
-};
-
-const headerInner = {
-  width: "100%",
-  maxWidth: "1180px",
-  padding: "0 24px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-const logoLink = {
-  color: "#fff",
-  textDecoration: "none",
-  fontSize: "28px",
-  fontWeight: 700,
-};
-
-const homeLink = {
-  color: "#aaa",
-  textDecoration: "none",
-  fontSize: "15px",
-};
-
-const container = {
-  maxWidth: "1120px",
-  margin: "0 auto",
-  padding: "64px 24px 90px",
-};
-
-const backLink = {
-  color: "#999",
-  textDecoration: "none",
-  fontFamily: "Arial, sans-serif",
-  fontSize: "15px",
-};
-
-const metaRow = {
-  display: "flex",
-  gap: "10px",
-  alignItems: "center",
-  color: "#999",
-  fontFamily: "Arial, sans-serif",
-  fontSize: "14px",
-  marginTop: "36px",
-  textTransform: "uppercase",
-};
-
-const categoryLabel = {
-  color: "#e11212",
-  fontFamily: "Arial, sans-serif",
-  fontWeight: 700,
-  textTransform: "uppercase",
-};
-
-const dot = {
-  color: "#444",
-};
-
-const title = {
-  fontSize: "68px",
-  lineHeight: 1.05,
-  maxWidth: "920px",
-  margin: "24px 0 20px",
-};
-
-const excerpt = {
-  maxWidth: "820px",
-  fontSize: "24px",
-  lineHeight: 1.6,
-  color: "#bbb",
-  margin: "0 0 42px",
-};
-
-const coverWrap = {
-  border: "1px solid rgba(255,255,255,.12)",
-  background: "#080808",
-};
-
-const coverImage = {
-  width: "100%",
-  maxHeight: "560px",
-  objectFit: "cover",
-  display: "block",
-};
-
-const contentGrid = {
-  display: "grid",
-  gridTemplateColumns: "180px 1fr",
-  gap: "48px",
-  marginTop: "56px",
-};
-
-const shareBox = {
-  position: "sticky",
-  top: "24px",
-  alignSelf: "start",
-  border: "1px solid rgba(255,255,255,.1)",
-  background: "#080808",
-  padding: "20px",
-  fontFamily: "Arial, sans-serif",
-};
-
-const shareTitle = {
-  color: "#777",
-  fontSize: "13px",
-  textTransform: "uppercase",
-  marginBottom: "14px",
-};
-
-const shareButton = {
-  width: "100%",
-  display: "block",
-  background: "#111",
-  color: "#fff",
-  border: "1px solid rgba(255,255,255,.12)",
-  padding: "12px",
-  marginBottom: "10px",
-  cursor: "pointer",
-  textAlign: "left",
-};
-
-const articleBody = {
-  maxWidth: "760px",
-};
-
-const paragraphStyle = {
-  fontSize: "23px",
-  lineHeight: 1.85,
-  color: "#ddd",
-  margin: "0 0 28px",
-};
-
-const relatedSection = {
-  marginTop: "80px",
-  borderTop: "1px solid rgba(255,255,255,.1)",
-  paddingTop: "42px",
-};
-
-const sectionHead = {
-  display: "flex",
-  alignItems: "center",
-  gap: "12px",
-  marginBottom: "28px",
-};
-
-const redLine = {
-  width: "34px",
-  height: "2px",
-  background: "#e11212",
-  display: "block",
-};
-
-const relatedTitle = {
-  fontSize: "34px",
-  margin: 0,
-};
-
-const relatedGrid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(3,1fr)",
-  gap: "22px",
-};
-
-const relatedCard = {
-  color: "#fff",
-  textDecoration: "none",
-  border: "1px solid rgba(255,255,255,.1)",
-  background: "linear-gradient(180deg,#111,#050505)",
-  padding: "20px",
-};
-
-const relatedImage = {
-  height: "150px",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  marginBottom: "18px",
-  border: "1px solid rgba(255,255,255,.08)",
-};
-
-const relatedCardTitle = {
-  fontSize: "24px",
-  lineHeight: 1.25,
-  minHeight: "90px",
-};
-
-const relatedDate = {
-  color: "#777",
-  fontFamily: "Arial, sans-serif",
-};
