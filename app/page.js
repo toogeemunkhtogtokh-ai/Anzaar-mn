@@ -746,14 +746,14 @@ minWidth: isMobile ? "0" : 420,
           )}
         </section>
 
-        <section style={{ marginTop: 36 }}>
+        <section style={{ marginTop: isMobile ? 28 : 36 }}>
           <div
   style={{
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     gap: isMobile ? 12 : 20,
-    marginBottom: 28,
+    marginBottom: isMobile ? 22 : 28,
     borderBottom: "1px solid rgba(255,255,255,.1)",
     paddingBottom: 14,
   }}
