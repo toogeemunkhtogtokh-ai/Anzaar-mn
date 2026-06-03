@@ -376,7 +376,7 @@ export default function DynamicArticle({ params }) {
               style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
-                gap: isMobile ? 18 : 22,
+                gap: isMobile ? 14 : 22,
               }}
             >
               {relatedArticles.map((item) => (
@@ -388,12 +388,12 @@ export default function DynamicArticle({ params }) {
                     textDecoration: "none",
                     border: "1px solid rgba(255,255,255,.1)",
                     background: "linear-gradient(180deg,#111,#050505)",
-                    padding: isMobile ? 14 : 18,
+                    padding: isMobile ? 12 : 18,
                   }}
                 >
                   <div
                     style={{
-                      height: isMobile ? 140 : 150,
+                      height: isMobile ? 110 : 150,
                       backgroundImage: `url(${item.image || "/hero-main.png"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
@@ -415,9 +415,9 @@ export default function DynamicArticle({ params }) {
 
                   <h3
                     style={{
-                      fontSize: isMobile ? 22 : 23,
+                      fontSize: isMobile ? 19 : 23,
                       lineHeight: 1.25,
-                      margin: "10px 0",
+                      margin: isMobile ? "7px 0" : "10px 0",
                     }}
                   >
                     {item.title}
