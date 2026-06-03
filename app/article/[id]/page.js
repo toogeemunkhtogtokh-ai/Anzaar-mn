@@ -283,7 +283,7 @@ export default function DynamicArticle({ params }) {
 
         <div
   style={{
-    maxWidth: isMobile ? "100%" : 720,
+    maxWidth: isMobile ? "100%" : 680,
     margin: "0 auto",
     background: "#080808",
     overflow: "hidden",
