@@ -10,21 +10,33 @@ export default function Home() {
 const [banners, setBanners] = useState([]);
 const [partners, setPartners] = useState([]);
 const [searchQuery, setSearchQuery] = useState("");
+const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const savedArticles =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+  const savedArticles =
+    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
-    const savedBanners =
-      JSON.parse(localStorage.getItem("anzaarBanners")) || [];
+  const savedBanners =
+    JSON.parse(localStorage.getItem("anzaarBanners")) || [];
 
-    const savedPartners =
-      JSON.parse(localStorage.getItem("anzaarPartners")) || [];
+  const savedPartners =
+    JSON.parse(localStorage.getItem("anzaarPartners")) || [];
 
-    setAllArticles([...savedArticles, ...articles]);
-    setBanners(savedBanners);
-    setPartners(savedPartners);
-  }, []);
+  setAllArticles([...savedArticles, ...articles]);
+  setBanners(savedBanners);
+  setPartners(savedPartners);
+
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+
+  return () => {
+    window.removeEventListener("resize", checkMobile);
+  };
+}, []);
 
   const nav = [
     "Нүүр",
@@ -273,40 +285,44 @@ const [searchQuery, setSearchQuery] = useState("");
         }}
       >
         <div
-          style={{
-            maxWidth: 1240,
-            margin: "0 auto",
-            padding: "0 24px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 30,
-          }}
-        >
+  style={{
+    maxWidth: 1240,
+    margin: "0 auto",
+    padding: isMobile ? "0 16px" : "0 24px",
+    display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    justifyContent: "space-between",
+    alignItems: isMobile ? "flex-start" : "center",
+    gap: isMobile ? 18 : 30,
+  }}
+>
           <Link href="/" style={{ display: "block" }}>
-            <Image
-              src="/anzaar-logo-horizontal.png"
-              alt="Anzaar.mn Logo"
-              width={260}
-              height={69}
-              style={{
-                width: "240px",
-                height: "auto",
-                objectFit: "contain",
-              }}
-            />
+           <Image
+  src="/anzaar-logo-horizontal.png"
+  alt="Anzaar.mn Logo"
+  width={260}
+  height={69}
+  style={{
+    width: isMobile ? "210px" : "240px",
+    height: "auto",
+    objectFit: "contain",
+  }}
+/>
           </Link>
 
           <nav
-            style={{
-              display: "flex",
-              gap: 22,
-              fontSize: 13,
-              fontFamily: "Arial",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}
-          >
+  style={{
+    display: "flex",
+    gap: isMobile ? 18 : 22,
+    fontSize: isMobile ? 12 : 13,
+    fontFamily: "Arial",
+    textTransform: "uppercase",
+    whiteSpace: "nowrap",
+    width: isMobile ? "100%" : "auto",
+    overflowX: isMobile ? "auto" : "visible",
+    paddingBottom: isMobile ? 6 : 0,
+  }}
+>
             {nav.map((item, i) => {
               const href =
                 item === "Нүүр"
@@ -355,8 +371,8 @@ const [searchQuery, setSearchQuery] = useState("");
       >
         <div
   style={{
-    width: "46%",
-    minWidth: 420,
+width: isMobile ? "100%" : "46%",
+minWidth: isMobile ? "0" : 420,
     margin: "0 auto 28px",
     display: "flex",
     alignItems: "center",
@@ -452,18 +468,19 @@ const [searchQuery, setSearchQuery] = useState("");
 </div>
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "200px 1fr 200px",
-            gap: 32,
-            alignItems: "stretch",
-          }}
-        >
+  style={{
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "200px 1fr 200px",
+    gap: isMobile ? 22 : 32,
+    alignItems: "stretch",
+  }}
+>
           <aside
             style={{
               display: "grid",
-              gridTemplateRows: "repeat(3, 1fr)",
-              gap: 28,
+gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
+gridTemplateColumns: isMobile ? "1fr" : "none",
+gap: isMobile ? 18 : 28,
             }}
           >
             <MiniVisualCard item={getArticle(1)} height={190} />
@@ -472,12 +489,12 @@ const [searchQuery, setSearchQuery] = useState("");
           </aside>
 
           <section
-            style={{
-              display: "grid",
-              gridTemplateRows: "190px 1fr",
-              gap: 28,
-            }}
-          >
+  style={{
+    display: "grid",
+    gridTemplateRows: isMobile ? "180px auto" : "190px 1fr",
+    gap: isMobile ? 18 : 28,
+  }}
+>
             <Link
               href={`/article/${getArticle(4)?.id || ""}`}
               style={{
@@ -573,7 +590,7 @@ const [searchQuery, setSearchQuery] = useState("");
             >
    <article
   style={{
-    height: 420,
+    height: isMobile ? 360 : 420,
     background: "#111",
     padding: 0,
     display: "flex",
@@ -690,8 +707,9 @@ const [searchQuery, setSearchQuery] = useState("");
           <aside
             style={{
               display: "grid",
-              gridTemplateRows: "repeat(3, 1fr)",
-              gap: 28,
+gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
+gridTemplateColumns: isMobile ? "1fr" : "none",
+gap: isMobile ? 18 : 28,
             }}
           >
             <MiniVisualCard item={getArticle(5)} height={190} />
@@ -767,12 +785,12 @@ const [searchQuery, setSearchQuery] = useState("");
 </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "28px 52px",
-            }}
-          >
+  style={{
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+    gap: isMobile ? "24px" : "28px 52px",
+  }}
+>
             {previousArticles.map((item, index) => (
               <Link
                 key={`${item.id}-${index}`}
@@ -785,7 +803,7 @@ const [searchQuery, setSearchQuery] = useState("");
                 <article
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "190px 1fr",
+                    gridTemplateColumns: isMobile ? "120px 1fr" : "190px 1fr",
                     gap: 22,
                     alignItems: "center",
                     minHeight: 110,
