@@ -752,7 +752,7 @@ minWidth: isMobile ? "0" : 420,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 20,
+    gap: isMobile ? 12 : 20,
     marginBottom: 28,
     borderBottom: "1px solid rgba(255,255,255,.1)",
     paddingBottom: 14,
@@ -760,15 +760,16 @@ minWidth: isMobile ? "0" : 420,
 >
   <div>
     <h2
-      style={{
-        fontSize: 28,
-        margin: 0,
-        fontFamily: "'Times New Roman', serif",
-        lineHeight: 1.1,
-      }}
-    >
-      Өмнөх мэдээнүүд
-    </h2>
+  style={{
+    fontSize: isMobile ? 24 : 28,
+    margin: 0,
+    fontFamily: "'Times New Roman', serif",
+    lineHeight: 1.1,
+    whiteSpace: "nowrap",
+  }}
+>
+  Өмнөх мэдээнүүд
+</h2>
 
     <div
       style={{
@@ -781,17 +782,18 @@ minWidth: isMobile ? "0" : 420,
   </div>
 
   <Link
-    href="/article"
-    style={{
-      color: "#aaa",
-      textDecoration: "none",
-      fontSize: 13,
-      fontFamily: "Arial",
-      textTransform: "uppercase",
-    }}
-  >
-    Бүгдийг үзэх →
-  </Link>
+  href="/article"
+  style={{
+    color: "#aaa",
+    textDecoration: "none",
+    fontSize: isMobile ? 12 : 13,
+    fontFamily: "Arial",
+    textTransform: "uppercase",
+    whiteSpace: "nowrap",
+  }}
+>
+  Бүгдийг үзэх →
+</Link>
 </div>
 
           <div
