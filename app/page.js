@@ -11,6 +11,7 @@ const [banners, setBanners] = useState([]);
 const [partners, setPartners] = useState([]);
 const [searchQuery, setSearchQuery] = useState("");
 const [isMobile, setIsMobile] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
   const savedArticles =
@@ -298,33 +299,62 @@ const [isMobile, setIsMobile] = useState(false);
     gap: isMobile ? 18 : 30,
   }}
 >
-          <Link href="/" style={{ display: "block" }}>
-           <Image
-  src="/anzaar-logo-horizontal.png"
-  alt="Anzaar.mn Logo"
-  width={260}
-  height={69}
+          <div
   style={{
-    width: isMobile ? "180px" : "240px",
-    height: "auto",
-    objectFit: "contain",
+    width: isMobile ? "100%" : "auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   }}
-/>
-          </Link>
+>
+  <Link href="/" style={{ display: "block" }}>
+    <Image
+      src="/anzaar-logo-horizontal.png"
+      alt="Anzaar.mn Logo"
+      width={260}
+      height={69}
+      style={{
+        width: isMobile ? "180px" : "240px",
+        height: "auto",
+        objectFit: "contain",
+      }}
+    />
+  </Link>
+
+  {isMobile && (
+    <button
+      onClick={() => setMenuOpen(!menuOpen)}
+      style={{
+        width: 42,
+        height: 42,
+        border: "1px solid rgba(255,255,255,.15)",
+        background: "#0f0f0f",
+        color: "#fff",
+        fontSize: 22,
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {menuOpen ? "×" : "☰"}
+    </button>
+  )}
+</div>
 
           <nav
   style={{
-    display: "flex",
-    gap: isMobile ? 18 : 22,
-    fontSize: isMobile ? 12 : 13,
+    display: isMobile ? (menuOpen ? "flex" : "none") : "flex",
+    flexDirection: isMobile ? "column" : "row",
+    gap: isMobile ? 14 : 22,
+    fontSize: isMobile ? 13 : 13,
     fontFamily: "Arial",
     textTransform: "uppercase",
-    whiteSpace: "nowrap",
+    whiteSpace: isMobile ? "normal" : "nowrap",
     width: isMobile ? "100%" : "auto",
-    overflowX: isMobile ? "auto" : "visible",
-    paddingBottom: isMobile ? 6 : 0,
-    scrollbarWidth: "none",
-msOverflowStyle: "none",
+    paddingTop: isMobile ? 10 : 0,
+    paddingBottom: isMobile ? 8 : 0,
+    borderTop: isMobile ? "1px solid rgba(255,255,255,.08)" : "none",
   }}
 >
             {nav.map((item, i) => {
@@ -377,8 +407,10 @@ msOverflowStyle: "none",
 >
         <div
   style={{
-width: isMobile ? "100%" : "46%",
-minWidth: isMobile ? "0" : 420,
+    width: isMobile ? "100%" : "46%",
+    minWidth: isMobile ? "0" : 420,
+    maxWidth: "100%",
+    boxSizing: "border-box",
     margin: "0 auto 28px",
     display: "flex",
     alignItems: "center",
@@ -428,6 +460,7 @@ minWidth: isMobile ? "0" : 420,
     placeholder="Гарчиг, ангилал, түлхүүр үгээр хайх..."
     style={{
       width: "100%",
+      minWidth: 0,
       border: "none",
       outline: "none",
       background: "transparent",
