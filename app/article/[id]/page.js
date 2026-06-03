@@ -22,16 +22,22 @@ export default function DynamicArticle({ params }) {
     setArticle(found || null);
 
     if (found) {
-      const related = allArticles
-        .filter(
-          (item) =>
-            item.category === found.category &&
-            String(item.id) !== String(found.id)
-        )
-        .slice(0, 3);
+  const sameCategory = allArticles
+    .filter(
+      (item) =>
+        item.category === found.category &&
+        String(item.id) !== String(found.id)
+    )
+    .slice(0, 3);
 
-      setRelatedArticles(related);
-    }
+  const latestArticles = allArticles
+    .filter((item) => String(item.id) !== String(found.id))
+    .slice(0, 3);
+
+  setRelatedArticles(
+    sameCategory.length > 0 ? sameCategory : latestArticles
+  );
+}
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
