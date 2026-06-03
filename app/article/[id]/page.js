@@ -289,8 +289,9 @@ const [menuOpen, setMenuOpen] = useState(false);
 
         <div
   style={{
-    maxWidth: isMobile ? "100%" : 680,
-    margin: isMobile ? "0 auto" : "0",
+    width: "100%",
+    maxWidth: isMobile ? "100%" : 1040,
+    margin: "0 auto",
     background: "#080808",
     overflow: "hidden",
   }}
@@ -300,7 +301,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     alt={article.title}
     style={{
       width: "100%",
-      maxHeight: isMobile ? 300 : 420,
+      maxHeight: isMobile ? 300 : 520,
       objectFit: "cover",
       display: "block",
     }}
