@@ -226,10 +226,15 @@ export default function Home() {
             alignItems: "stretch",
           }}
         >
-          <Link
-            href={`/article/${heroArticle?.id || ""}`}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
+      <Link
+  href={`/article/${heroArticle?.id || ""}`}
+  style={{
+    textDecoration: "none",
+    color: "inherit",
+    display: "block",
+    height: "100%",
+  }}
+>
             <article
               style={{
                 ...cardStyle,
@@ -315,13 +320,13 @@ export default function Home() {
             </article>
           </Link>
 
- <div
+<div
   style={{
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    gridTemplateRows: "1fr 1fr",
+    display: "flex",
+    flexDirection: "column",
     gap: 24,
     height: "100%",
+    alignSelf: "stretch",
   }}
 >
   {allArticles.slice(1, 3).map((item) => (
@@ -331,8 +336,8 @@ export default function Home() {
       style={{
         textDecoration: "none",
         color: "inherit",
-        height: "100%",
         display: "block",
+        flex: 1,
       }}
     >
       <article
@@ -343,6 +348,7 @@ export default function Home() {
           flexDirection: "column",
           cursor: "pointer",
           padding: 16,
+          boxSizing: "border-box",
         }}
       >
         <div
@@ -354,6 +360,7 @@ export default function Home() {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
+            flexShrink: 0,
           }}
         />
 
