@@ -491,11 +491,12 @@ minWidth: isMobile ? "0" : 420,
     order: isMobile ? 2 : 1,
   }}
 >
-            <MiniVisualCard item={getArticle(1)} height={isMobile ? 180 : 190} />
+           <MiniVisualCard item={getArticle(1)} height={isMobile ? 180 : 190} />
 <MiniVisualCard item={getArticle(2)} height={isMobile ? 180 : 190} />
 <MiniVisualCard item={getArticle(3)} height={isMobile ? 180 : 190} />
+</aside>
 
-          <section
+<section
   style={{
     display: "grid",
     gridTemplateRows: isMobile ? "180px auto" : "190px 1fr",
