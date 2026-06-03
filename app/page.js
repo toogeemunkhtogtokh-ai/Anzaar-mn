@@ -315,79 +315,79 @@ export default function Home() {
             </article>
           </Link>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 18,
-            }}
-          >
-            {allArticles.slice(1, 5).map((item) => (
-              <Link
-                key={item.id}
-                href={`/article/${item.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <article
-                  style={{
-                    ...cardStyle,
-                    minHeight: 221,
-                    display: "flex",
-                    flexDirection: "column",
-                    cursor: "pointer",
-                    padding: 14,
-                  }}
-                >
-                  <div
-                    style={{
-                      height: 105,
-                      marginBottom: 14,
-                      border: "1px solid rgba(255,255,255,.08)",
-                      backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  />
+        <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: 24,
+  }}
+>
+  {allArticles.slice(1, 3).map((item) => (
+    <Link
+      key={item.id}
+      href={`/article/${item.id}`}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <article
+        style={{
+          ...cardStyle,
+          minHeight: 268,
+          display: "flex",
+          flexDirection: "column",
+          cursor: "pointer",
+          padding: 16,
+        }}
+      >
+        <div
+          style={{
+            height: 150,
+            marginBottom: 16,
+            border: "1px solid rgba(255,255,255,.08)",
+            backgroundImage: `url(${item.image || "/hero-main.png"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
 
-                  <div
-                    style={{
-                      color: "#e11212",
-                      fontSize: 11,
-                      fontFamily: "Arial",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {item.label}
-                  </div>
+        <div
+          style={{
+            color: "#e11212",
+            fontSize: 12,
+            fontFamily: "Arial",
+            fontWeight: 700,
+            textTransform: "uppercase",
+          }}
+        >
+          {item.label}
+        </div>
 
-                  <h3
-                    style={{
-                      fontSize: 18,
-                      lineHeight: 1.25,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+        <h3
+          style={{
+            fontSize: 22,
+            lineHeight: 1.25,
+            marginTop: 10,
+            marginBottom: 12,
+          }}
+        >
+          {item.title}
+        </h3>
 
-                  <small
-                    style={{
-                      color: "#777",
-                      fontFamily: "Arial",
-                      marginTop: "auto",
-                      display: "block",
-                      fontSize: 12,
-                    }}
-                  >
-                    {item.date}
-                  </small>
-                </article>
-              </Link>
-            ))}
-          </div>
+        <small
+          style={{
+            color: "#777",
+            fontFamily: "Arial",
+            marginTop: "auto",
+            display: "block",
+            fontSize: 13,
+          }}
+        >
+          {item.date}
+        </small>
+      </article>
+    </Link>
+  ))}
+</div>
         </div>
 
         <section
