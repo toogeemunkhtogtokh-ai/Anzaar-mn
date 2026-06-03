@@ -815,15 +815,14 @@ minWidth: isMobile ? "0" : 420,
                 <article
                   style={{
                     display: "grid",
-                    gridTemplateColumns: isMobile ? "135px 1fr" : "190px 1fr",
-                    gap: 22,
-                    alignItems: "center",
-                    minHeight: 110,
+                    gridTemplateColumns: isMobile ? "120px 1fr" : "190px 1fr",
+gap: isMobile ? 16 : 22,
+minHeight: isMobile ? 96 : 110,
                   }}
                 >
                   <div
                     style={{
-                      height: 110,
+                      height: isMobile ? 96 : 110,
                       backgroundImage: `url(${item.image || "/hero-main.png"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
@@ -850,7 +849,7 @@ minWidth: isMobile ? "0" : 420,
                     <h3
   style={{
     margin: "8px 0 8px",
-    fontSize: 19,
+    fontSize: isMobile ? 17 : 19,
     lineHeight: 1.35,
     display: "-webkit-box",
     WebkitLineClamp: 2,
