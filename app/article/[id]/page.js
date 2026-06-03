@@ -394,6 +394,104 @@ const addComment = () => {
                   {paragraph}
                 </p>
               ))}
+                
+                <div
+  style={{
+    marginTop: 26,
+    borderTop: "1px solid rgba(255,255,255,.08)",
+    paddingTop: 22,
+  }}
+>
+ 
+  <div
+  style={{
+    display: "flex",
+    gap: 10,
+    alignItems: "center",
+  }}
+>
+  <button
+    onClick={() => shareArticle("facebook")}
+    title="Facebook дээр хуваалцах"
+    style={{
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "Arial",
+      fontSize: 18,
+      fontWeight: 700,
+    }}
+  >
+    f
+  </button>
+
+  <button
+    onClick={() => shareArticle("x")}
+    title="X дээр хуваалцах"
+    style={{
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "Arial",
+      fontSize: 16,
+      fontWeight: 700,
+    }}
+  >
+    X
+  </button>
+
+  <button
+    onClick={() => shareArticle("copy")}
+    title="Линк хуулах"
+    style={{
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07L10.9 5.03"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.22-1.22"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </button>
+</div>
+</div>
                 <section
   style={{
     marginTop: 48,
@@ -696,103 +794,6 @@ const addComment = () => {
   </div>
 </aside>
         </div>
-<div
-  style={{
-    marginTop: 26,
-    borderTop: "1px solid rgba(255,255,255,.08)",
-    paddingTop: 22,
-  }}
->
- 
-  <div
-  style={{
-    display: "flex",
-    gap: 10,
-    alignItems: "center",
-  }}
->
-  <button
-    onClick={() => shareArticle("facebook")}
-    title="Facebook дээр хуваалцах"
-    style={{
-      width: 38,
-      height: 38,
-      border: "1px solid rgba(255,255,255,.16)",
-      background: "#111",
-      color: "#fff",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "Arial",
-      fontSize: 18,
-      fontWeight: 700,
-    }}
-  >
-    f
-  </button>
-
-  <button
-    onClick={() => shareArticle("x")}
-    title="X дээр хуваалцах"
-    style={{
-      width: 38,
-      height: 38,
-      border: "1px solid rgba(255,255,255,.16)",
-      background: "#111",
-      color: "#fff",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "Arial",
-      fontSize: 16,
-      fontWeight: 700,
-    }}
-  >
-    X
-  </button>
-
-  <button
-    onClick={() => shareArticle("copy")}
-    title="Линк хуулах"
-    style={{
-      width: 38,
-      height: 38,
-      border: "1px solid rgba(255,255,255,.16)",
-      background: "#111",
-      color: "#fff",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07L10.9 5.03"
-        stroke="#fff"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.22-1.22"
-        stroke="#fff"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </button>
-</div>
-</div>
 
         {relatedArticles.length > 0 && (
           <section
