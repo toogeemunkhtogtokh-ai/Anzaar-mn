@@ -315,23 +315,30 @@ export default function Home() {
             </article>
           </Link>
 
-        <div
+ <div
   style={{
     display: "grid",
     gridTemplateColumns: "1fr",
+    gridTemplateRows: "1fr 1fr",
     gap: 24,
+    height: "100%",
   }}
 >
   {allArticles.slice(1, 3).map((item) => (
     <Link
       key={item.id}
       href={`/article/${item.id}`}
-      style={{ textDecoration: "none", color: "inherit" }}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+        height: "100%",
+        display: "block",
+      }}
     >
       <article
         style={{
           ...cardStyle,
-          minHeight: 268,
+          height: "100%",
           display: "flex",
           flexDirection: "column",
           cursor: "pointer",
