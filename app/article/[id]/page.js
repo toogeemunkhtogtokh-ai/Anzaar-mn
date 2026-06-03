@@ -503,14 +503,14 @@ const shareArticle = (platform) => {
   }}
 >
   <h3
-    style={{
-      fontSize: 20,
-      margin: 0,
-      lineHeight: 1.2,
-    }}
-  >
-    Хуваалцах
-  </h3>
+  style={{
+    fontSize: 18,
+    margin: 0,
+    lineHeight: 1.2,
+  }}
+>
+  Хуваалцах
+</h3>
 
   <div
     style={{
@@ -523,59 +523,92 @@ const shareArticle = (platform) => {
   />
 
   <div
+  style={{
+    display: "flex",
+    gap: 10,
+    alignItems: "center",
+  }}
+>
+  <button
+    onClick={() => shareArticle("facebook")}
+    title="Facebook дээр хуваалцах"
     style={{
-      display: "grid",
-      gap: 9,
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "Arial",
+      fontSize: 18,
+      fontWeight: 700,
     }}
   >
-    <button
-      onClick={() => shareArticle("facebook")}
-      style={{
-        border: "1px solid rgba(255,255,255,.12)",
-        background: "#111",
-        color: "#fff",
-        padding: "10px 12px",
-        cursor: "pointer",
-        textAlign: "left",
-        fontFamily: "Arial",
-        fontSize: 12,
-      }}
-    >
-      Facebook дээр хуваалцах
-    </button>
+    f
+  </button>
 
-    <button
-      onClick={() => shareArticle("x")}
-      style={{
-        border: "1px solid rgba(255,255,255,.12)",
-        background: "#111",
-        color: "#fff",
-        padding: "10px 12px",
-        cursor: "pointer",
-        textAlign: "left",
-        fontFamily: "Arial",
-        fontSize: 12,
-      }}
-    >
-      X дээр хуваалцах
-    </button>
+  <button
+    onClick={() => shareArticle("x")}
+    title="X дээр хуваалцах"
+    style={{
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "Arial",
+      fontSize: 16,
+      fontWeight: 700,
+    }}
+  >
+    X
+  </button>
 
-    <button
-      onClick={() => shareArticle("copy")}
-      style={{
-        border: "1px solid rgba(255,255,255,.12)",
-        background: "#111",
-        color: "#fff",
-        padding: "10px 12px",
-        cursor: "pointer",
-        textAlign: "left",
-        fontFamily: "Arial",
-        fontSize: 12,
-      }}
+  <button
+    onClick={() => shareArticle("copy")}
+    title="Линк хуулах"
+    style={{
+      width: 38,
+      height: 38,
+      border: "1px solid rgba(255,255,255,.16)",
+      background: "#111",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      Линк хуулах
-    </button>
-  </div>
+      <path
+        d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07L10.9 5.03"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.22-1.22"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </button>
 </div>
 
         {relatedArticles.length > 0 && (
