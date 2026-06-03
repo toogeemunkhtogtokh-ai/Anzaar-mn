@@ -427,95 +427,120 @@ export default function Home() {
                 display: "block",
               }}
             >
-              <article
-                style={{
-                  ...cardStyle,
-                  height: 420,
-                  padding: 22,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                  backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: "rgba(0,0,0,0.58)",
-                  backgroundBlendMode: "multiply",
-                  cursor: "pointer",
-                }}
-              >
-                <div style={{ marginBottom: 18 }}>
-                  <h1
-                    style={{
-                      fontSize: 28,
-                      margin: 0,
-                      color: "#fff",
-                    }}
-                  >
-                    Өнөөдрийн онцлох
-                  </h1>
+             <article
+  style={{
+    ...cardStyle,
+    height: 420,
+    padding: 0,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    cursor: "pointer",
+    position: "relative",
+    overflow: "hidden",
+  }}
+>
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      background:
+        "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.48) 42%, rgba(0,0,0,0.9) 100%)",
+      zIndex: 1,
+    }}
+  />
 
-                  <div
-                    style={{
-                      width: 150,
-                      height: 2,
-                      background: "#e11212",
-                      marginTop: 12,
-                    }}
-                  />
-                </div>
+  <div
+    style={{
+      position: "relative",
+      zIndex: 2,
+      padding: 26,
+    }}
+  >
+    <div style={{ marginBottom: 18 }}>
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 10,
+          fontFamily: "Arial",
+          fontSize: 13,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: ".04em",
+          color: "#fff",
+        }}
+      >
+        <span
+          style={{
+            width: 34,
+            height: 2,
+            background: "#e11212",
+            display: "inline-block",
+          }}
+        />
+        Өнөөдрийн онцлох
+      </div>
+    </div>
 
-                <div
-                  style={{
-                    color: "#e11212",
-                    fontSize: 13,
-                    fontFamily: "Arial",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {heroArticle?.label || "Нийгэм"}
-                </div>
+    <div
+      style={{
+        color: "#e11212",
+        fontSize: 13,
+        fontFamily: "Arial",
+        fontWeight: 700,
+        textTransform: "uppercase",
+      }}
+    >
+      {heroArticle?.label || "Нийгэм"}
+    </div>
 
-                <h2
-                  style={{
-                    fontSize: 44,
-                    lineHeight: 1.05,
-                    maxWidth: 760,
-                    margin: "14px 0 10px",
-                  }}
-                >
-                  {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
-                </h2>
+    <h2
+      style={{
+        fontSize: 40,
+        lineHeight: 1.08,
+        maxWidth: 760,
+        margin: "12px 0 10px",
+        textShadow: "0 3px 18px rgba(0,0,0,.7)",
+      }}
+    >
+      {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
+    </h2>
 
-                <p
-                  style={{
-                    fontSize: 17,
-                    color: "#ccc",
-                    maxWidth: 680,
-                    lineHeight: 1.55,
-                    margin: 0,
-                  }}
-                >
-                  {heroArticle?.excerpt ||
-                    "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
-                </p>
+    <p
+      style={{
+        fontSize: 16,
+        color: "#d0d0d0",
+        maxWidth: 660,
+        lineHeight: 1.55,
+        margin: 0,
+        textShadow: "0 2px 12px rgba(0,0,0,.7)",
+      }}
+    >
+      {heroArticle?.excerpt ||
+        "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
+    </p>
 
-                <div
-                  style={{
-                    marginTop: 20,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    color: "#999",
-                    fontSize: 14,
-                    fontFamily: "Arial",
-                  }}
-                >
-                  <span>{heroArticle?.date || "2026.06.18"}</span>
-                  <span style={{ color: "#fff" }}>Унших →</span>
-                </div>
-              </article>
+    <div
+      style={{
+        marginTop: 18,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "#aaa",
+        fontSize: 13,
+        fontFamily: "Arial",
+      }}
+    >
+      <span>{heroArticle?.date || "2026.06.18"}</span>
+      <span style={{ color: "#fff" }}>Унших →</span>
+    </div>
+  </div>
+</article>
             </Link>
           </section>
 
