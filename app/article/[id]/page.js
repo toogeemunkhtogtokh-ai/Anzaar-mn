@@ -259,7 +259,7 @@ export default function DynamicArticle({ params }) {
 
         <h1
           style={{
-            fontSize: isMobile ? 34 : 64,
+            fontSize: isMobile ? 31 : 64,
             lineHeight: 1.05,
             margin: isMobile ? "18px 0 16px" : "24px 0 20px",
             maxWidth: 900,
@@ -271,7 +271,7 @@ export default function DynamicArticle({ params }) {
         <p
           style={{
             maxWidth: 760,
-            fontSize: isMobile ? 18 : 23,
+            fontSize: isMobile ? 17 : 23,
             lineHeight: 1.6,
             color: "#bbb",
             margin: isMobile ? "0 0 28px" : "0 0 42px",
@@ -320,7 +320,7 @@ export default function DynamicArticle({ params }) {
                 <p
                   key={index}
                   style={{
-                    fontSize: isMobile ? 18 : 22,
+                    fontSize: isMobile ? 17 : 22,
                     lineHeight: isMobile ? 1.75 : 1.85,
                     color: "#ddd",
                     margin: "0 0 28px",
