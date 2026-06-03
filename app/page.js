@@ -353,14 +353,14 @@ const [searchQuery, setSearchQuery] = useState("");
       >
         <div
   style={{
-    width: "52%",
+    width: "46%",
     minWidth: 420,
     margin: "0 auto 28px",
     display: "flex",
     alignItems: "center",
     gap: 12,
     border: "1px solid rgba(255,255,255,.12)",
-    background: "rgba(255,255,255,.025)",
+    background: "#0f0f0f",
     padding: "11px 14px",
   }}
 >
