@@ -354,7 +354,7 @@ export default function DynamicArticle({ params }) {
 
           <article
             style={{
-              maxWidth: 760,
+              maxWidth: 680,
             }}
           >
             {(article.content || "")
