@@ -381,56 +381,67 @@ export default function DynamicArticle({ params }) {
             >
               {relatedArticles.map((item) => (
                 <Link
-                  key={item.id}
-                  href={`/article/${item.id}`}
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    border: "1px solid rgba(255,255,255,.1)",
-                    background: "linear-gradient(180deg,#111,#050505)",
-                    padding: isMobile ? 12 : 18,
-                  }}
-                >
+  key={item.id}
+  href={`/article/${item.id}`}
+  style={{
+    color: "#fff",
+    textDecoration: "none",
+    border: "1px solid rgba(255,255,255,.1)",
+    background: "linear-gradient(180deg,#111,#050505)",
+    padding: isMobile ? 10 : 18,
+    display: isMobile ? "grid" : "block",
+    gridTemplateColumns: isMobile ? "120px 1fr" : "none",
+    gap: isMobile ? 14 : 0,
+    alignItems: isMobile ? "center" : "stretch",
+  }}
+>
                   <div
-                    style={{
-                      height: isMobile ? 110 : 150,
-                      backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      marginBottom: 16,
-                    }}
-                  />
+  style={{
+    height: isMobile ? 86 : 150,
+    backgroundImage: `url(${item.image || "/hero-main.png"})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    marginBottom: isMobile ? 0 : 16,
+  }}
+/>
 
-                  <div
-                    style={{
-                      color: "#e11212",
-                      fontFamily: "Arial",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {item.label}
-                  </div>
+<div>
+  <div
+    style={{
+      color: "#e11212",
+      fontFamily: "Arial",
+      fontSize: isMobile ? 11 : 12,
+      fontWeight: 700,
+      textTransform: "uppercase",
+    }}
+  >
+    {item.label}
+  </div>
 
-                  <h3
-                    style={{
-                      fontSize: isMobile ? 19 : 23,
-                      lineHeight: 1.25,
-                      margin: isMobile ? "7px 0" : "10px 0",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+  <h3
+    style={{
+      fontSize: isMobile ? 18 : 23,
+      lineHeight: 1.25,
+      margin: isMobile ? "6px 0" : "10px 0",
+      display: "-webkit-box",
+      WebkitLineClamp: isMobile ? 2 : "unset",
+      WebkitBoxOrient: "vertical",
+      overflow: "hidden",
+    }}
+  >
+    {item.title}
+  </h3>
 
-                  <small
-                    style={{
-                      color: "#777",
-                      fontFamily: "Arial",
-                    }}
-                  >
-                    {item.date}
-                  </small>
+  <small
+    style={{
+      color: "#777",
+      fontFamily: "Arial",
+      fontSize: isMobile ? 12 : 13,
+    }}
+  >
+    {item.date}
+  </small>
+</div>
                 </Link>
               ))}
             </div>
