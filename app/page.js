@@ -154,40 +154,78 @@ export default function Home() {
   };
 
   const MiniVisualCard = ({ item, height = 190 }) => {
-    return (
-      <Link
-        href={`/article/${item?.id || ""}`}
+  return (
+    <Link
+      href={`/article/${item?.id || ""}`}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+        display: "block",
+      }}
+    >
+      <article
         style={{
-          textDecoration: "none",
-          color: "inherit",
-          display: "block",
+          ...cardStyle,
+          height,
+          padding: 0,
+          overflow: "hidden",
+          cursor: "pointer",
+          position: "relative",
+          backgroundImage: `url(${item?.image || "/hero-main.png"})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "rgba(0,0,0,0.35)",
+          backgroundBlendMode: "multiply",
         }}
       >
-        <article
+        <div
           style={{
-            ...cardStyle,
-            height,
-            padding: 0,
-            overflow: "hidden",
-            cursor: "pointer",
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.82) 100%)",
+          }}
+        />
+
+        <div
+          style={{
+            position: "absolute",
+            left: 14,
+            right: 14,
+            bottom: 14,
+            zIndex: 2,
           }}
         >
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              backgroundImage: `url(${item?.image || "/hero-main.png"})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundColor: "rgba(0,0,0,0.4)",
-              backgroundBlendMode: "multiply",
+              color: "#e11212",
+              fontSize: 11,
+              fontFamily: "Arial",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              marginBottom: 7,
             }}
-          />
-        </article>
-      </Link>
-    );
-  };
+          >
+            {item?.label || "Нийгэм"}
+          </div>
+
+          <h3
+            style={{
+              margin: 0,
+              color: "#fff",
+              fontSize: 16,
+              lineHeight: 1.25,
+              fontWeight: 700,
+            }}
+          >
+            {item?.title || "Онцлох мэдээ"}
+          </h3>
+        </div>
+      </article>
+    </Link>
+  );
+};
 
   return (
     <main
