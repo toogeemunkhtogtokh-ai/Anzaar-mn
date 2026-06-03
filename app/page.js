@@ -353,27 +353,27 @@ const [searchQuery, setSearchQuery] = useState("");
       >
         <div
   style={{
-    marginBottom: 24,
+    width: "52%",
+    minWidth: 420,
+    margin: "0 auto 28px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
-    gap: 18,
-    border: "1px solid rgba(255,255,255,.1)",
-    background: "rgba(255,255,255,.03)",
-    padding: "14px 16px",
+    gap: 12,
+    border: "1px solid rgba(255,255,255,.12)",
+    background: "rgba(255,255,255,.025)",
+    padding: "11px 14px",
   }}
 >
-  <div
+  <span
     style={{
-      fontFamily: "Arial",
-      fontSize: 13,
       color: "#aaa",
-      textTransform: "uppercase",
-      whiteSpace: "nowrap",
+      fontSize: 18,
+      fontFamily: "Arial",
+      lineHeight: 1,
     }}
   >
-    Мэдээ хайх
-  </div>
+    🔍
+  </span>
 
   <input
     type="text"
@@ -386,7 +386,7 @@ const [searchQuery, setSearchQuery] = useState("");
       outline: "none",
       background: "transparent",
       color: "#fff",
-      fontSize: 15,
+      fontSize: 14,
       fontFamily: "Arial",
     }}
   />
@@ -396,16 +396,16 @@ const [searchQuery, setSearchQuery] = useState("");
       onClick={() => setSearchQuery("")}
       style={{
         border: "none",
-        background: "#e11212",
-        color: "#fff",
-        padding: "8px 12px",
+        background: "transparent",
+        color: "#aaa",
         cursor: "pointer",
-        fontSize: 12,
+        fontSize: 18,
         fontFamily: "Arial",
-        textTransform: "uppercase",
+        lineHeight: 1,
+        padding: "0 2px",
       }}
     >
-      Clear
+      ×
     </button>
   )}
 </div>
