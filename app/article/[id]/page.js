@@ -7,9 +7,10 @@ import { articles } from "../../../lib/articles";
 
 export default function DynamicArticle({ params }) {
   const [article, setArticle] = useState(null);
-  const [relatedArticles, setRelatedArticles] = useState([]);
-  const [isMobile, setIsMobile] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+const [relatedArticles, setRelatedArticles] = useState([]);
+const [latestArticles, setLatestArticles] = useState([]);
+const [isMobile, setIsMobile] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("anzaarArticles")) || [];
@@ -30,13 +31,12 @@ export default function DynamicArticle({ params }) {
     )
     .slice(0, 3);
 
-  const latestArticles = allArticles
+  const latest = allArticles
     .filter((item) => String(item.id) !== String(found.id))
-    .slice(0, 3);
+    .slice(0, 4);
 
-  setRelatedArticles(
-    sameCategory.length > 0 ? sameCategory : latestArticles
-  );
+  setRelatedArticles(sameCategory.length > 0 ? sameCategory : latest.slice(0, 3));
+  setLatestArticles(latest);
 }
 
     const checkMobile = () => {
@@ -309,8 +309,11 @@ export default function DynamicArticle({ params }) {
 
         <div
   style={{
-    maxWidth: isMobile ? "100%" : 680,
-    margin: isMobile ? "34px auto 0" : "48px 0 0",
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "680px 280px",
+    gap: isMobile ? 34 : 48,
+    alignItems: "start",
+    marginTop: isMobile ? 34 : 48,
   }}
 >
   
@@ -336,6 +339,133 @@ export default function DynamicArticle({ params }) {
                 </p>
               ))}
           </article>
+                <aside
+  style={{
+    display: isMobile ? "none" : "block",
+    borderLeft: "1px solid rgba(255,255,255,.08)",
+    paddingLeft: 26,
+  }}
+>
+  <div
+    style={{
+      marginBottom: 22,
+    }}
+  >
+    <h3
+      style={{
+        fontSize: 22,
+        margin: 0,
+        lineHeight: 1.2,
+      }}
+    >
+      Сүүлд нэмэгдсэн
+    </h3>
+
+    <div
+      style={{
+        width: 90,
+        height: 2,
+        background: "#e11212",
+        marginTop: 10,
+      }}
+    />
+  </div>
+
+  <div
+    style={{
+      display: "grid",
+      gap: 18,
+    }}
+  >
+    {latestArticles.slice(0, 4).map((item) => (
+      <Link
+        key={item.id}
+        href={`/article/${item.id}`}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "86px 1fr",
+          gap: 12,
+          color: "#fff",
+          textDecoration: "none",
+          alignItems: "center",
+          borderBottom: "1px solid rgba(255,255,255,.08)",
+          paddingBottom: 14,
+        }}
+      >
+        <div
+          style={{
+            height: 62,
+            backgroundImage: `url(${item.image || "/hero-main.png"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+
+        <div>
+          <div
+            style={{
+              color: "#e11212",
+              fontFamily: "Arial",
+              fontSize: 11,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              marginBottom: 5,
+            }}
+          >
+            {item.label || "Нийгэм"}
+          </div>
+
+          <div
+            style={{
+              fontSize: 15,
+              lineHeight: 1.25,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {item.title}
+          </div>
+
+          <small
+            style={{
+              display: "block",
+              marginTop: 5,
+              color: "#777",
+              fontFamily: "Arial",
+              fontSize: 11,
+            }}
+          >
+            {item.date}
+          </small>
+        </div>
+      </Link>
+    ))}
+  </div>
+
+  <div
+    style={{
+      marginTop: 26,
+      height: 220,
+      border: "1px solid rgba(255,255,255,.1)",
+      background: "linear-gradient(180deg,#111,#050505)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      padding: 18,
+      color: "#777",
+      fontFamily: "Arial",
+      fontSize: 12,
+      textTransform: "uppercase",
+      lineHeight: 1.5,
+    }}
+  >
+    Энд таны сурталчилгаа байрлана
+  </div>
+</aside>
         </div>
 
         {relatedArticles.length > 0 && (
