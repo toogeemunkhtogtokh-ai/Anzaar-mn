@@ -502,26 +502,7 @@ const shareArticle = (platform) => {
     paddingTop: 22,
   }}
 >
-  <h3
-  style={{
-    fontSize: 18,
-    margin: 0,
-    lineHeight: 1.2,
-  }}
->
-  Хуваалцах
-</h3>
-
-  <div
-    style={{
-      width: 74,
-      height: 2,
-      background: "#e11212",
-      marginTop: 9,
-      marginBottom: 14,
-    }}
-  />
-
+ 
   <div
   style={{
     display: "flex",
