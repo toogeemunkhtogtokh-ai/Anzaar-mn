@@ -461,31 +461,30 @@ export default function Home() {
       padding: 26,
     }}
   >
-    <div style={{ marginBottom: 18 }}>
-      <div
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 10,
-          fontFamily: "Arial",
-          fontSize: 13,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: ".04em",
-          color: "#fff",
-        }}
-      >
-        <span
-          style={{
-            width: 34,
-            height: 2,
-            background: "#e11212",
-            display: "inline-block",
-          }}
-        />
-        Өнөөдрийн онцлох
-      </div>
-    </div>
+   <div style={{ marginBottom: 18 }}>
+  <div
+    style={{
+      display: "inline-block",
+      fontFamily: "Arial",
+      fontSize: 13,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".04em",
+      color: "#fff",
+    }}
+  >
+    Өнөөдрийн онцлох
+
+    <div
+      style={{
+        width: "100%",
+        height: 2,
+        background: "#e11212",
+        marginTop: 8,
+      }}
+    />
+  </div>
+</div>
 
     <div
       style={{
