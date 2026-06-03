@@ -398,9 +398,12 @@ const addComment = () => {
                 
                 <aside
   style={{
-    display: isMobile ? "none" : "block",
-    borderLeft: "1px solid rgba(255,255,255,.08)",
-    paddingLeft: 26,
+    display: "block",
+    borderLeft: isMobile ? "none" : "1px solid rgba(255,255,255,.08)",
+    borderTop: isMobile ? "1px solid rgba(255,255,255,.1)" : "none",
+    paddingLeft: isMobile ? 0 : 26,
+    paddingTop: isMobile ? 32 : 0,
+    marginTop: isMobile ? 36 : 0,
   }}
 >
   <div
