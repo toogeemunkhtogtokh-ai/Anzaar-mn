@@ -483,13 +483,14 @@ minWidth: isMobile ? "0" : 420,
   }}
 >
           <aside
-            style={{
-              display: "grid",
-gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
-gridTemplateColumns: isMobile ? "1fr" : "none",
-gap: isMobile ? 18 : 28,
-            }}
-          >
+  style={{
+    display: "grid",
+    gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
+    gridTemplateColumns: isMobile ? "1fr" : "none",
+    gap: isMobile ? 18 : 28,
+    order: isMobile ? 2 : 1,
+  }}
+>
             <MiniVisualCard item={getArticle(1)} height={190} />
             <MiniVisualCard item={getArticle(2)} height={190} />
             <MiniVisualCard item={getArticle(3)} height={190} />
@@ -500,6 +501,7 @@ gap: isMobile ? 18 : 28,
     display: "grid",
     gridTemplateRows: isMobile ? "180px auto" : "190px 1fr",
     gap: isMobile ? 18 : 28,
+    order: isMobile ? 1 : 2,
   }}
 >
             <Link
@@ -712,13 +714,14 @@ gap: isMobile ? 18 : 28,
           </section>
 
           <aside
-            style={{
-              display: "grid",
-gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
-gridTemplateColumns: isMobile ? "1fr" : "none",
-gap: isMobile ? 18 : 28,
-            }}
-          >
+  style={{
+    display: "grid",
+    gridTemplateRows: isMobile ? "none" : "repeat(3, 1fr)",
+    gridTemplateColumns: isMobile ? "1fr" : "none",
+    gap: isMobile ? 18 : 28,
+    order: isMobile ? 3 : 3,
+  }}
+>
             <MiniVisualCard item={getArticle(5)} height={190} />
             <MiniVisualCard item={getArticle(6)} height={190} />
             <MiniVisualCard item={getArticle(7)} height={190} />
