@@ -217,13 +217,13 @@ export default function DynamicArticle({ params }) {
       </header>
 
       <section
-        style={{
-          maxWidth: 980,
-          margin: "0 auto",
-          padding: isMobile ? "34px 18px 60px" : "58px 24px 90px",
-          boxSizing: "border-box",
-        }}
-      >
+  style={{
+    maxWidth: 980,
+    margin: isMobile ? "0 auto" : "0 auto",
+    padding: isMobile ? "34px 18px 60px" : "58px 24px 90px",
+    boxSizing: "border-box",
+  }}
+>
         <Link
           href="/"
           style={{
@@ -290,7 +290,7 @@ export default function DynamicArticle({ params }) {
         <div
   style={{
     maxWidth: isMobile ? "100%" : 680,
-    margin: "0 auto",
+    margin: isMobile ? "0 auto" : "0",
     background: "#080808",
     overflow: "hidden",
   }}
@@ -310,7 +310,7 @@ export default function DynamicArticle({ params }) {
         <div
   style={{
     maxWidth: isMobile ? "100%" : 680,
-    margin: isMobile ? "34px auto 0" : "48px auto 0",
+    margin: isMobile ? "34px auto 0" : "48px 0 0",
   }}
 >
   
@@ -340,12 +340,13 @@ export default function DynamicArticle({ params }) {
 
         {relatedArticles.length > 0 && (
           <section
-            style={{
-              marginTop: isMobile ? 54 : 80,
-              borderTop: "1px solid rgba(255,255,255,.1)",
-              paddingTop: isMobile ? 30 : 42,
-            }}
-          >
+  style={{
+    maxWidth: isMobile ? "100%" : 760,
+    marginTop: isMobile ? 54 : 80,
+    borderTop: "1px solid rgba(255,255,255,.1)",
+    paddingTop: isMobile ? 30 : 42,
+  }}
+>
             <div
   style={{
     display: "inline-block",
