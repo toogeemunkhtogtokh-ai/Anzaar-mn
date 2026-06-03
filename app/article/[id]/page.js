@@ -302,61 +302,17 @@ export default function DynamicArticle({ params }) {
 </div>
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "160px 1fr",
-            gap: isMobile ? 28 : 48,
-            marginTop: isMobile ? 34 : 56,
-          }}
-        >
-          <aside
-            style={{
-              display: isMobile ? "none" : "block",
-              position: "sticky",
-              top: 24,
-              alignSelf: "start",
-              border: "1px solid rgba(255,255,255,.1)",
-              background: "#080808",
-              padding: 18,
-              fontFamily: "Arial",
-            }}
-          >
-            <div
-              style={{
-                color: "#777",
-                fontSize: 12,
-                textTransform: "uppercase",
-                marginBottom: 14,
-              }}
-            >
-              Хуваалцах
-            </div>
-
-            {["Facebook", "X", "Copy link"].map((item) => (
-              <button
-                key={item}
-                style={{
-                  width: "100%",
-                  display: "block",
-                  background: "#111",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,.12)",
-                  padding: 11,
-                  marginBottom: 10,
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-              >
-                {item}
-              </button>
-            ))}
-          </aside>
-
+  style={{
+    maxWidth: isMobile ? "100%" : 680,
+    margin: isMobile ? "34px auto 0" : "48px auto 0",
+  }}
+>
+  
           <article
-            style={{
-              maxWidth: 680,
-            }}
-          >
+  style={{
+    maxWidth: "100%",
+  }}
+>
             {(article.content || "")
               .split("\n")
               .filter((paragraph) => paragraph.trim() !== "")
