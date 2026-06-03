@@ -37,35 +37,65 @@ export default function Home() {
     "Соёл",
   ];
 
+  const fallbackArticle = {
+    id: "fallback",
+    title: "Харагдаж байгаа бүхэн үнэн биш",
+    excerpt: "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?",
+    label: "Нийгэм",
+    date: "2026.06.18",
+    image: "/hero-main.png",
+  };
+
+  const safeArticles = allArticles.length > 0 ? allArticles : [fallbackArticle];
+
+  const getArticle = (index) => {
+    return safeArticles[index % safeArticles.length] || fallbackArticle;
+  };
+
   const heroArticle =
-    allArticles.find((article) => article.featured === true) || allArticles[0];
+    safeArticles.find((article) => article.featured === true) ||
+    safeArticles[0] ||
+    fallbackArticle;
+
+  const topBanner =
+    banners.find((b) => b.position === "top" && b.active) ||
+    banners.find((b) => b.position === "inline" && b.active);
 
   const inlineBanner = banners.find((b) => b.position === "inline" && b.active);
   const activePartners = partners.filter((partner) => partner.active !== false);
 
-  const previous = [
-    ["Нийгэм", "Агаарын бохирдол буурахгүй байгаагийн 5 шалтгаан", "2026.06.14"],
-    ["Эдийн засаг", "Монголын хөрөнгийн зах зээл: 2026 оны тойм", "2026.06.14"],
-    ["Боловсрол", "Сурагчдын унших чадвар яагаад буурч байна вэ?", "2026.06.13"],
-    ["Соёл", "Соёл урлаг нийгмийн сэтгэл зүйд хэрхэн нөлөөлдөг вэ?", "2026.06.13"],
-    ["Эрх зүй", "Шүүхийн шинэчлэл: Иргэдэд үзүүлэх нөлөө", "2026.06.12"],
-    ["Спорт", "Монголын спортын шинэ үе", "2026.06.11"],
-  ];
+  const previousArticles =
+    safeArticles.length >= 6
+      ? safeArticles.slice(0, 8)
+      : [
+          ...safeArticles,
+          ...safeArticles,
+          ...safeArticles,
+          ...safeArticles,
+        ].slice(0, 8);
 
   const cardStyle = {
     border: "1px solid rgba(255,255,255,.1)",
     background: "linear-gradient(180deg,#111,#050505)",
-    padding: 22,
   };
 
-  const renderBanner = (banner, fallbackText, fallbackSize, imageHeight = "100%") => {
+  const renderBanner = (
+    banner,
+    fallbackText,
+    fallbackSize,
+    imageHeight = "100%"
+  ) => {
     if (banner) {
       return (
         <a
           href={banner.url || "#"}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ display: "block", width: "100%", height: "100%" }}
+          style={{
+            display: "block",
+            width: "100%",
+            height: "100%",
+          }}
         >
           <img
             src={banner.image}
@@ -85,19 +115,20 @@ export default function Home() {
       <div
         style={{
           height: "100%",
-          minHeight: imageHeight === "150px" ? 130 : "100%",
+          minHeight: imageHeight === "90px" ? 76 : 110,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: 22,
+          background: "#666",
+          padding: 18,
         }}
       >
         <div>
           <div
             style={{
               color: "#fff",
-              fontSize: 22,
+              fontSize: 18,
               fontFamily: "Arial",
               fontWeight: 700,
               textTransform: "uppercase",
@@ -109,16 +140,52 @@ export default function Home() {
 
           <div
             style={{
-              marginTop: 10,
-              color: "#777",
+              marginTop: 8,
+              color: "#d0d0d0",
               fontFamily: "Arial",
-              fontSize: 13,
+              fontSize: 12,
             }}
           >
             {fallbackSize}
           </div>
         </div>
       </div>
+    );
+  };
+
+  const MiniVisualCard = ({ item, height = 190 }) => {
+    return (
+      <Link
+        href={`/article/${item?.id || ""}`}
+        style={{
+          textDecoration: "none",
+          color: "inherit",
+          display: "block",
+        }}
+      >
+        <article
+          style={{
+            ...cardStyle,
+            height,
+            padding: 0,
+            overflow: "hidden",
+            cursor: "pointer",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundImage: `url(${item?.image || "/hero-main.png"})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: "rgba(0,0,0,0.4)",
+              backgroundBlendMode: "multiply",
+            }}
+          />
+        </article>
+      </Link>
     );
   };
 
@@ -134,7 +201,7 @@ export default function Home() {
       <header
         style={{
           borderBottom: "1px solid rgba(255,255,255,.1)",
-          padding: "22px 0",
+          padding: "18px 0 20px",
         }}
       >
         <div
@@ -148,25 +215,25 @@ export default function Home() {
             gap: 30,
           }}
         >
-          <div>
+          <Link href="/" style={{ display: "block" }}>
             <Image
               src="/anzaar-logo-horizontal.png"
               alt="Anzaar.mn Logo"
               width={360}
               height={95}
               style={{
-                width: "360px",
+                width: "310px",
                 height: "auto",
                 objectFit: "contain",
               }}
             />
-          </div>
+          </Link>
 
           <nav
             style={{
               display: "flex",
-              gap: 24,
-              fontSize: 14,
+              gap: 22,
+              fontSize: 13,
               fontFamily: "Arial",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
@@ -215,266 +282,302 @@ export default function Home() {
         style={{
           maxWidth: 1240,
           margin: "0 auto",
-          padding: "42px 24px",
+          padding: "28px 24px 42px",
         }}
       >
-       <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr",
-    gap: 24,
-    alignItems: "stretch",
-  }}
->
-      <Link
-  href={`/article/${heroArticle?.id || ""}`}
-  style={{
-    textDecoration: "none",
-    color: "inherit",
-    display: "block",
-    height: "100%",
-  }}
->
-            <article
-  style={{
-    ...cardStyle,
-    height: 560,
-    display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-end",
-                backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundColor: "rgba(0,0,0,0.55)",
-                backgroundBlendMode: "multiply",
-                cursor: "pointer",
+        <div
+          style={{
+            width: "760px",
+            maxWidth: "100%",
+            height: 76,
+            margin: "0 0 34px auto",
+            ...cardStyle,
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          {renderBanner(
+            topBanner,
+            "Энд таны сурталчилгаа байрлана",
+            "Top banner · 760 × 90",
+            "90px"
+          )}
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "200px 1fr 200px",
+            gap: 32,
+            alignItems: "stretch",
+          }}
+        >
+          <aside
+            style={{
+              display: "grid",
+              gridTemplateRows: "repeat(3, 1fr)",
+              gap: 28,
+            }}
+          >
+            <MiniVisualCard item={getArticle(1)} height={190} />
+            <MiniVisualCard item={getArticle(2)} height={190} />
+            <MiniVisualCard item={getArticle(3)} height={190} />
+          </aside>
+
+          <section
+            style={{
+              display: "grid",
+              gridTemplateRows: "190px 1fr",
+              gap: 28,
+            }}
+          >
+            <Link
+              href={`/article/${getArticle(4)?.id || ""}`}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
               }}
             >
-              <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 28, margin: 0, color: "#fff" }}>
-                  Өнөөдрийн онцлох
-                </h1>
+              <article
+                style={{
+                  ...cardStyle,
+                  height: 190,
+                  padding: 0,
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  backgroundImage: `url(${getArticle(4)?.image || "/hero-main.png"})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "rgba(0,0,0,0.45)",
+                  backgroundBlendMode: "multiply",
+                  display: "flex",
+                  alignItems: "flex-end",
+                }}
+              >
+                <div style={{ padding: 22 }}>
+                  <div
+                    style={{
+                      color: "#e11212",
+                      fontSize: 12,
+                      fontFamily: "Arial",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {getArticle(4)?.label || "Нийгэм"}
+                  </div>
+
+                  <h3
+                    style={{
+                      fontSize: 28,
+                      lineHeight: 1.2,
+                      margin: "8px 0 0",
+                    }}
+                  >
+                    {getArticle(4)?.title || "Онцлох мэдээ"}
+                  </h3>
+                </div>
+              </article>
+            </Link>
+
+            <Link
+              href={`/article/${heroArticle?.id || ""}`}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
+              }}
+            >
+              <article
+                style={{
+                  ...cardStyle,
+                  height: 420,
+                  padding: 22,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  backgroundImage: `url(${heroArticle?.image || "/hero-main.png"})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "rgba(0,0,0,0.58)",
+                  backgroundBlendMode: "multiply",
+                  cursor: "pointer",
+                }}
+              >
+                <div style={{ marginBottom: 18 }}>
+                  <h1
+                    style={{
+                      fontSize: 28,
+                      margin: 0,
+                      color: "#fff",
+                    }}
+                  >
+                    Өнөөдрийн онцлох
+                  </h1>
+
+                  <div
+                    style={{
+                      width: 150,
+                      height: 2,
+                      background: "#e11212",
+                      marginTop: 12,
+                    }}
+                  />
+                </div>
 
                 <div
                   style={{
-                    width: 150,
-                    height: 2,
-                    background: "#e11212",
-                    marginTop: 12,
+                    color: "#e11212",
+                    fontSize: 13,
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
                   }}
-                />
-              </div>
+                >
+                  {heroArticle?.label || "Нийгэм"}
+                </div>
 
-              <div
-                style={{
-                  color: "#e11212",
-                  fontSize: 13,
-                  fontFamily: "Arial",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                }}
-              >
-                {heroArticle?.label || "Нийгэм"}
-              </div>
+                <h2
+                  style={{
+                    fontSize: 44,
+                    lineHeight: 1.05,
+                    maxWidth: 760,
+                    margin: "14px 0 10px",
+                  }}
+                >
+                  {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
+                </h2>
 
-              <h2
-                style={{
-                  fontSize: 46,
-                  lineHeight: 1.05,
-                  maxWidth: 760,
-                  margin: "14px 0",
-                }}
-              >
-                {heroArticle?.title || "Харагдаж байгаа бүхэн үнэн биш"}
-              </h2>
+                <p
+                  style={{
+                    fontSize: 17,
+                    color: "#ccc",
+                    maxWidth: 680,
+                    lineHeight: 1.55,
+                    margin: 0,
+                  }}
+                >
+                  {heroArticle?.excerpt ||
+                    "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
+                </p>
 
-              <p
-                style={{
-                  fontSize: 18,
-                  color: "#ccc",
-                  maxWidth: 680,
-                  lineHeight: 1.6,
-                  margin: 0,
-                }}
-              >
-                {heroArticle?.excerpt ||
-                  "Нийгмийн мэдээллийн орчин бидний бодлыг хэрхэн чиглүүлж байна вэ?"}
-              </p>
+                <div
+                  style={{
+                    marginTop: 20,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: "#999",
+                    fontSize: 14,
+                    fontFamily: "Arial",
+                  }}
+                >
+                  <span>{heroArticle?.date || "2026.06.18"}</span>
+                  <span style={{ color: "#fff" }}>Унших →</span>
+                </div>
+              </article>
+            </Link>
+          </section>
 
-              <div
-                style={{
-                  marginTop: 22,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: "#999",
-                  fontSize: 14,
-                  fontFamily: "Arial",
-                }}
-              >
-                <span>{heroArticle?.date || "2026.06.18"}</span>
-                <span style={{ color: "#fff" }}>Унших →</span>
-              </div>
-            </article>
-          </Link>
-
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: 24,
-    height: 560,
-    alignSelf: "stretch",
-  }}
->
-  {allArticles.slice(1, 3).map((item) => (
-    <Link
-      key={item.id}
-      href={`/article/${item.id}`}
-      style={{
-        textDecoration: "none",
-        color: "inherit",
-        display: "block",
-        flex: 1,
-      }}
-    >
-      <article
-        style={{
-          ...cardStyle,
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          cursor: "pointer",
-          padding: 16,
-          boxSizing: "border-box",
-        }}
-      >
-        <div
-          style={{
-            height: 150,
-            marginBottom: 16,
-            border: "1px solid rgba(255,255,255,.08)",
-            backgroundImage: `url(${item.image || "/hero-main.png"})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            flexShrink: 0,
-          }}
-        />
-
-        <div
-          style={{
-            color: "#e11212",
-            fontSize: 12,
-            fontFamily: "Arial",
-            fontWeight: 700,
-            textTransform: "uppercase",
-          }}
-        >
-          {item.label}
+          <aside
+            style={{
+              display: "grid",
+              gridTemplateRows: "repeat(3, 1fr)",
+              gap: 28,
+            }}
+          >
+            <MiniVisualCard item={getArticle(5)} height={190} />
+            <MiniVisualCard item={getArticle(6)} height={190} />
+            <MiniVisualCard item={getArticle(7)} height={190} />
+          </aside>
         </div>
 
-        <h3
+        <section
           style={{
-            fontSize: 22,
-            lineHeight: 1.25,
-            marginTop: 10,
-            marginBottom: 12,
+            marginTop: 34,
+            ...cardStyle,
+            height: 96,
+            padding: 0,
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,.12)",
           }}
         >
-          {item.title}
-        </h3>
-
-        <small
-          style={{
-            color: "#777",
-            fontFamily: "Arial",
-            marginTop: "auto",
-            display: "block",
-            fontSize: 13,
-          }}
-        >
-          {item.date}
-        </small>
-      </article>
-    </Link>
-  ))}
-</div>
-        </div>
-
-       <section
-  style={{
-    marginTop: 70,
-    ...cardStyle,
-    minHeight: 130,
-    padding: 0,
-    overflow: "hidden",
-    border: "1px solid rgba(255,255,255,.12)",
-  }}
->
           {renderBanner(
             inlineBanner,
             "Энд таны сурталчилгаа байрлана",
-            "Inline banner · 1200 × 150",
-            "150px"
+            "Full width banner · 1200 × 120",
+            "120px"
           )}
         </section>
 
-        <section style={{ marginTop: 50 }}>
+        <section style={{ marginTop: 36 }}>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 24,
+              display: "inline-flex",
+              flexDirection: "column",
+              gap: 9,
+              marginBottom: 28,
             }}
           >
+            <h2
+              style={{
+                fontSize: 20,
+                margin: 0,
+                fontFamily: "Arial",
+                textTransform: "uppercase",
+                letterSpacing: ".02em",
+              }}
+            >
+              Өмнөх мэдээнүүд
+            </h2>
+
             <span
               style={{
-                width: 34,
+                width: 120,
                 height: 2,
                 background: "#e11212",
                 display: "block",
               }}
             />
-
-            <h2
-              style={{
-                fontSize: 34,
-                margin: 0,
-              }}
-            >
-              Өмнөх мэдээнүүд
-            </h2>
           </div>
 
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: "0 40px",
+              gap: "28px 52px",
             }}
           >
-            {previous.map(([cat, title, date]) => (
+            {previousArticles.map((item, index) => (
               <Link
-                key={title}
-                href="/article"
-                style={{ textDecoration: "none", color: "inherit" }}
+                key={`${item.id}-${index}`}
+                href={`/article/${item.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
                 <article
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "92px 1fr",
-                    gap: 16,
-                    padding: "18px 0",
-                    borderBottom: "1px solid rgba(255,255,255,.08)",
+                    gridTemplateColumns: "190px 1fr",
+                    gap: 22,
+                    alignItems: "center",
+                    minHeight: 110,
                   }}
                 >
                   <div
                     style={{
-                      height: 70,
-                      background: "radial-gradient(circle,#444,#090909)",
+                      height: 110,
+                      backgroundImage: `url(${item.image || "/hero-main.png"})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundColor: "rgba(255,255,255,.35)",
+                      backgroundBlendMode: "multiply",
                       border: "1px solid rgba(255,255,255,.08)",
                     }}
                   />
@@ -489,28 +592,27 @@ export default function Home() {
                         textTransform: "uppercase",
                       }}
                     >
-                      {cat}
+                      {item.label || "Нийгэм"}
                     </div>
 
-                    <div
+                    <h3
                       style={{
-                        marginTop: 6,
-                        fontSize: 17,
+                        margin: "8px 0 8px",
+                        fontSize: 19,
                         lineHeight: 1.35,
                       }}
                     >
-                      {title}
-                    </div>
+                      {item.title}
+                    </h3>
 
                     <small
                       style={{
-                        display: "block",
-                        marginTop: 8,
                         color: "#777",
                         fontFamily: "Arial",
+                        fontSize: 12,
                       }}
                     >
-                      {date}
+                      {item.date || "2026.06.18"}
                     </small>
                   </div>
                 </article>
