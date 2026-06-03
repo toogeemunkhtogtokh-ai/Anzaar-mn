@@ -223,6 +223,17 @@ export default function Home() {
 >
   {item?.title || "Онцлох мэдээ"}
 </h3>
+  <small
+  style={{
+    display: "block",
+    marginTop: 8,
+    color: "#aaa",
+    fontSize: 11,
+    fontFamily: "Arial",
+  }}
+>
+  {item?.date || "2026.06.18"}
+</small>
         </div>
       </article>
     </Link>
@@ -439,6 +450,18 @@ export default function Home() {
 >
       {getArticle(4)?.title || "Онцлох мэдээ"}
     </h3>
+      <small
+  style={{
+    display: "block",
+    marginTop: 10,
+    color: "#aaa",
+    fontSize: 12,
+    fontFamily: "Arial",
+    textShadow: "0 2px 10px rgba(0,0,0,.75)",
+  }}
+>
+  {getArticle(4)?.date || "2026.06.18"}
+</small>
   </div>
 </article>
             </Link>
