@@ -219,10 +219,10 @@ export default function Home() {
             <Image
               src="/anzaar-logo-horizontal.png"
               alt="Anzaar.mn Logo"
-              width={360}
-              height={95}
+              width={260}
+              height={69}
               style={{
-                width: "310px",
+                width: "240px",
                 height: "auto",
                 objectFit: "contain",
               }}
