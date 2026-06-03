@@ -431,10 +431,10 @@ const [searchQuery, setSearchQuery] = useState("");
     </button>
   )}
 </div>
-       <div
+<div
   style={{
     width: "100%",
-    height: 76,
+    height: 90,
     margin: "0 0 34px 0",
     ...cardStyle,
     padding: 0,
