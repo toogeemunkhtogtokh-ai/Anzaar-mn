@@ -341,31 +341,30 @@ export default function DynamicArticle({ params }) {
             }}
           >
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 28,
-              }}
-            >
-              <span
-                style={{
-                  width: 34,
-                  height: 2,
-                  background: "#e11212",
-                  display: "block",
-                }}
-              />
+  style={{
+    display: "inline-block",
+    marginBottom: 28,
+  }}
+>
+  <h2
+    style={{
+      fontSize: isMobile ? 22 : 28,
+      margin: 0,
+      lineHeight: 1.15,
+    }}
+  >
+    Холбоотой нийтлэлүүд
+  </h2>
 
-              <h2
-                style={{
-                  fontSize: isMobile ? 24 : 34,
-                  margin: 0,
-                }}
-              >
-                Холбоотой нийтлэлүүд
-              </h2>
-            </div>
+  <div
+    style={{
+      width: "100%",
+      height: 2,
+      background: "#e11212",
+      marginTop: 10,
+    }}
+  />
+</div>
 
             <div
               style={{
