@@ -800,7 +800,7 @@ minWidth: isMobile ? "0" : 420,
   style={{
     display: "grid",
     gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-    gap: isMobile ? "24px" : "28px 52px",
+    gap: isMobile ? "18px" : "28px 52px",
   }}
 >
             {previousArticles.map((item, index) => (
@@ -816,7 +816,7 @@ minWidth: isMobile ? "0" : 420,
                   style={{
                     display: "grid",
                     gridTemplateColumns: isMobile ? "120px 1fr" : "190px 1fr",
-gap: isMobile ? 16 : 22,
+gap: isMobile ? 14 : 22,
 minHeight: isMobile ? 96 : 110,
                   }}
                 >
