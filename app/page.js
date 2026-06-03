@@ -491,10 +491,9 @@ minWidth: isMobile ? "0" : 420,
     order: isMobile ? 2 : 1,
   }}
 >
-            <MiniVisualCard item={getArticle(1)} height={190} />
-            <MiniVisualCard item={getArticle(2)} height={190} />
-            <MiniVisualCard item={getArticle(3)} height={190} />
-          </aside>
+            <MiniVisualCard item={getArticle(1)} height={isMobile ? 180 : 190} />
+<MiniVisualCard item={getArticle(2)} height={isMobile ? 180 : 190} />
+<MiniVisualCard item={getArticle(3)} height={isMobile ? 180 : 190} />
 
           <section
   style={{
@@ -599,7 +598,7 @@ minWidth: isMobile ? "0" : 420,
             >
    <article
   style={{
-    height: isMobile ? 360 : 420,
+    height: isMobile ? 320 : 420,
     background: "#111",
     padding: 0,
     display: "flex",
@@ -722,9 +721,9 @@ minWidth: isMobile ? "0" : 420,
     order: isMobile ? 3 : 3,
   }}
 >
-            <MiniVisualCard item={getArticle(5)} height={190} />
-            <MiniVisualCard item={getArticle(6)} height={190} />
-            <MiniVisualCard item={getArticle(7)} height={190} />
+<MiniVisualCard item={getArticle(5)} height={isMobile ? 180 : 190} />
+<MiniVisualCard item={getArticle(6)} height={isMobile ? 180 : 190} />
+<MiniVisualCard item={getArticle(7)} height={isMobile ? 180 : 190} />
           </aside>
         </div>
 
@@ -813,7 +812,7 @@ minWidth: isMobile ? "0" : 420,
                 <article
                   style={{
                     display: "grid",
-                    gridTemplateColumns: isMobile ? "120px 1fr" : "190px 1fr",
+                    gridTemplateColumns: isMobile ? "135px 1fr" : "190px 1fr",
                     gap: 22,
                     alignItems: "center",
                     minHeight: 110,
