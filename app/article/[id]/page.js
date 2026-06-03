@@ -394,6 +394,175 @@ const addComment = () => {
                   {paragraph}
                 </p>
               ))}
+                <section
+  style={{
+    marginTop: 48,
+    borderTop: "1px solid rgba(255,255,255,.1)",
+    paddingTop: 32,
+  }}
+>
+  <div
+    style={{
+      display: "inline-block",
+      marginBottom: 22,
+    }}
+  >
+    <h2
+      style={{
+        fontSize: isMobile ? 24 : 30,
+        margin: 0,
+        lineHeight: 1.15,
+      }}
+    >
+      Сэтгэгдэл
+    </h2>
+
+    <div
+      style={{
+        width: "100%",
+        height: 2,
+        background: "#e11212",
+        marginTop: 9,
+      }}
+    />
+  </div>
+
+  <div
+    style={{
+      display: "grid",
+      gap: 12,
+      marginBottom: 28,
+    }}
+  >
+    <input
+      type="text"
+      value={commentName}
+      onChange={(e) => setCommentName(e.target.value)}
+      placeholder="Таны нэр"
+      style={{
+        width: "100%",
+        boxSizing: "border-box",
+        border: "1px solid rgba(255,255,255,.12)",
+        background: "#0f0f0f",
+        color: "#fff",
+        padding: "12px 14px",
+        fontFamily: "Arial",
+        fontSize: 14,
+        outline: "none",
+      }}
+    />
+
+    <textarea
+      value={commentText}
+      onChange={(e) => setCommentText(e.target.value)}
+      placeholder="Сэтгэгдлээ бичнэ үү..."
+      rows={4}
+      style={{
+        width: "100%",
+        boxSizing: "border-box",
+        border: "1px solid rgba(255,255,255,.12)",
+        background: "#0f0f0f",
+        color: "#fff",
+        padding: "12px 14px",
+        fontFamily: "Arial",
+        fontSize: 14,
+        lineHeight: 1.5,
+        outline: "none",
+        resize: "vertical",
+      }}
+    />
+
+    <button
+      onClick={addComment}
+      style={{
+        justifySelf: "start",
+        border: "none",
+        background: "#e11212",
+        color: "#fff",
+        padding: "11px 18px",
+        cursor: "pointer",
+        fontFamily: "Arial",
+        fontSize: 13,
+        fontWeight: 700,
+        textTransform: "uppercase",
+      }}
+    >
+      Илгээх
+    </button>
+  </div>
+
+  <div
+    style={{
+      display: "grid",
+      gap: 14,
+    }}
+>
+    {comments.length > 0 ? (
+      comments.map((comment) => (
+        <div
+          key={comment.id}
+          style={{
+            border: "1px solid rgba(255,255,255,.1)",
+            background: "linear-gradient(180deg,#111,#050505)",
+            padding: 16,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 14,
+              marginBottom: 8,
+              fontFamily: "Arial",
+            }}
+          >
+            <strong
+              style={{
+                color: "#fff",
+                fontSize: 13,
+              }}
+            >
+              {comment.name}
+            </strong>
+
+            <span
+              style={{
+                color: "#777",
+                fontSize: 12,
+              }}
+            >
+              {comment.date}
+            </span>
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              color: "#ccc",
+              fontSize: 15,
+              lineHeight: 1.6,
+              fontFamily: "Arial",
+            }}
+          >
+            {comment.text}
+          </p>
+        </div>
+      ))
+    ) : (
+      <div
+        style={{
+          color: "#777",
+          fontFamily: "Arial",
+          fontSize: 14,
+          border: "1px solid rgba(255,255,255,.08)",
+          padding: 16,
+        }}
+      >
+        Одоогоор сэтгэгдэл алга.
+      </div>
+    )}
+  </div>
+</section>
           </article>
                 
                 <aside
@@ -624,175 +793,6 @@ const addComment = () => {
   </button>
 </div>
 </div>
-<section
-  style={{
-    marginTop: 48,
-    borderTop: "1px solid rgba(255,255,255,.1)",
-    paddingTop: 32,
-  }}
->
-  <div
-    style={{
-      display: "inline-block",
-      marginBottom: 22,
-    }}
-  >
-    <h2
-      style={{
-        fontSize: isMobile ? 24 : 30,
-        margin: 0,
-        lineHeight: 1.15,
-      }}
-    >
-      Сэтгэгдэл
-    </h2>
-
-    <div
-      style={{
-        width: "100%",
-        height: 2,
-        background: "#e11212",
-        marginTop: 9,
-      }}
-    />
-  </div>
-
-  <div
-    style={{
-      display: "grid",
-      gap: 12,
-      marginBottom: 28,
-    }}
-  >
-    <input
-      type="text"
-      value={commentName}
-      onChange={(e) => setCommentName(e.target.value)}
-      placeholder="Таны нэр"
-      style={{
-        width: "100%",
-        boxSizing: "border-box",
-        border: "1px solid rgba(255,255,255,.12)",
-        background: "#0f0f0f",
-        color: "#fff",
-        padding: "12px 14px",
-        fontFamily: "Arial",
-        fontSize: 14,
-        outline: "none",
-      }}
-    />
-
-    <textarea
-      value={commentText}
-      onChange={(e) => setCommentText(e.target.value)}
-      placeholder="Сэтгэгдлээ бичнэ үү..."
-      rows={4}
-      style={{
-        width: "100%",
-        boxSizing: "border-box",
-        border: "1px solid rgba(255,255,255,.12)",
-        background: "#0f0f0f",
-        color: "#fff",
-        padding: "12px 14px",
-        fontFamily: "Arial",
-        fontSize: 14,
-        lineHeight: 1.5,
-        outline: "none",
-        resize: "vertical",
-      }}
-    />
-
-    <button
-      onClick={addComment}
-      style={{
-        justifySelf: "start",
-        border: "none",
-        background: "#e11212",
-        color: "#fff",
-        padding: "11px 18px",
-        cursor: "pointer",
-        fontFamily: "Arial",
-        fontSize: 13,
-        fontWeight: 700,
-        textTransform: "uppercase",
-      }}
-    >
-      Илгээх
-    </button>
-  </div>
-
-  <div
-    style={{
-      display: "grid",
-      gap: 14,
-    }}
->
-    {comments.length > 0 ? (
-      comments.map((comment) => (
-        <div
-          key={comment.id}
-          style={{
-            border: "1px solid rgba(255,255,255,.1)",
-            background: "linear-gradient(180deg,#111,#050505)",
-            padding: 16,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 14,
-              marginBottom: 8,
-              fontFamily: "Arial",
-            }}
-          >
-            <strong
-              style={{
-                color: "#fff",
-                fontSize: 13,
-              }}
-            >
-              {comment.name}
-            </strong>
-
-            <span
-              style={{
-                color: "#777",
-                fontSize: 12,
-              }}
-            >
-              {comment.date}
-            </span>
-          </div>
-
-          <p
-            style={{
-              margin: 0,
-              color: "#ccc",
-              fontSize: 15,
-              lineHeight: 1.6,
-              fontFamily: "Arial",
-            }}
-          >
-            {comment.text}
-          </p>
-        </div>
-      ))
-    ) : (
-      <div
-        style={{
-          color: "#777",
-          fontFamily: "Arial",
-          fontSize: 14,
-          border: "1px solid rgba(255,255,255,.08)",
-          padding: 16,
-        }}
-      >
-        Одоогоор сэтгэгдэл алга.
-      </div>
-    )}
-  </div>
-</section>
 
         {relatedArticles.length > 0 && (
           <section
