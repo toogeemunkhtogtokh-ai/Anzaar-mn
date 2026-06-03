@@ -259,7 +259,7 @@ export default function DynamicArticle({ params }) {
 
         <h1
           style={{
-            fontSize: isMobile ? 38 : 64,
+            fontSize: isMobile ? 34 : 64,
             lineHeight: 1.05,
             margin: isMobile ? "18px 0 16px" : "24px 0 20px",
             maxWidth: 900,
@@ -359,7 +359,7 @@ export default function DynamicArticle({ params }) {
 
               <h2
                 style={{
-                  fontSize: isMobile ? 26 : 34,
+                  fontSize: isMobile ? 24 : 34,
                   margin: 0,
                 }}
               >
@@ -383,12 +383,12 @@ export default function DynamicArticle({ params }) {
                     textDecoration: "none",
                     border: "1px solid rgba(255,255,255,.1)",
                     background: "linear-gradient(180deg,#111,#050505)",
-                    padding: 18,
+                    padding: isMobile ? 14 : 18,
                   }}
                 >
                   <div
                     style={{
-                      height: isMobile ? 170 : 150,
+                      height: isMobile ? 140 : 150,
                       backgroundImage: `url(${item.image || "/hero-main.png"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
