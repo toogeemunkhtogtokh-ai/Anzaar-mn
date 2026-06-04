@@ -81,8 +81,18 @@ const [menuOpen, setMenuOpen] = useState(false);
   safeArticles[0] ||
   fallbackArticle;
 
-const displayArticles = safeArticles.filter(
+const articlesWithoutHero = safeArticles.filter(
   (article) => String(article.id) !== String(heroArticle.id)
+);
+
+const wideArticle =
+  articlesWithoutHero.find((article) => article.wide === true) ||
+  articlesWithoutHero[3] ||
+  articlesWithoutHero[0] ||
+  fallbackArticle;
+
+const displayArticles = articlesWithoutHero.filter(
+  (article) => String(article.id) !== String(wideArticle.id)
 );
 
 const getArticle = (index) => {
@@ -543,7 +553,7 @@ const getArticle = (index) => {
   }}
 >
             <Link
-              href={`/article/${getArticle(3)?.id || ""}`}
+  href={`/article/${wideArticle?.id || ""}`}
               style={{
                 textDecoration: "none",
                 color: "inherit",
@@ -557,7 +567,7 @@ const getArticle = (index) => {
     padding: 0,
     overflow: "hidden",
     cursor: "pointer",
-    backgroundImage: `url(${getArticle(3)?.image || "/hero-main.png"})`,
+    backgroundImage: `url(${wideArticle?.image || "/hero-main.png"})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -593,7 +603,7 @@ const getArticle = (index) => {
         marginBottom: 8,
       }}
     >
-      {getArticle(3)?.label || "Нийгэм"}
+      {wideArticle?.label || "Нийгэм"}
     </div>
 
    <h3
@@ -609,7 +619,7 @@ const getArticle = (index) => {
     overflow: "hidden",
   }}
 >
-      {getArticle(3)?.title || "Онцлох мэдээ"}
+      {wideArticle?.title || "Онцлох мэдээ"}
     </h3>
       <small
   style={{
@@ -621,7 +631,7 @@ const getArticle = (index) => {
     textShadow: "0 2px 10px rgba(0,0,0,.75)",
   }}
 >
-  {getArticle(3)?.date || "2026.06.18"}
+  {wideArticle?.date || "2026.06.18"}
 </small>
   </div>
 </article>
