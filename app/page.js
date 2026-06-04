@@ -12,6 +12,7 @@ const [partners, setPartners] = useState([]);
 const [searchQuery, setSearchQuery] = useState("");
 const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
+  const [siteCategories, setSiteCategories] = useState([]);
 
   useEffect(() => {
   const savedArticles =
@@ -23,9 +24,13 @@ const [menuOpen, setMenuOpen] = useState(false);
   const savedPartners =
     JSON.parse(localStorage.getItem("anzaarPartners")) || [];
 
+    const savedCategories =
+  JSON.parse(localStorage.getItem("anzaarCategories")) || [];
+
   setAllArticles([...savedArticles, ...articles]);
   setBanners(savedBanners);
   setPartners(savedPartners);
+    setSiteCategories(savedCategories);
 
   const checkMobile = () => {
   setIsMobile(window.innerWidth <= 1024);
@@ -39,17 +44,38 @@ const [menuOpen, setMenuOpen] = useState(false);
   };
 }, []);
 
-  const nav = [
-    "Нүүр",
-    "Нийгэм",
-    "Эдийн засаг",
-    "Эрх зүй",
-    "Эрүүл мэнд",
-    "Боловсрол",
-    "Сэтгэл зүй",
-    "Спорт",
-    "Соёл",
-  ];
+  const defaultNavCategories = [
+  { name: "Нийгэм", slug: "niigem" },
+  { name: "Эдийн засаг", slug: "ediinzasag" },
+  { name: "Эрх зүй", slug: "erhzui" },
+  { name: "Эрүүл мэнд", slug: "eruulmend" },
+  { name: "Боловсрол", slug: "bolovsrol" },
+  { name: "Сэтгэл зүй", slug: "setgelzui" },
+  { name: "Спорт", slug: "sport" },
+  { name: "Соёл", slug: "soyol" },
+];
+
+const navCategories =
+  siteCategories.length > 0
+    ? siteCategories
+        .filter((category) => category.active !== false)
+        .filter((category) => category.showInMenu !== false)
+        .map((category) => ({
+          name: category.name,
+          slug: category.slug,
+        }))
+    : defaultNavCategories;
+
+const nav = [
+  {
+    name: "Нүүр",
+    href: "/",
+  },
+  ...navCategories.map((category) => ({
+    name: category.name,
+    href: `/category/${category.slug}`,
+  })),
+];
 
   const fallbackArticle = {
     id: "fallback",
@@ -373,40 +399,21 @@ const getArticle = (index) => {
   }}
 >
             {nav.map((item, i) => {
-              const href =
-                item === "Нүүр"
-                  ? "/"
-                  : item === "Нийгэм"
-                  ? "/category/niigem"
-                  : item === "Эдийн засаг"
-                  ? "/category/ediinzasag"
-                  : item === "Эрх зүй"
-                  ? "/category/erhzui"
-                  : item === "Эрүүл мэнд"
-                  ? "/category/eruulmend"
-                  : item === "Боловсрол"
-                  ? "/category/bolovsrol"
-                  : item === "Сэтгэл зүй"
-                  ? "/category/setgelzui"
-                  : item === "Спорт"
-                  ? "/category/sport"
-                  : "/category/soyol";
-
-              return (
-                <Link
-                  key={item}
-                  href={href}
-                  style={{
-                    textDecoration: "none",
-                    color: i === 0 ? "#fff" : "#aaa",
-                    borderBottom: i === 0 ? "2px solid #e11212" : "none",
-                    paddingBottom: 8,
-                  }}
-                >
-                  {item}
-                </Link>
-              );
-            })}
+  return (
+    <Link
+      key={item.name}
+      href={item.href}
+      style={{
+        textDecoration: "none",
+        color: i === 0 ? "#fff" : "#aaa",
+        borderBottom: i === 0 ? "2px solid #e11212" : "none",
+        paddingBottom: 8,
+      }}
+    >
+      {item.name}
+    </Link>
+  );
+})}
           </nav>
         </div>
       </header>
