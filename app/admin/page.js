@@ -166,10 +166,32 @@ const menuItems = [
                     <td style={cell}>{post.views || 0}</td>
 
                     <td style={cell}>
-                      <span style={post.featured ? featuredStatus : status}>
-                        {post.featured ? "Онцлох" : "Нийтлэгдсэн"}
-                      </span>
-                    </td>
+  <div
+    style={{
+      display: "flex",
+      gap: 6,
+      flexWrap: "wrap",
+    }}
+  >
+    {post.featured && (
+      <span style={featuredStatus}>
+        Онцлох
+      </span>
+    )}
+
+    {post.wide && (
+      <span style={wideStatus}>
+        Wide
+      </span>
+    )}
+
+    {!post.featured && !post.wide && (
+      <span style={status}>
+        Нийтлэгдсэн
+      </span>
+    )}
+  </div>
+</td>
 
                     <td style={cell}>
                       <Link href={`/article/${post.id}`} style={viewLink}>
@@ -460,6 +482,13 @@ const status = {
 const featuredStatus = {
   background: "#3a2d08",
   color: "#facc15",
+  padding: "6px 10px",
+  borderRadius: 6,
+};
+
+const wideStatus = {
+  background: "#082f49",
+  color: "#38bdf8",
   padding: "6px 10px",
   borderRadius: 6,
 };
