@@ -529,9 +529,9 @@ const getArticle = (index) => {
     order: isMobile ? 2 : 1,
   }}
 >
-           <MiniVisualCard item={getArticle(1)} height={isMobile ? 180 : 190} />
+           <MiniVisualCard item={getArticle(0)} height={isMobile ? 180 : 190} />
+<MiniVisualCard item={getArticle(1)} height={isMobile ? 180 : 190} />
 <MiniVisualCard item={getArticle(2)} height={isMobile ? 180 : 190} />
-<MiniVisualCard item={getArticle(3)} height={isMobile ? 180 : 190} />
 </aside>
 
 <section
@@ -543,7 +543,7 @@ const getArticle = (index) => {
   }}
 >
             <Link
-              href={`/article/${getArticle(4)?.id || ""}`}
+              href={`/article/${getArticle(3)?.id || ""}`}
               style={{
                 textDecoration: "none",
                 color: "inherit",
@@ -557,7 +557,7 @@ const getArticle = (index) => {
     padding: 0,
     overflow: "hidden",
     cursor: "pointer",
-    backgroundImage: `url(${getArticle(4)?.image || "/hero-main.png"})`,
+    backgroundImage: `url(${getArticle(3)?.image || "/hero-main.png"})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -593,7 +593,7 @@ const getArticle = (index) => {
         marginBottom: 8,
       }}
     >
-      {getArticle(4)?.label || "Нийгэм"}
+      {getArticle(3)?.label || "Нийгэм"}
     </div>
 
    <h3
@@ -609,7 +609,7 @@ const getArticle = (index) => {
     overflow: "hidden",
   }}
 >
-      {getArticle(4)?.title || "Онцлох мэдээ"}
+      {getArticle(3)?.title || "Онцлох мэдээ"}
     </h3>
       <small
   style={{
@@ -621,7 +621,7 @@ const getArticle = (index) => {
     textShadow: "0 2px 10px rgba(0,0,0,.75)",
   }}
 >
-  {getArticle(4)?.date || "2026.06.18"}
+  {getArticle(3)?.date || "2026.06.18"}
 </small>
   </div>
 </article>
@@ -760,9 +760,9 @@ const getArticle = (index) => {
     order: isMobile ? 3 : 3,
   }}
 >
+<MiniVisualCard item={getArticle(4)} height={isMobile ? 180 : 190} />
 <MiniVisualCard item={getArticle(5)} height={isMobile ? 180 : 190} />
 <MiniVisualCard item={getArticle(6)} height={isMobile ? 180 : 190} />
-<MiniVisualCard item={getArticle(7)} height={isMobile ? 180 : 190} />
           </aside>
         </div>
 
