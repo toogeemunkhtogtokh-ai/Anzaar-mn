@@ -222,7 +222,7 @@ export default function CategoryPage({ params }) {
           >
             <h1
               style={{
-                fontSize: isMobile ? 42 : 64,
+                fontSize: isMobile ? 42 : 56,
                 margin: 0,
                 lineHeight: 1.05,
               }}
@@ -281,7 +281,7 @@ export default function CategoryPage({ params }) {
                 >
                   <div
                     style={{
-                      height: isMobile ? 190 : 180,
+                      height: isMobile ? 190 : 160,
                       backgroundImage: `url(${item.image || "/hero-main.png"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
