@@ -256,132 +256,134 @@ const hasMore = visibleCount < filtered.length;
           </p>
         </div>
 
-        {filtered.length > 0 ? (
-          <div
+       {filtered.length > 0 ? (
+  <>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+        gap: isMobile ? 18 : 24,
+      }}
+    >
+      {visibleArticles.map((item) => (
+        <Link
+          key={item.id}
+          href={`/article/${item.id}`}
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            display: "block",
+          }}
+        >
+          <article
             style={{
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-              gap: isMobile ? 18 : 24,
+              background: "linear-gradient(180deg,#111,#050505)",
+              border: "1px solid rgba(255,255,255,.1)",
+              minHeight: isMobile ? "auto" : 390,
+              overflow: "hidden",
             }}
           >
-            {visibleArticles.map((item) => (
-              <Link
-                key={item.id}
-                href={`/article/${item.id}`}
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                  display: "block",
-                }}
-              >
-                <article
-                  style={{
-                    background: "linear-gradient(180deg,#111,#050505)",
-                    border: "1px solid rgba(255,255,255,.1)",
-                    minHeight: isMobile ? "auto" : 390,
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      height: isMobile ? 190 : 160,
-                      backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      padding: isMobile ? 16 : 20,
-                    }}
-                  >
-                    <div
-                      style={{
-                        color: "#e11212",
-                        fontFamily: "Arial",
-                        fontSize: 12,
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.label || title}
-                    </div>
-
-                    <h2
-                      style={{
-                        fontSize: isMobile ? 23 : 27,
-                        lineHeight: 1.25,
-                        margin: "12px 0 10px",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {item.title}
-                    </h2>
-
-                    <p
-                      style={{
-                        color: "#aaa",
-                        fontFamily: "Arial",
-                        fontSize: isMobile ? 13 : 14,
-                        lineHeight: 1.5,
-                        margin: 0,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 3,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {item.excerpt || item.content || ""}
-                    </p>
-
-                    <div
-                      style={{
-                        color: "#777",
-                        fontFamily: "Arial",
-                        fontSize: 12,
-                        marginTop: 18,
-                      }}
-                    >
-                      {item.date}
-                    </div>
-                  </div>
-                </article>
-                            </Link>
-            ))}
-          </div>
-
-          {hasMore && (
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 34,
+                height: isMobile ? 170 : 160,
+                backgroundImage: `url(${item.image || "/hero-main.png"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            />
+
+            <div
+              style={{
+                padding: isMobile ? 16 : 20,
               }}
             >
-              <button
-                onClick={() => setVisibleCount((count) => count + 30)}
+              <div
                 style={{
-                  border: "1px solid rgba(255,255,255,.14)",
-                  background: "#111",
-                  color: "#fff",
-                  padding: "13px 24px",
-                  cursor: "pointer",
+                  color: "#e11212",
                   fontFamily: "Arial",
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 700,
                   textTransform: "uppercase",
                 }}
               >
-                Илүү үзэх
-              </button>
+                {item.label || title}
+              </div>
+
+              <h2
+                style={{
+                  fontSize: isMobile ? 23 : 27,
+                  lineHeight: 1.25,
+                  margin: "12px 0 10px",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {item.title}
+              </h2>
+
+              <p
+                style={{
+                  color: "#aaa",
+                  fontFamily: "Arial",
+                  fontSize: isMobile ? 13 : 14,
+                  lineHeight: 1.5,
+                  margin: 0,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {item.excerpt || item.content || ""}
+              </p>
+
+              <div
+                style={{
+                  color: "#777",
+                  fontFamily: "Arial",
+                  fontSize: 12,
+                  marginTop: 18,
+                }}
+              >
+                {item.date}
+              </div>
             </div>
-          )}
-        ) : (
+          </article>
+        </Link>
+      ))}
+    </div>
+
+    {hasMore && (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 34,
+        }}
+      >
+        <button
+          onClick={() => setVisibleCount((count) => count + 30)}
+          style={{
+            border: "1px solid rgba(255,255,255,.14)",
+            background: "#111",
+            color: "#fff",
+            padding: "13px 24px",
+            cursor: "pointer",
+            fontFamily: "Arial",
+            fontSize: 13,
+            fontWeight: 700,
+            textTransform: "uppercase",
+          }}
+        >
+          Илүү үзэх
+        </button>
+      </div>
+    )}
+  </>
+) : (
           <div
             style={{
               color: "#777",
