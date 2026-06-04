@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../lib/articles";
+import { mockArticles } from "../lib/mockContent";
 
 export default function Home() {
   const [allArticles, setAllArticles] = useState(articles);
@@ -42,7 +43,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     const savedCategories =
   JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
-  setAllArticles([...savedArticles, ...articles]);
+  setAllArticles(mockArticles([...savedArticles, ...articles]));
   setBanners(savedBanners);
   setPartners(savedPartners);
     setSitePages(savedPages);
