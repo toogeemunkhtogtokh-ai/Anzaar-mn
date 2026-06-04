@@ -14,6 +14,14 @@ const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
   const [sitePages, setSitePages] = useState([]);
+  const [settings, setSettings] = useState({
+  siteName: "Anzaar.mn",
+  slogan: "Өнөөдрийг анзаарч маргаашийг бүтээе.",
+  copyright: "© 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.",
+  facebook: "",
+  email: "",
+  phone: "",
+});
 
   useEffect(() => {
   const savedArticles =
@@ -28,6 +36,9 @@ const [menuOpen, setMenuOpen] = useState(false);
     const savedPages =
   JSON.parse(localStorage.getItem("anzaarPages")) || [];
 
+    const savedSettings =
+  JSON.parse(localStorage.getItem("anzaarSettings")) || null;
+
     const savedCategories =
   JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
@@ -36,6 +47,13 @@ const [menuOpen, setMenuOpen] = useState(false);
   setPartners(savedPartners);
     setSitePages(savedPages);
     setSiteCategories(savedCategories);
+    
+    if (savedSettings) {
+  setSettings((prev) => ({
+    ...prev,
+    ...savedSettings,
+  }));
+}
 
   const checkMobile = () => {
   setIsMobile(window.innerWidth <= 1024);
@@ -1064,7 +1082,7 @@ minHeight: isMobile ? 96 : 110,
           fontFamily: "'Times New Roman', serif",
         }}
       >
-        Anzaar.mn
+        {settings.siteName}
       </div>
 
       <div
@@ -1074,7 +1092,7 @@ minHeight: isMobile ? 96 : 110,
           maxWidth: isMobile ? "100%" : 420,
         }}
       >
-        Өнөөдрийг анзаарч маргаашийг бүтээе.
+        {settings.slogan}
       </div>
     </div>
 
@@ -1116,7 +1134,7 @@ minHeight: isMobile ? 96 : 110,
       textAlign: isMobile ? "center" : "left",
     }}
   >
-    © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+    {settings.copyright}
   </div>
 </footer>
     </main>
