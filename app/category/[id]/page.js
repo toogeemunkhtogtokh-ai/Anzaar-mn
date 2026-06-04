@@ -7,8 +7,9 @@ import { articles } from "../../../lib/articles";
 
 export default function CategoryPage({ params }) {
   const [allArticles, setAllArticles] = useState(articles);
-  const [isMobile, setIsMobile] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+const [visibleCount, setVisibleCount] = useState(30);
+const [isMobile, setIsMobile] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const savedArticles =
@@ -73,6 +74,8 @@ export default function CategoryPage({ params }) {
   const title = names[params.id] || "Ангилал";
 
   const filtered = allArticles.filter((item) => item.category === params.id);
+  const visibleArticles = filtered.slice(0, visibleCount);
+const hasMore = visibleCount < filtered.length;
 
   return (
     <main
@@ -261,7 +264,7 @@ export default function CategoryPage({ params }) {
               gap: isMobile ? 18 : 24,
             }}
           >
-            {filtered.map((item) => (
+            {visibleArticles.map((item) => (
               <Link
                 key={item.id}
                 href={`/article/${item.id}`}
@@ -348,9 +351,36 @@ export default function CategoryPage({ params }) {
                     </div>
                   </div>
                 </article>
-              </Link>
+                            </Link>
             ))}
           </div>
+
+          {hasMore && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 34,
+              }}
+            >
+              <button
+                onClick={() => setVisibleCount((count) => count + 30)}
+                style={{
+                  border: "1px solid rgba(255,255,255,.14)",
+                  background: "#111",
+                  color: "#fff",
+                  padding: "13px 24px",
+                  cursor: "pointer",
+                  fontFamily: "Arial",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                }}
+              >
+                Илүү үзэх
+              </button>
+            </div>
+          )}
         ) : (
           <div
             style={{
