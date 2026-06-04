@@ -13,6 +13,7 @@ const [searchQuery, setSearchQuery] = useState("");
 const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
+  const [sitePages, setSitePages] = useState([]);
 
   useEffect(() => {
   const savedArticles =
@@ -24,12 +25,16 @@ const [menuOpen, setMenuOpen] = useState(false);
   const savedPartners =
     JSON.parse(localStorage.getItem("anzaarPartners")) || [];
 
+    const savedPages =
+  JSON.parse(localStorage.getItem("anzaarPages")) || [];
+
     const savedCategories =
   JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
   setAllArticles([...savedArticles, ...articles]);
   setBanners(savedBanners);
   setPartners(savedPartners);
+    setSitePages(savedPages);
     setSiteCategories(savedCategories);
 
   const checkMobile = () => {
@@ -132,7 +137,8 @@ const getArticle = (index) => {
 
   const inlineBanner = banners.find((b) => b.position === "inline" && b.active);
   const activePartners = partners.filter((partner) => partner.active !== false);
-
+const activePages = sitePages.filter((page) => page.active !== false);
+  
   const previousArticles =
     safeArticles.length >= 6
       ? safeArticles.slice(0, 8)
@@ -1025,16 +1031,57 @@ minHeight: isMobile ? 96 : 110,
       </section>
 
       <footer
+  style={{
+    borderTop: "1px solid rgba(255,255,255,.1)",
+    padding: isMobile ? "28px 24px" : "34px 48px",
+    color: "#666",
+    fontFamily: "Arial",
+    fontSize: 13,
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1240,
+      margin: "0 auto",
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      justifyContent: "space-between",
+      alignItems: isMobile ? "center" : "flex-start",
+      gap: isMobile ? 18 : 30,
+      textAlign: isMobile ? "center" : "left",
+    }}
+  >
+    <div>
+      © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+    </div>
+
+    {activePages.length > 0 && (
+      <nav
         style={{
-          borderTop: "1px solid rgba(255,255,255,.1)",
-          padding: "34px 48px",
-          color: "#666",
-          fontFamily: "Arial",
-          fontSize: 13,
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: isMobile ? "center" : "flex-end",
+          gap: isMobile ? "10px 14px" : "10px 18px",
+          maxWidth: isMobile ? "100%" : 620,
         }}
       >
-        © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
-      </footer>
+        {activePages.map((page) => (
+          <Link
+            key={page.id}
+            href={`/page/${page.slug}`}
+            style={{
+              color: "#888",
+              textDecoration: "none",
+              fontSize: 13,
+            }}
+          >
+            {page.title}
+          </Link>
+        ))}
+      </nav>
+    )}
+  </div>
+</footer>
     </main>
   );
 }
