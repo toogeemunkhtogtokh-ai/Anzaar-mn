@@ -14,16 +14,31 @@ const [commentName, setCommentName] = useState("");
 const [commentText, setCommentText] = useState("");
 const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
+  const [settings, setSettings] = useState({
+  siteName: "Anzaar.mn",
+  slogan: "Өнөөдрийг анзаарч маргаашийг бүтээе.",
+  copyright: "© 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.",
+});
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("anzaarArticles")) || [];
     const allArticles = [...saved, ...articles];
+
+    const savedSettings =
+  JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
     const found = allArticles.find(
       (item) => String(item.id) === String(params.id)
     );
 
     setArticle(found || null);
+
+    if (savedSettings) {
+  setSettings((prev) => ({
+    ...prev,
+    ...savedSettings,
+  }));
+}
 
     if (found) {
   const sameCategory = allArticles
@@ -919,7 +934,7 @@ const addComment = () => {
           textAlign: isMobile ? "center" : "left",
         }}
       >
-        © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+        {settings.copyright}
       </footer>
     </main>
   );
