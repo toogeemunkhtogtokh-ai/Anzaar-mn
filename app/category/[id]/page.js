@@ -10,10 +10,16 @@ export default function CategoryPage({ params }) {
 const [visibleCount, setVisibleCount] = useState(30);
 const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
+  const [siteCategories, setSiteCategories] = useState([]);
 
   useEffect(() => {
     const savedArticles =
       JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+
+    const savedCategories =
+  JSON.parse(localStorage.getItem("anzaarCategories")) || [];
+
+setSiteCategories(savedCategories);
 
     setAllArticles([...savedArticles, ...articles]);
 
@@ -73,7 +79,16 @@ const [menuOpen, setMenuOpen] = useState(false);
 
   const title = names[params.id] || "Ангилал";
 
-  const filtered = allArticles.filter((item) => item.category === params.id);
+  const currentCategory = siteCategories.find(
+  (category) => category.slug === params.id || category.id === params.id
+);
+
+const categoryIsInactive =
+  siteCategories.length > 0 && currentCategory?.active === false;
+
+  const filtered = categoryIsInactive
+  ? []
+  : allArticles.filter((item) => item.category === params.id);
   const visibleArticles = filtered.slice(0, visibleCount);
 const hasMore = visibleCount < filtered.length;
 
@@ -244,19 +259,34 @@ const hasMore = visibleCount < filtered.length;
           </div>
 
           <p
-            style={{
-              color: "#aaa",
-              fontFamily: "Arial",
-              fontSize: isMobile ? 14 : 16,
-              lineHeight: 1.6,
-              margin: "18px 0 0",
-            }}
-          >
-            Энэ ангиллын нийт {filtered.length} мэдээ байна.
-          </p>
-        </div>
+  style={{
+    color: "#aaa",
+    fontSize: isMobile ? 15 : 18,
+    marginBottom: 44,
+    fontFamily: "Arial",
+  }}
+>
+  {categoryIsInactive
+    ? "Энэ ангилал одоогоор идэвхгүй байна."
+    : `Энэ ангиллын нийт ${filtered.length} мэдээ байна.`}
+</p>
 
-       {filtered.length > 0 ? (
+{categoryIsInactive ? (
+  <div
+    style={{
+      border: "1px solid rgba(255,255,255,.1)",
+      background: "linear-gradient(180deg,#111,#050505)",
+      padding: isMobile ? 22 : 32,
+      color: "#aaa",
+      fontFamily: "Arial",
+      fontSize: isMobile ? 14 : 15,
+      lineHeight: 1.7,
+    }}
+  >
+    Энэ ангилал одоогоор идэвхгүй төлөвтэй байна. Та нүүр хуудас руу буцаж
+    бусад мэдээ, нийтлэлүүдийг үзнэ үү.
+  </div>
+) : filtered.length > 0 ? (
   <>
     <div
       style={{
