@@ -70,6 +70,11 @@ export default function StaticPage({ params }) {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
+  const [settings, setSettings] = useState({
+  siteName: "Anzaar.mn",
+  slogan: "Өнөөдрийг анзаарч маргаашийг бүтээе.",
+  copyright: "© 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.",
+});
 
   useEffect(() => {
     const savedPages =
@@ -78,6 +83,9 @@ export default function StaticPage({ params }) {
     const savedCategories =
       JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
+    const savedSettings =
+  JSON.parse(localStorage.getItem("anzaarSettings")) || null;
+
     const found = savedPages.find(
       (page) => String(page.slug) === String(params.slug)
     );
@@ -85,6 +93,12 @@ export default function StaticPage({ params }) {
     setPageData(found || null);
     setSiteCategories(savedCategories);
     setLoaded(true);
+    if (savedSettings) {
+  setSettings((prev) => ({
+    ...prev,
+    ...savedSettings,
+  }));
+}
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
@@ -360,7 +374,7 @@ export default function StaticPage({ params }) {
           textAlign: isMobile ? "center" : "left",
         }}
       >
-        © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+        {settings.copyright}
       </footer>
     </main>
   );
