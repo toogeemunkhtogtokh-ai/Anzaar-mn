@@ -15,6 +15,7 @@ export default function NewPostPage() {
     author: "Anzaar.mn редакц",
     status: "published",
     featured: false,
+    wide: false,
   });
 
   const [imageName, setImageName] = useState("");
@@ -104,17 +105,17 @@ export default function NewPostPage() {
       author: form.author || "Anzaar.mn редакц",
       status: form.status,
       featured: form.featured,
-      views: 0,
+wide: form.wide,
+views: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    const updatedArticles = form.featured
-      ? existing.map((article) => ({
-          ...article,
-          featured: false,
-        }))
-      : existing;
+    const updatedArticles = existing.map((article) => ({
+  ...article,
+  featured: form.featured ? false : article.featured,
+  wide: form.wide ? false : article.wide,
+}));
 
     try {
   localStorage.setItem(
@@ -281,6 +282,16 @@ export default function NewPostPage() {
                 />
                 <span>Онцлох мэдээ болгох</span>
               </label>
+                    <label style={checkboxBox}>
+  <input
+    type="checkbox"
+    name="wide"
+    checked={form.wide}
+    onChange={handleChange}
+    style={checkboxInput}
+  />
+  <span>Wide мэдээ болгох</span>
+</label>
 
               <label style={label}>Author</label>
               <input
