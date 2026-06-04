@@ -279,7 +279,7 @@ const hasMore = visibleCount < filtered.length;
             style={{
               background: "linear-gradient(180deg,#111,#050505)",
               border: "1px solid rgba(255,255,255,.1)",
-              minHeight: isMobile ? "auto" : 390,
+              minHeight: isMobile ? "auto" : 340,
               overflow: "hidden",
             }}
           >
@@ -312,7 +312,7 @@ const hasMore = visibleCount < filtered.length;
 
               <h2
                 style={{
-                  fontSize: isMobile ? 23 : 27,
+                  fontSize: isMobile ? 22 : 24,
                   lineHeight: 1.25,
                   margin: "12px 0 10px",
                   display: "-webkit-box",
