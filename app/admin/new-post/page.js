@@ -66,11 +66,25 @@ export default function NewPostPage() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const existing =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+  if (!form.title.trim()) {
+    alert("Нийтлэлийн гарчиг оруулна уу.");
+    return;
+  }
 
+  if (!form.category) {
+    alert("Ангилал сонгоно уу.");
+    return;
+  }
+
+  if (!form.content.trim()) {
+    alert("Нийтлэлийн агуулга оруулна уу.");
+    return;
+  }
+
+  const existing =
+    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
     const newArticle = {
       id: Date.now(),
       slug: generateSlug(form.title),
