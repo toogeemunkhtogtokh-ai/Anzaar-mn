@@ -116,13 +116,21 @@ export default function NewPostPage() {
         }))
       : existing;
 
-    localStorage.setItem(
-      "anzaarArticles",
-      JSON.stringify([newArticle, ...updatedArticles])
-    );
+    try {
+  localStorage.setItem(
+    "anzaarArticles",
+    JSON.stringify([newArticle, ...updatedArticles])
+  );
 
-    alert("Нийтлэл амжилттай хадгалагдлаа");
-    window.location.href = "/admin";
+  alert("Нийтлэл амжилттай хадгалагдлаа");
+  window.location.href = "/admin";
+} catch (error) {
+  console.error("Save error:", error);
+
+  alert(
+    "Нийтлэл хадгалагдсангүй. Зургийн хэмжээ их байх эсвэл browser localStorage дүүрсэн байж магадгүй. Зургаа багасгаад дахин оролдоно уу."
+  );
+}
   };
 
   return (
