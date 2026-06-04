@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../../../lib/articles";
+import { mockArticles } from "../../../lib/mockContent";
 
 const defaultCategories = [
   { name: "Нийгэм", slug: "niigem", active: true, showInMenu: true },
@@ -45,7 +46,7 @@ export default function DynamicArticle({ params }) {
     const savedSettings =
       JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
-    const allArticles = [...saved, ...articles];
+    const allArticles = mockArticles([...saved, ...articles]);
 
     const found = allArticles.find(
       (item) => String(item.id) === String(params.id)
