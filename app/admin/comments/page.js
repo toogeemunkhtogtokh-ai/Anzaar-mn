@@ -52,19 +52,19 @@ export default function CommentsPage() {
   };
 
   const toggleComment = (comment) => {
-    const stored = JSON.parse(localStorage.getItem(comment.storageKey)) || [];
+  const stored = JSON.parse(localStorage.getItem(comment.storageKey)) || [];
 
-    const updated = stored.map((item) =>
-      item.id === comment.id
-        ? {
-            ...item,
-            active: item.active === false ? true : false,
-          }
-        : item
-    );
+  const updated = stored.map((item) =>
+    String(item.id) === String(comment.id)
+      ? {
+          ...item,
+          active: item.active === false ? true : false,
+        }
+      : item
+  );
 
-    saveCommentsByKey(comment.storageKey, updated);
-  };
+  saveCommentsByKey(comment.storageKey, updated);
+};
 
   const deleteComment = (comment) => {
     const confirmed = confirm("Энэ сэтгэгдлийг устгах уу?");
