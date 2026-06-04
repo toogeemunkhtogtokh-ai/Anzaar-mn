@@ -5,11 +5,22 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../../../lib/articles";
 
+const defaultCategories = [
+  { name: "Нийгэм", slug: "niigem", active: true, showInMenu: true },
+  { name: "Эдийн засаг", slug: "ediinzasag", active: true, showInMenu: true },
+  { name: "Эрх зүй", slug: "erhzui", active: true, showInMenu: true },
+  { name: "Эрүүл мэнд", slug: "eruulmend", active: true, showInMenu: true },
+  { name: "Боловсрол", slug: "bolovsrol", active: true, showInMenu: true },
+  { name: "Сэтгэл зүй", slug: "setgelzui", active: true, showInMenu: true },
+  { name: "Спорт", slug: "sport", active: true, showInMenu: true },
+  { name: "Соёл", slug: "soyol", active: true, showInMenu: true },
+];
+
 export default function CategoryPage({ params }) {
   const [allArticles, setAllArticles] = useState(articles);
-const [visibleCount, setVisibleCount] = useState(30);
-const [isMobile, setIsMobile] = useState(false);
-const [menuOpen, setMenuOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(30);
+  const [isMobile, setIsMobile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
 
   useEffect(() => {
@@ -17,11 +28,10 @@ const [menuOpen, setMenuOpen] = useState(false);
       JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
     const savedCategories =
-  JSON.parse(localStorage.getItem("anzaarCategories")) || [];
-
-setSiteCategories(savedCategories);
+      JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
     setAllArticles([...savedArticles, ...articles]);
+    setSiteCategories(savedCategories);
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
@@ -35,16 +45,25 @@ setSiteCategories(savedCategories);
     };
   }, []);
 
+  const categorySource =
+    siteCategories.length > 0 ? siteCategories : defaultCategories;
+
+  const navCategories = categorySource
+    .filter((category) => category.active !== false)
+    .filter((category) => category.showInMenu !== false)
+    .map((category) => ({
+      name: category.name,
+      href: `/category/${category.slug}`,
+      slug: category.slug,
+    }));
+
   const nav = [
-    "Нүүр",
-    "Нийгэм",
-    "Эдийн засаг",
-    "Эрх зүй",
-    "Эрүүл мэнд",
-    "Боловсрол",
-    "Сэтгэл зүй",
-    "Спорт",
-    "Соёл",
+    {
+      name: "Нүүр",
+      href: "/",
+      slug: "home",
+    },
+    ...navCategories,
   ];
 
   const names = {
@@ -58,39 +77,26 @@ setSiteCategories(savedCategories);
     soyol: "Соёл",
   };
 
-  const getHref = (item) =>
-    item === "Нүүр"
-      ? "/"
-      : item === "Нийгэм"
-      ? "/category/niigem"
-      : item === "Эдийн засаг"
-      ? "/category/ediinzasag"
-      : item === "Эрх зүй"
-      ? "/category/erhzui"
-      : item === "Эрүүл мэнд"
-      ? "/category/eruulmend"
-      : item === "Боловсрол"
-      ? "/category/bolovsrol"
-      : item === "Сэтгэл зүй"
-      ? "/category/setgelzui"
-      : item === "Спорт"
-      ? "/category/sport"
-      : "/category/soyol";
+  const title =
+    categorySource.find(
+      (category) => category.slug === params.id || category.id === params.id
+    )?.name ||
+    names[params.id] ||
+    "Ангилал";
 
-  const title = names[params.id] || "Ангилал";
+  const currentCategory = categorySource.find(
+    (category) => category.slug === params.id || category.id === params.id
+  );
 
-  const currentCategory = siteCategories.find(
-  (category) => category.slug === params.id || category.id === params.id
-);
-
-const categoryIsInactive =
-  siteCategories.length > 0 && currentCategory?.active === false;
+  const categoryIsInactive =
+    categorySource.length > 0 && currentCategory?.active === false;
 
   const filtered = categoryIsInactive
-  ? []
-  : allArticles.filter((item) => item.category === params.id);
+    ? []
+    : allArticles.filter((item) => item.category === params.id);
+
   const visibleArticles = filtered.slice(0, visibleCount);
-const hasMore = visibleCount < filtered.length;
+  const hasMore = visibleCount < filtered.length;
 
   return (
     <main
@@ -182,14 +188,13 @@ const hasMore = visibleCount < filtered.length;
             }}
           >
             {nav.map((item) => {
-              const href = getHref(item);
               const active =
-                item === title || (item === "Нүүр" && params.id === undefined);
+                item.slug === params.id || (item.slug === "home" && !params.id);
 
               return (
                 <Link
-                  key={item}
-                  href={href}
+                  key={item.slug}
+                  href={item.href}
                   style={{
                     textDecoration: "none",
                     color: active ? "#fff" : "#aaa",
@@ -197,7 +202,7 @@ const hasMore = visibleCount < filtered.length;
                     paddingBottom: 8,
                   }}
                 >
-                  {item}
+                  {item.name}
                 </Link>
               );
             })}
@@ -239,193 +244,194 @@ const hasMore = visibleCount < filtered.length;
             }}
           >
             <h1
-  style={{
-    fontSize: isMobile ? 38 : 46,
-    margin: 0,
-    lineHeight: 1.05,
-  }}
->
-  {title}
-</h1>
+              style={{
+                fontSize: isMobile ? 38 : 46,
+                margin: 0,
+                lineHeight: 1.05,
+              }}
+            >
+              {title}
+            </h1>
 
-<div
-  style={{
-    width: isMobile ? "100%" : "72%",
-    height: 2,
-    background: "#e11212",
-    marginTop: 12,
-  }}
-/>
+            <div
+              style={{
+                width: isMobile ? "100%" : "72%",
+                height: 2,
+                background: "#e11212",
+                marginTop: 12,
+              }}
+            />
           </div>
 
           <p
-  style={{
-    color: "#aaa",
-    fontSize: isMobile ? 15 : 18,
-    marginBottom: 44,
-    fontFamily: "Arial",
-  }}
->
-  {categoryIsInactive
-    ? "Энэ ангилал одоогоор идэвхгүй байна."
-    : `Энэ ангиллын нийт ${filtered.length} мэдээ байна.`}
-</p>
-
-{categoryIsInactive ? (
-  <div
-    style={{
-      border: "1px solid rgba(255,255,255,.1)",
-      background: "linear-gradient(180deg,#111,#050505)",
-      padding: isMobile ? 22 : 32,
-      color: "#aaa",
-      fontFamily: "Arial",
-      fontSize: isMobile ? 14 : 15,
-      lineHeight: 1.7,
-    }}
-  >
-    Энэ ангилал одоогоор идэвхгүй төлөвтэй байна. Та нүүр хуудас руу буцаж
-    бусад мэдээ, нийтлэлүүдийг үзнэ үү.
-  </div>
-) : filtered.length > 0 ? (
-  <>
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: isMobile
-  ? "1fr"
-  : "repeat(auto-fill, minmax(320px, 360px))",
-        gap: isMobile ? 18 : 24,
-         justifyContent: "start",
-      }}
-    >
-      {visibleArticles.map((item) => (
-        <Link
-          key={item.id}
-          href={`/article/${item.id}`}
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-            display: "block",
-          }}
-        >
-          <article
             style={{
-              background: "linear-gradient(180deg,#111,#050505)",
-              border: "1px solid rgba(255,255,255,.1)",
-              minHeight: isMobile ? "auto" : 340,
-              overflow: "hidden",
+              color: "#aaa",
+              fontSize: isMobile ? 15 : 18,
+              marginBottom: 0,
+              marginTop: 24,
+              fontFamily: "Arial",
             }}
           >
-            <div
-              style={{
-                height: isMobile ? 170 : 160,
-                backgroundImage: `url(${item.image || "/hero-main.png"})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-            />
+            {categoryIsInactive
+              ? "Энэ ангилал одоогоор идэвхгүй байна."
+              : `Энэ ангиллын нийт ${filtered.length} мэдээ байна.`}
+          </p>
+        </div>
 
+        {categoryIsInactive ? (
+          <div
+            style={{
+              border: "1px solid rgba(255,255,255,.1)",
+              background: "linear-gradient(180deg,#111,#050505)",
+              padding: isMobile ? 22 : 32,
+              color: "#aaa",
+              fontFamily: "Arial",
+              fontSize: isMobile ? 14 : 15,
+              lineHeight: 1.7,
+            }}
+          >
+            Энэ ангилал одоогоор идэвхгүй төлөвтэй байна. Та нүүр хуудас руу
+            буцаж бусад мэдээ, нийтлэлүүдийг үзнэ үү.
+          </div>
+        ) : filtered.length > 0 ? (
+          <>
             <div
               style={{
-                padding: isMobile ? 16 : 20,
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "1fr"
+                  : "repeat(auto-fill, minmax(320px, 360px))",
+                gap: isMobile ? 18 : 24,
+                justifyContent: "start",
               }}
             >
-              <div
-                style={{
-                  color: "#e11212",
-                  fontFamily: "Arial",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                }}
-              >
-                {item.label || title}
-              </div>
+              {visibleArticles.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/article/${item.id}`}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    display: "block",
+                  }}
+                >
+                  <article
+                    style={{
+                      background: "linear-gradient(180deg,#111,#050505)",
+                      border: "1px solid rgba(255,255,255,.1)",
+                      minHeight: isMobile ? "auto" : 340,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: isMobile ? 170 : 160,
+                        backgroundImage: `url(${
+                          item.image || "/hero-main.png"
+                        })`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    />
 
-              <h2
-                style={{
-                  fontSize: isMobile ? 21 : 22,
-                  lineHeight: 1.25,
-                  margin: "12px 0 10px",
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {item.title}
-              </h2>
+                    <div
+                      style={{
+                        padding: isMobile ? 16 : 20,
+                      }}
+                    >
+                      <div
+                        style={{
+                          color: "#e11212",
+                          fontFamily: "Arial",
+                          fontSize: 12,
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {item.label || title}
+                      </div>
 
-              <p
-                style={{
-                  color: "#aaa",
-                  fontFamily: "Arial",
-                  fontSize: isMobile ? 13 : 14,
-                  lineHeight: 1.5,
-                  margin: 0,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {item.excerpt || item.content || ""}
-              </p>
+                      <h2
+                        style={{
+                          fontSize: isMobile ? 21 : 22,
+                          lineHeight: 1.25,
+                          margin: "12px 0 10px",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.title}
+                      </h2>
 
-              <div
-                style={{
-                  color: "#777",
-                  fontFamily: "Arial",
-                  fontSize: 12,
-                  marginTop: 18,
-                }}
-              >
-                {item.date}
-              </div>
+                      <p
+                        style={{
+                          color: "#aaa",
+                          fontFamily: "Arial",
+                          fontSize: isMobile ? 13 : 14,
+                          lineHeight: 1.5,
+                          margin: 0,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.excerpt || item.content || ""}
+                      </p>
+
+                      <div
+                        style={{
+                          color: "#777",
+                          fontFamily: "Arial",
+                          fontSize: 12,
+                          marginTop: 18,
+                        }}
+                      >
+                        {item.date}
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
             </div>
-          </article>
-        </Link>
-      ))}
-    </div>
 
-    {hasMore && (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 34,
-        }}
-      >
-        <button
-          onClick={() => setVisibleCount((count) => count + 30)}
-          style={{
-            border: "1px solid rgba(255,255,255,.14)",
-            background: "#111",
-            color: "#fff",
-            padding: "13px 24px",
-            cursor: "pointer",
-            fontFamily: "Arial",
-            fontSize: 13,
-            fontWeight: 700,
-            textTransform: "uppercase",
-          }}
-        >
-          Илүү үзэх
-        </button>
-      </div>
-    )}
-  </>
-) : (
+            {hasMore && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 34,
+                }}
+              >
+                <button
+                  onClick={() => setVisibleCount((count) => count + 30)}
+                  style={{
+                    border: "1px solid rgba(255,255,255,.14)",
+                    background: "#111",
+                    color: "#fff",
+                    padding: "13px 24px",
+                    cursor: "pointer",
+                    fontFamily: "Arial",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Илүү үзэх
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
           <div
             style={{
               color: "#777",
               fontFamily: "Arial",
               border: "1px solid rgba(255,255,255,.1)",
-              background: "#080808",
-              padding: isMobile ? 20 : 28,
-              fontSize: 14,
-              lineHeight: 1.6,
+              padding: 28,
             }}
           >
             Энэ ангилалд одоогоор мэдээ нэмэгдээгүй байна.
