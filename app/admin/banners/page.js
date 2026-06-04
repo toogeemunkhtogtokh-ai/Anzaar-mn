@@ -31,42 +31,116 @@ export default function BannerPage() {
     }
   };
 
- const handleImage = (e) => {
-  const file = e.target.files?.[0];
+  const handleImage = (e) => {
+    const file = e.target.files?.[0];
 
-  if (!file) {
-    setImage("");
-    return;
-  }
+    if (!file) {
+      setImage("");
+      return;
+    }
 
-  if (!file.type.startsWith("image/")) {
-    alert("Зөвхөн зураг файл оруулна уу.");
-    e.target.value = "";
-    setImage("");
-    return;
-  }
+    if (!file.type.startsWith("image/")) {
+      alert("Зөвхөн зураг файл оруулна уу.");
+      e.target.value = "";
+      setImage("");
+      return;
+    }
 
-  if (file.size > 2 * 1024 * 1024) {
-    alert("Зургийн хэмжээ 2MB-аас бага байх шаардлагатай.");
-    e.target.value = "";
-    setImage("");
-    return;
-  }
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Зургийн хэмжээ 2MB-аас бага байх шаардлагатай.");
+      e.target.value = "";
+      setImage("");
+      return;
+    }
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onloadend = () => {
-    setImage(reader.result);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    reader.onerror = () => {
+      alert("Зураг уншихад алдаа гарлаа. Өөр зураг сонгоно уу.");
+      e.target.value = "";
+      setImage("");
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  reader.onerror = () => {
-    alert("Зураг уншихад алдаа гарлаа. Өөр зураг сонгоно уу.");
-    e.target.value = "";
+  const handleAdd = () => {
+    if (!title.trim()) {
+      alert("Баннерын нэр оруулна уу.");
+      return;
+    }
+
+    if (!image) {
+      alert("Баннерын зураг оруулна уу.");
+      return;
+    }
+
+    const newBanner = {
+      id: Date.now(),
+      title: title.trim(),
+      position,
+      url: url.trim(),
+      image,
+      active: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const updated = [
+      newBanner,
+      ...banners.map((banner) =>
+        banner.position === position
+          ? {
+              ...banner,
+              active: false,
+              updatedAt: new Date().toISOString(),
+            }
+          : banner
+      ),
+    ];
+
+    saveBanners(updated);
+
+    setTitle("");
+    setPosition("top");
+    setUrl("");
     setImage("");
+
+    alert("Баннер амжилттай хадгалагдлаа.");
   };
 
-  reader.readAsDataURL(file);
-};
+  const toggleStatus = (id) => {
+    const target = banners.find((banner) => banner.id === id);
+    if (!target) return;
+
+    const nextActive = !target.active;
+
+    const updated = banners.map((banner) => {
+      if (banner.id === id) {
+        return {
+          ...banner,
+          active: nextActive,
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      if (nextActive && banner.position === target.position) {
+        return {
+          ...banner,
+          active: false,
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      return banner;
+    });
+
+    saveBanners(updated);
+  };
 
   const handleDelete = (id) => {
     const confirmed = confirm("Энэ баннерыг устгах уу?");
@@ -139,7 +213,7 @@ export default function BannerPage() {
             )}
 
             <p style={hint}>
-              Зургийн хэмжээ 800KB-аас бага байх ёстой. Top banner-д 1200×90,
+              Зургийн хэмжээ 2MB-аас бага байх ёстой. Top banner-д 1200×90,
               Inline banner-д 1200×120 хэмжээтэй зураг тохиромжтой.
             </p>
 
