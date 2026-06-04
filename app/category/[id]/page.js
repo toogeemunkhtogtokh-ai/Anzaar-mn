@@ -7,7 +7,7 @@ import { articles } from "../../../lib/articles";
 
 export default function CategoryPage({ params }) {
   const [allArticles, setAllArticles] = useState(articles);
-const [visibleCount, setVisibleCount] = useState(1);
+const [visibleCount, setVisibleCount] = useState(30);
 const [isMobile, setIsMobile] = useState(false);
 const [menuOpen, setMenuOpen] = useState(false);
 
