@@ -861,7 +861,7 @@ const activePages = sitePages.filter((page) => page.active !== false);
   </div>
 
   <Link
-  href="/article"
+  href="/articles"
   style={{
     color: "#aaa",
     textDecoration: "none",
