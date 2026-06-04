@@ -224,23 +224,23 @@ const hasMore = visibleCount < filtered.length;
             }}
           >
             <h1
-              style={{
-                fontSize: isMobile ? 42 : 56,
-                margin: 0,
-                lineHeight: 1.05,
-              }}
-            >
-              {title}
-            </h1>
+  style={{
+    fontSize: isMobile ? 38 : 46,
+    margin: 0,
+    lineHeight: 1.05,
+  }}
+>
+  {title}
+</h1>
 
-            <div
-              style={{
-                width: "100%",
-                height: 2,
-                background: "#e11212",
-                marginTop: 12,
-              }}
-            />
+<div
+  style={{
+    width: isMobile ? "100%" : "72%",
+    height: 2,
+    background: "#e11212",
+    marginTop: 12,
+  }}
+/>
           </div>
 
           <p
