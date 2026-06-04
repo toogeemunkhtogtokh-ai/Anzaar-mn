@@ -1057,14 +1057,15 @@ minHeight: isMobile ? 96 : 110,
 
     {activePages.length > 0 && (
       <nav
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: isMobile ? "center" : "flex-end",
-          gap: isMobile ? "10px 14px" : "10px 18px",
-          maxWidth: isMobile ? "100%" : 620,
-        }}
-      >
+  style={{
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "repeat(3, auto)",
+    justifyContent: isMobile ? "center" : "end",
+    justifyItems: isMobile ? "center" : "end",
+    gap: isMobile ? "10px" : "12px 24px",
+    maxWidth: isMobile ? "100%" : 760,
+  }}
+>
         {activePages.map((page) => (
           <Link
             key={page.id}
