@@ -1033,39 +1033,61 @@ minHeight: isMobile ? 96 : 110,
       <footer
   style={{
     borderTop: "1px solid rgba(255,255,255,.1)",
-    padding: isMobile ? "28px 24px" : "34px 48px",
+    padding: isMobile ? "34px 24px" : "46px 48px 34px",
     color: "#666",
     fontFamily: "Arial",
     fontSize: 13,
+    background: "#000",
   }}
 >
   <div
     style={{
       maxWidth: 1240,
       margin: "0 auto",
-      display: "flex",
-      flexDirection: isMobile ? "column" : "row",
-      justifyContent: "space-between",
-      alignItems: isMobile ? "center" : "flex-start",
-      gap: isMobile ? 18 : 30,
-      textAlign: isMobile ? "center" : "left",
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr",
+      gap: isMobile ? 26 : 60,
+      alignItems: "start",
     }}
   >
-    <div>
-      © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
+    <div
+      style={{
+        textAlign: isMobile ? "center" : "left",
+      }}
+    >
+      <div
+        style={{
+          color: "#fff",
+          fontSize: 22,
+          fontWeight: 700,
+          marginBottom: 10,
+          fontFamily: "'Times New Roman', serif",
+        }}
+      >
+        Anzaar.mn
+      </div>
+
+      <div
+        style={{
+          color: "#888",
+          lineHeight: 1.6,
+          maxWidth: isMobile ? "100%" : 420,
+        }}
+      >
+        Өнөөдрийг анзаарч маргаашийг бүтээе.
+      </div>
     </div>
 
     {activePages.length > 0 && (
       <nav
-  style={{
-    display: "grid",
-    gridTemplateColumns: isMobile ? "1fr" : "repeat(3, auto)",
-    justifyContent: isMobile ? "center" : "end",
-    justifyItems: isMobile ? "center" : "end",
-    gap: isMobile ? "10px" : "12px 24px",
-    maxWidth: isMobile ? "100%" : 760,
-  }}
->
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, minmax(160px, auto))",
+          gap: isMobile ? "12px" : "12px 28px",
+          justifyContent: isMobile ? "center" : "end",
+          textAlign: isMobile ? "center" : "left",
+        }}
+      >
         {activePages.map((page) => (
           <Link
             key={page.id}
@@ -1074,6 +1096,7 @@ minHeight: isMobile ? 96 : 110,
               color: "#888",
               textDecoration: "none",
               fontSize: 13,
+              lineHeight: 1.4,
             }}
           >
             {page.title}
@@ -1081,6 +1104,19 @@ minHeight: isMobile ? 96 : 110,
         ))}
       </nav>
     )}
+  </div>
+
+  <div
+    style={{
+      maxWidth: 1240,
+      margin: "34px auto 0",
+      paddingTop: 20,
+      borderTop: "1px solid rgba(255,255,255,.08)",
+      color: "#555",
+      textAlign: isMobile ? "center" : "left",
+    }}
+  >
+    © 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.
   </div>
 </footer>
     </main>
