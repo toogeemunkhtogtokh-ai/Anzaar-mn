@@ -22,11 +22,16 @@ export default function CategoryPage({ params }) {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
+  const [sitePages, setSitePages] = useState([]);
+
   const [settings, setSettings] = useState({
-  siteName: "Anzaar.mn",
-  slogan: "Өнөөдрийг анзаарч маргаашийг бүтээе.",
-  copyright: "© 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.",
-});
+    siteName: "Anzaar.mn",
+    slogan: "Өнөөдрийг анзаарч маргаашийг бүтээе.",
+    copyright: "© 2026 Anzaar.mn. Бүх эрх хуулиар хамгаалагдсан.",
+    facebook: "",
+    email: "",
+    phone: "",
+  });
 
   useEffect(() => {
     const savedArticles =
@@ -35,18 +40,22 @@ export default function CategoryPage({ params }) {
     const savedCategories =
       JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
+    const savedPages =
+      JSON.parse(localStorage.getItem("anzaarPages")) || [];
+
     const savedSettings =
-  JSON.parse(localStorage.getItem("anzaarSettings")) || null;
+      JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
     setAllArticles([...savedArticles, ...articles]);
     setSiteCategories(savedCategories);
+    setSitePages(savedPages);
 
     if (savedSettings) {
-  setSettings((prev) => ({
-    ...prev,
-    ...savedSettings,
-  }));
-}
+      setSettings((prev) => ({
+        ...prev,
+        ...savedSettings,
+      }));
+    }
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
@@ -112,6 +121,8 @@ export default function CategoryPage({ params }) {
 
   const visibleArticles = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
+
+  const activePages = sitePages.filter((page) => page.active !== false);
 
   return (
     <main
@@ -457,14 +468,122 @@ export default function CategoryPage({ params }) {
       <footer
         style={{
           borderTop: "1px solid rgba(255,255,255,.1)",
-          padding: isMobile ? "28px 24px" : "34px 48px",
+          padding: isMobile ? "34px 24px" : "46px 48px 34px",
           color: "#666",
           fontFamily: "Arial",
           fontSize: 13,
-          textAlign: isMobile ? "center" : "left",
+          background: "#000",
         }}
       >
-        {settings.copyright}
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr",
+            gap: isMobile ? 26 : 60,
+            alignItems: "start",
+          }}
+        >
+          <div
+            style={{
+              textAlign: isMobile ? "center" : "left",
+            }}
+          >
+            <div
+              style={{
+                color: "#fff",
+                fontSize: 22,
+                fontWeight: 700,
+                marginBottom: 10,
+                fontFamily: "'Times New Roman', serif",
+              }}
+            >
+              {settings.siteName}
+            </div>
+
+            <div
+              style={{
+                color: "#888",
+                lineHeight: 1.6,
+                maxWidth: isMobile ? "100%" : 420,
+              }}
+            >
+              {settings.slogan}
+            </div>
+
+            {(settings.email || settings.phone || settings.facebook) && (
+              <div
+                style={{
+                  marginTop: 16,
+                  display: "grid",
+                  gap: 6,
+                  color: "#777",
+                  fontSize: 13,
+                }}
+              >
+                {settings.email && <div>Email: {settings.email}</div>}
+                {settings.phone && <div>Утас: {settings.phone}</div>}
+
+                {settings.facebook && (
+                  <a
+                    href={settings.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: "#888",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Facebook
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+
+          {activePages.length > 0 && (
+            <nav
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "1fr"
+                  : "repeat(2, minmax(160px, auto))",
+                gap: isMobile ? "12px" : "12px 28px",
+                justifyContent: isMobile ? "center" : "end",
+                textAlign: isMobile ? "center" : "left",
+              }}
+            >
+              {activePages.map((page) => (
+                <Link
+                  key={page.id}
+                  href={`/page/${page.slug}`}
+                  style={{
+                    color: "#888",
+                    textDecoration: "none",
+                    fontSize: 13,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {page.title}
+                </Link>
+              ))}
+            </nav>
+          )}
+        </div>
+
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "34px auto 0",
+            paddingTop: 20,
+            borderTop: "1px solid rgba(255,255,255,.08)",
+            color: "#555",
+            textAlign: isMobile ? "center" : "left",
+          }}
+        >
+          {settings.copyright}
+        </div>
       </footer>
     </main>
   );
