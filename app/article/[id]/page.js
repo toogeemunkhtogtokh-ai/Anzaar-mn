@@ -595,8 +595,10 @@ const addComment = () => {
       gap: 14,
     }}
 >
-    {comments.length > 0 ? (
-      comments.map((comment) => (
+   {comments.filter((comment) => comment.active !== false).length > 0 ? (
+  comments
+    .filter((comment) => comment.active !== false)
+    .map((comment) => (
         <div
           key={comment.id}
           style={{
