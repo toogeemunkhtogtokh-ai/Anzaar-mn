@@ -973,15 +973,15 @@ minHeight: isMobile ? 96 : 110,
                   >
                     {partner.logo ? (
                       <img
-                        src={partner.logo}
-                        alt={partner.name}
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: 56,
-                          objectFit: "contain",
-                          display: "block",
-                        }}
-                      />
+  src={partner.logo}
+  alt={partner.name}
+  style={{
+    width: "100%",
+    height: isMobile ? 80 : 95,
+    objectFit: "contain",
+    display: "block",
+  }}
+/>
                     ) : (
                       <span
                         style={{
