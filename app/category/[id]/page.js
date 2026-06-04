@@ -261,8 +261,11 @@ const hasMore = visibleCount < filtered.length;
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+        gridTemplateColumns: isMobile
+  ? "1fr"
+  : "repeat(auto-fill, minmax(320px, 360px))",
         gap: isMobile ? 18 : 24,
+         justifyContent: "start",
       }}
     >
       {visibleArticles.map((item) => (
@@ -312,7 +315,7 @@ const hasMore = visibleCount < filtered.length;
 
               <h2
                 style={{
-                  fontSize: isMobile ? 22 : 24,
+                  fontSize: isMobile ? 21 : 22,
                   lineHeight: 1.25,
                   margin: "12px 0 10px",
                   display: "-webkit-box",
