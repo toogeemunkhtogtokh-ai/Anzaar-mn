@@ -1094,6 +1094,35 @@ minHeight: isMobile ? 96 : 110,
       >
         {settings.slogan}
       </div>
+        {(settings.email || settings.phone || settings.facebook) && (
+  <div
+    style={{
+      marginTop: 16,
+      display: "grid",
+      gap: 6,
+      color: "#777",
+      fontSize: 13,
+    }}
+  >
+    {settings.email && <div>Email: {settings.email}</div>}
+
+    {settings.phone && <div>Утас: {settings.phone}</div>}
+
+    {settings.facebook && (
+      <a
+        href={settings.facebook}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: "#888",
+          textDecoration: "none",
+        }}
+      >
+        Facebook
+      </a>
+    )}
+  </div>
+)}
     </div>
 
     {activePages.length > 0 && (
