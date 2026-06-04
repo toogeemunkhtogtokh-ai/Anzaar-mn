@@ -5,50 +5,126 @@ import { useEffect, useState } from "react";
 
 export default function EditPage({ params }) {
   const [article, setArticle] = useState(null);
+  const [imageName, setImageName] = useState("");
 
   useEffect(() => {
     const saved =
       JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
     const found = saved.find(
-      (item) => item.id === Number(params.id)
+      (item) => String(item.id) === String(params.id)
     );
 
-    setArticle(found);
+    setArticle(found || null);
   }, [params.id]);
 
-  const handleSave = () => {
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setArticle({
+      ...article,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Зөвхөн зураг файл оруулна уу.");
+      return;
+    }
+
+    if (file.size > 800 * 1024) {
+      alert("Зургийн хэмжээ 800KB-аас бага байх шаардлагатай.");
+      return;
+    }
+
+    setImageName(file.name);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setArticle({
+        ...article,
+        image: reader.result,
+        imageName: file.name,
+        updatedAt: new Date().toISOString(),
+      });
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    if (!article.title?.trim()) {
+      alert("Нийтлэлийн гарчиг оруулна уу.");
+      return;
+    }
+
+    if (!article.category) {
+      alert("Ангилал сонгоно уу.");
+      return;
+    }
+
+    if (!article.content?.trim()) {
+      alert("Нийтлэлийн агуулга оруулна уу.");
+      return;
+    }
+
     const saved =
       JSON.parse(localStorage.getItem("anzaarArticles")) || [];
 
     const updated = saved.map((item) => {
-      if (item.id === article.id) {
-        return article;
-      }
-
-      if (article.featured) {
+      if (String(item.id) === String(article.id)) {
         return {
-          ...item,
-          featured: false,
+          ...article,
+          label: getLabel(article.category),
+          tags:
+            typeof article.tags === "string"
+              ? article.tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter(Boolean)
+              : article.tags || [],
+          updatedAt: new Date().toISOString(),
         };
       }
 
-      return item;
+      return {
+        ...item,
+        featured: article.featured ? false : item.featured,
+        wide: article.wide ? false : item.wide,
+      };
     });
 
-    localStorage.setItem(
-      "anzaarArticles",
-      JSON.stringify(updated)
-    );
+    try {
+      localStorage.setItem("anzaarArticles", JSON.stringify(updated));
 
-    alert("Нийтлэл амжилттай шинэчлэгдлээ");
-    window.location.href = "/admin";
+      alert("Нийтлэл амжилттай шинэчлэгдлээ");
+      window.location.href = "/admin";
+    } catch (error) {
+      console.error("Update error:", error);
+
+      alert(
+        "Нийтлэл хадгалагдсангүй. Зургийн хэмжээ их байх эсвэл browser localStorage дүүрсэн байж магадгүй."
+      );
+    }
   };
 
   if (!article) {
     return (
       <main style={page}>
-        <p>Уншиж байна...</p>
+        <section style={container}>
+          <p style={{ color: "#aaa" }}>Уншиж байна...</p>
+
+          <Link href="/admin" style={backLink}>
+            ← Хяналтын самбар руу буцах
+          </Link>
+        </section>
       </main>
     );
   }
@@ -60,83 +136,246 @@ export default function EditPage({ params }) {
           ← Хяналтын самбар руу буцах
         </Link>
 
-        <h1 style={title}>Нийтлэл засах</h1>
-
-        <input
-          value={article.title || ""}
-          onChange={(e) =>
-            setArticle({ ...article, title: e.target.value })
-          }
-          placeholder="Нийтлэлийн гарчиг"
-          style={input}
-        />
-
-        <label style={checkboxBox}>
-          <input
-            type="checkbox"
-            checked={article.featured || false}
-            onChange={(e) =>
-              setArticle({
-                ...article,
-                featured: e.target.checked,
-              })
-            }
-            style={checkboxInput}
-          />
-          <span>Онцлох мэдээ болгох</span>
-        </label>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-              setArticle({
-                ...article,
-                image: reader.result,
-              });
-            };
-
-            reader.readAsDataURL(file);
-          }}
-          style={input}
-        />
-
-        {article.image && (
-          <div style={previewBox}>
-            <p style={previewLabel}>Preview</p>
-            <img
-              src={article.image}
-              alt="preview"
-              style={{
-                width: "100%",
-                maxHeight: "320px",
-                objectFit: "cover",
-              }}
-            />
+        <div style={topHeader}>
+          <div>
+            <h1 style={title}>Нийтлэл засах</h1>
+            <p style={desc}>Anzaar.mn редакцийн CMS нийтлэл засварлах хэсэг</p>
           </div>
-        )}
 
-        <textarea
-          value={article.content || ""}
-          onChange={(e) =>
-            setArticle({ ...article, content: e.target.value })
-          }
-          placeholder="Нийтлэлийн агуулга"
-          style={textarea}
-        />
+          <button type="submit" form="edit-post-form" style={topButton}>
+            Хадгалах
+          </button>
+        </div>
 
-        <button onClick={handleSave} style={button}>
-          Хадгалах
-        </button>
+        <form id="edit-post-form" onSubmit={handleSave} style={layout}>
+          <section style={mainColumn}>
+            <div style={card}>
+              <label style={label}>Нийтлэлийн гарчиг</label>
+              <input
+                name="title"
+                value={article.title || ""}
+                onChange={handleChange}
+                placeholder="Нийтлэлийн гарчиг"
+                style={inputStyle}
+                required
+              />
+
+              <label style={label}>SEO гарчиг</label>
+              <input
+                name="seoTitle"
+                value={article.seoTitle || ""}
+                onChange={handleChange}
+                placeholder="Хоосон үлдээвэл үндсэн гарчиг ашиглагдана"
+                style={inputStyle}
+              />
+
+              <label style={label}>Богино тайлбар</label>
+              <textarea
+                name="excerpt"
+                value={article.excerpt || ""}
+                onChange={handleChange}
+                rows="4"
+                placeholder="Homepage болон article detail дээр харагдах богино тайлбар..."
+                style={textareaSmall}
+              />
+
+              <label style={label}>Нийтлэлийн агуулга</label>
+              <textarea
+                name="content"
+                value={article.content || ""}
+                onChange={handleChange}
+                rows="18"
+                placeholder="Нийтлэлийн үндсэн агуулга..."
+                style={textareaStyle}
+                required
+              />
+            </div>
+
+            <div style={previewBox}>
+              <p style={previewLabel}>Live Preview</p>
+
+              {article.image && (
+                <img
+                  src={article.image}
+                  alt="preview"
+                  style={previewImage}
+                />
+              )}
+
+              <p style={previewCategory}>
+                {getLabel(article.category) || "Ангилал"}
+              </p>
+
+              <h2 style={previewTitle}>
+                {article.title || "Нийтлэлийн гарчиг энд харагдана"}
+              </h2>
+
+              <p style={previewExcerpt}>
+                {article.excerpt ||
+                  "Богино тайлбар энд харагдана. Энэ хэсэг homepage болон article page дээр ашиглагдана."}
+              </p>
+
+              <div style={previewMeta}>
+                <span>{article.author || "Anzaar.mn редакц"}</span>
+                <span>•</span>
+                <span>{article.date || "Огноо"}</span>
+                <span>•</span>
+                <span>
+                  {article.status === "draft" ? "Ноорог" : "Нийтлэгдсэн"}
+                </span>
+              </div>
+
+              {article.featured && (
+                <p style={featuredPreview}>★ Өнөөдрийн онцлох мэдээ</p>
+              )}
+
+              {article.wide && (
+                <p style={widePreview}>▰ Wide мэдээ</p>
+              )}
+
+              <p style={previewContent}>
+                {article.content || "Нийтлэлийн эхний агуулга энд харагдана."}
+              </p>
+            </div>
+          </section>
+
+          <aside style={sideColumn}>
+            <div style={card}>
+              <h3 style={sideTitle}>Нийтлэлийн тохиргоо</h3>
+
+              <label style={label}>Ангилал</label>
+              <select
+                name="category"
+                value={article.category || ""}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              >
+                <option value="">Ангилал сонгох</option>
+                <option value="niigem">Нийгэм</option>
+                <option value="ediinzasag">Эдийн засаг</option>
+                <option value="erhzui">Эрх зүй</option>
+                <option value="eruulmend">Эрүүл мэнд</option>
+                <option value="bolovsrol">Боловсрол</option>
+                <option value="setgelzui">Сэтгэл зүй</option>
+                <option value="sport">Спорт</option>
+                <option value="soyol">Соёл</option>
+              </select>
+
+              <label style={label}>Төлөв</label>
+              <select
+                name="status"
+                value={article.status || "published"}
+                onChange={handleChange}
+                style={inputStyle}
+              >
+                <option value="published">Нийтлэх</option>
+                <option value="draft">Ноорог</option>
+              </select>
+
+              <label style={checkboxBox}>
+                <input
+                  type="checkbox"
+                  name="featured"
+                  checked={article.featured || false}
+                  onChange={handleChange}
+                  style={checkboxInput}
+                />
+                <span>Онцлох мэдээ болгох</span>
+              </label>
+
+              <label style={checkboxBox}>
+                <input
+                  type="checkbox"
+                  name="wide"
+                  checked={article.wide || false}
+                  onChange={handleChange}
+                  style={checkboxInput}
+                />
+                <span>Wide мэдээ болгох</span>
+              </label>
+
+              <label style={label}>Author</label>
+              <input
+                name="author"
+                value={article.author || "Anzaar.mn редакц"}
+                onChange={handleChange}
+                placeholder="Anzaar.mn редакц"
+                style={inputStyle}
+              />
+
+              <label style={label}>Tags</label>
+              <input
+                name="tags"
+                value={
+                  Array.isArray(article.tags)
+                    ? article.tags.join(", ")
+                    : article.tags || ""
+                }
+                onChange={handleChange}
+                placeholder="нийгэм, эдийн засаг, бодлого"
+                style={inputStyle}
+              />
+
+              <p style={hint}>
+                Tags-ийг таслалаар тусгаарлаж бичнэ.
+              </p>
+            </div>
+
+            <div style={card}>
+              <h3 style={sideTitle}>Cover image</h3>
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={inputStyle}
+              />
+
+              {imageName && (
+                <p style={hint}>Шинэ файл: {imageName}</p>
+              )}
+
+              {article.imageName && !imageName && (
+                <p style={hint}>Одоогийн файл: {article.imageName}</p>
+              )}
+
+              {article.image && (
+                <img
+                  src={article.image}
+                  alt="cover preview"
+                  style={sideImage}
+                />
+              )}
+
+              <p style={hint}>
+                Зургийн хэмжээ 800KB-аас бага байвал browser localStorage-д найдвартай хадгалагдана.
+              </p>
+            </div>
+
+            <button type="submit" form="edit-post-form" style={buttonStyle}>
+              Хадгалах
+            </button>
+          </aside>
+        </form>
       </section>
     </main>
   );
+}
+
+function getLabel(category) {
+  const labels = {
+    niigem: "Нийгэм",
+    ediinzasag: "Эдийн засаг",
+    erhzui: "Эрх зүй",
+    eruulmend: "Эрүүл мэнд",
+    bolovsrol: "Боловсрол",
+    setgelzui: "Сэтгэл зүй",
+    sport: "Спорт",
+    soyol: "Соёл",
+  };
+
+  return labels[category] || "";
 }
 
 const page = {
@@ -148,7 +387,7 @@ const page = {
 };
 
 const container = {
-  maxWidth: "1000px",
+  maxWidth: "1280px",
   margin: "0 auto",
 };
 
@@ -157,34 +396,91 @@ const backLink = {
   textDecoration: "none",
   display: "inline-block",
   marginBottom: "30px",
-  fontSize: "18px",
+  fontSize: "16px",
+};
+
+const topHeader = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: "24px",
+  marginBottom: "34px",
 };
 
 const title = {
   fontSize: "48px",
-  marginBottom: "30px",
+  margin: "0 0 12px",
 };
 
-const input = {
+const desc = {
+  color: "#888",
+  margin: 0,
+};
+
+const layout = {
+  display: "grid",
+  gridTemplateColumns: "1fr 360px",
+  gap: "28px",
+};
+
+const mainColumn = {
+  display: "grid",
+  gap: "24px",
+};
+
+const sideColumn = {
+  display: "grid",
+  gap: "22px",
+  alignSelf: "start",
+};
+
+const card = {
+  background: "linear-gradient(145deg,#111,#080808)",
+  border: "1px solid #222",
+  padding: "24px",
+};
+
+const label = {
+  display: "block",
+  color: "#aaa",
+  fontSize: "13px",
+  textTransform: "uppercase",
+  marginBottom: "10px",
+  marginTop: "18px",
+};
+
+const inputStyle = {
   width: "100%",
-  padding: "18px",
-  marginBottom: "22px",
-  background: "#111",
+  padding: "16px",
+  background: "#0b0b0b",
   border: "1px solid #222",
   color: "#fff",
-  fontSize: "18px",
+  fontSize: "16px",
+  boxSizing: "border-box",
+};
+
+const textareaStyle = {
+  ...inputStyle,
+  minHeight: "360px",
+  lineHeight: 1.7,
+};
+
+const textareaSmall = {
+  ...inputStyle,
+  minHeight: "110px",
+  lineHeight: 1.6,
 };
 
 const checkboxBox = {
   display: "flex",
   alignItems: "center",
   gap: "12px",
-  background: "#111",
+  background: "#0b0b0b",
   border: "1px solid #222",
-  padding: "18px",
-  marginBottom: "22px",
+  padding: "16px",
   color: "#fff",
-  fontSize: "18px",
+  fontSize: "16px",
+  marginTop: "18px",
 };
 
 const checkboxInput = {
@@ -196,7 +492,6 @@ const previewBox = {
   border: "1px solid #222",
   background: "#0d0d0d",
   padding: "28px",
-  marginBottom: "22px",
 };
 
 const previewLabel = {
@@ -204,24 +499,90 @@ const previewLabel = {
   textTransform: "uppercase",
   fontSize: "12px",
   letterSpacing: "1px",
+  marginBottom: "18px",
 };
 
-const textarea = {
+const previewImage = {
   width: "100%",
-  height: "320px",
-  padding: "18px",
+  maxHeight: "360px",
+  objectFit: "cover",
   marginBottom: "22px",
-  background: "#111",
-  border: "1px solid #222",
-  color: "#fff",
-  fontSize: "18px",
 };
 
-const button = {
-  background: "#e11",
+const previewCategory = {
+  color: "#e11212",
+  fontWeight: 700,
+  textTransform: "uppercase",
+};
+
+const previewTitle = {
+  fontSize: 36,
+  lineHeight: 1.15,
+  margin: "10px 0",
+};
+
+const previewExcerpt = {
+  color: "#bbb",
+  fontSize: "18px",
+  lineHeight: 1.6,
+};
+
+const previewMeta = {
+  display: "flex",
+  gap: "10px",
+  color: "#777",
+  fontSize: "13px",
+  margin: "16px 0",
+};
+
+const featuredPreview = {
+  color: "#facc15",
+  fontWeight: 700,
+};
+
+const widePreview = {
+  color: "#38bdf8",
+  fontWeight: 700,
+};
+
+const previewContent = {
+  color: "#999",
+  lineHeight: 1.7,
+  whiteSpace: "pre-line",
+};
+
+const sideTitle = {
+  margin: 0,
+  fontSize: "20px",
+};
+
+const sideImage = {
+  width: "100%",
+  maxHeight: "220px",
+  objectFit: "cover",
+  marginTop: "18px",
+};
+
+const hint = {
+  color: "#777",
+  fontSize: "13px",
+  lineHeight: 1.5,
+};
+
+const topButton = {
+  background: "#d71919",
   color: "#fff",
   border: "none",
-  padding: "16px 28px",
+  padding: "14px 22px",
+  fontSize: "16px",
   cursor: "pointer",
+};
+
+const buttonStyle = {
+  background: "#d71919",
+  color: "#fff",
+  border: "none",
+  padding: "18px",
   fontSize: "18px",
+  cursor: "pointer",
 };
