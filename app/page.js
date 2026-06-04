@@ -76,14 +76,19 @@ const [menuOpen, setMenuOpen] = useState(false);
   const safeArticles =
   filteredArticles.length > 0 ? filteredArticles : [fallbackArticle];
 
-  const getArticle = (index) => {
-    return safeArticles[index % safeArticles.length] || fallbackArticle;
-  };
-
   const heroArticle =
-    safeArticles.find((article) => article.featured === true) ||
-    safeArticles[0] ||
-    fallbackArticle;
+  safeArticles.find((article) => article.featured === true) ||
+  safeArticles[0] ||
+  fallbackArticle;
+
+const displayArticles = safeArticles.filter(
+  (article) => String(article.id) !== String(heroArticle.id)
+);
+
+const getArticle = (index) => {
+  const list = displayArticles.length > 0 ? displayArticles : safeArticles;
+  return list[index % list.length] || fallbackArticle;
+};
 
   const topBanner =
     banners.find((b) => b.position === "top" && b.active) ||
