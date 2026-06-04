@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../../../lib/articles";
+import { mockArticles } from "../../../lib/mockContent";
 
 const defaultCategories = [
   { name: "Нийгэм", slug: "niigem", active: true, showInMenu: true },
@@ -46,7 +47,7 @@ export default function CategoryPage({ params }) {
     const savedSettings =
       JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
-    setAllArticles([...savedArticles, ...articles]);
+    setAllArticles(mockArticles([...savedArticles, ...articles]));
     setSiteCategories(savedCategories);
     setSitePages(savedPages);
 
