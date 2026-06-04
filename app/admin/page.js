@@ -70,7 +70,6 @@ const menuItems = [
   { title: "Медиа", href: "/admin/media" },
   { title: "Баннер", href: "/admin/banners" },
   { title: "Хамтрагч", href: "/admin/partners" },
-  { title: "Хэрэглэгч", href: "/admin/users" },
   { title: "Тохиргоо", href: "/admin/settings" },
 ];
 
