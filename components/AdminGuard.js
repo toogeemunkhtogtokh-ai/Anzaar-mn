@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const ADMIN_USERNAME = "anzaar_admin";
-const ADMIN_PASSWORD = "CHANGE_THIS_PASSWORD";
+const ADMIN_USERNAME = "Anzaar";
+const ADMIN_PASSWORD = "Anzaar@media2026";
 
 export default function AdminGuard({ children }) {
   const [checked, setChecked] = useState(false);
