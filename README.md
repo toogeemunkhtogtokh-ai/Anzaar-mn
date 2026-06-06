@@ -18,3 +18,9 @@ Official dark minimalist news platform built with:
 * Сэтгэл зүй
 * Спорт
 * Соёл
+
+## commands
+
+* npm install
+* npm run build
+* pm2 restart anzaar
