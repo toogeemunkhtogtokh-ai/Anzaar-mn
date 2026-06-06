@@ -8,15 +8,40 @@ export default function EditPage({ params }) {
   const [imageName, setImageName] = useState("");
 
   useEffect(() => {
-    const saved =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+    if (!params?.id) return;
 
-    const found = saved.find(
-      (item) => String(item.id) === String(params.id)
-    );
+    const loadArticle = async () => {
+      try {
+        const res = await fetch(`/api/news/${params.id}`);
+        const data = await res.json();
 
-    setArticle(found || null);
-  }, [params.id]);
+        console.log(data);
+
+        if (data.success) {
+          const news = data.article;
+
+          setArticle({
+            id: news.id,
+            title: news.title,
+            seoTitle: news.seo_title,
+            excerpt: news.summary,
+            content: news.content,
+            author: news.author,
+            image: news.image,
+            tags: news.tags,
+            status: news.status,
+            featured: news.is_featured === 1,
+            wide: news.is_wide === 1,
+            category: news.category_id,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadArticle();
+  }, [params]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -57,7 +82,7 @@ export default function EditPage({ params }) {
     reader.readAsDataURL(file);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     if (!article.title?.trim()) {
@@ -75,43 +100,28 @@ export default function EditPage({ params }) {
       return;
     }
 
-    const saved =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+    try {
+      const res = await fetch(`/api/news/${article.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(article),
+      });
 
-    const updated = saved.map((item) => {
-      if (String(item.id) === String(article.id)) {
-        return {
-          ...article,
-          label: getLabel(article.category),
-          tags:
-            typeof article.tags === "string"
-              ? article.tags
-                  .split(",")
-                  .map((tag) => tag.trim())
-                  .filter(Boolean)
-              : article.tags || [],
-          updatedAt: new Date().toISOString(),
-        };
+      const data = await res.json();
+
+      if (!data.success) {
+        throw new Error(data.error);
       }
 
-      return {
-        ...item,
-        featured: article.featured ? false : item.featured,
-        wide: article.wide ? false : item.wide,
-      };
-    });
-
-    try {
-      localStorage.setItem("anzaarArticles", JSON.stringify(updated));
-
       alert("Нийтлэл амжилттай шинэчлэгдлээ");
+
       window.location.href = "/admin";
     } catch (error) {
-      console.error("Update error:", error);
+      console.error(error);
 
-      alert(
-        "Нийтлэл хадгалагдсангүй. Зургийн хэмжээ их байх эсвэл browser localStorage дүүрсэн байж магадгүй."
-      );
+      alert("Хадгалах үед алдаа гарлаа");
     }
   };
 
@@ -252,14 +262,14 @@ export default function EditPage({ params }) {
                 required
               >
                 <option value="">Ангилал сонгох</option>
-                <option value="niigem">Нийгэм</option>
-                <option value="ediinzasag">Эдийн засаг</option>
-                <option value="erhzui">Эрх зүй</option>
-                <option value="eruulmend">Эрүүл мэнд</option>
-                <option value="bolovsrol">Боловсрол</option>
-                <option value="setgelzui">Сэтгэл зүй</option>
-                <option value="sport">Спорт</option>
-                <option value="soyol">Соёл</option>
+                <option value="1">Нийгэм</option>
+                <option value="2">Эдийн засаг</option>
+                <option value="3">Эрх зүй</option>
+                <option value="4">Эрүүл мэнд</option>
+                <option value="5">Боловсрол</option>
+                <option value="6">Сэтгэл зүй</option>
+                <option value="7">Спорт</option>
+                <option value="8">Соёл</option>
               </select>
 
               <label style={label}>Төлөв</label>

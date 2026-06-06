@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { articles } from "../../../lib/articles";
 import { mockArticles } from "../../../lib/mockContent";
+import { useParams } from "next/navigation";
 
 const defaultCategories = [
   { name: "Нийгэм", slug: "niigem", active: true, showInMenu: true },
@@ -17,7 +18,22 @@ const defaultCategories = [
   { name: "Соёл", slug: "soyol", active: true, showInMenu: true },
 ];
 
-export default function DynamicArticle({ params }) {
+function getCategoryLabel(id) {
+  const map = {
+    1: "Нийгэм",
+    2: "Эдийн засаг",
+    3: "Эрх зүй",
+    4: "Эрүүл мэнд",
+    5: "Боловсрол",
+    6: "Сэтгэл зүй",
+    7: "Спорт",
+    8: "Соёл",
+  };
+
+  return map[id] || "Мэдээ";
+}
+export default function DynamicArticle() {
+  const params = useParams();
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [latestArticles, setLatestArticles] = useState([]);
@@ -39,66 +55,75 @@ export default function DynamicArticle({ params }) {
   });
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("anzaarArticles")) || [];
-    const savedCategories =
-      JSON.parse(localStorage.getItem("anzaarCategories")) || [];
-    const savedPages = JSON.parse(localStorage.getItem("anzaarPages")) || [];
-    const savedSettings =
-      JSON.parse(localStorage.getItem("anzaarSettings")) || null;
+  if (!params?.id) return;
 
-    const allArticles = mockArticles([...saved, ...articles]);
+  const loadArticle = async () => {
+    try {
+      const res = await fetch(`/api/news/${params.id}`);
 
-    const found = allArticles.find(
-      (item) => String(item.id) === String(params.id)
-    );
+      if (!res.ok) {
+        console.error("API Error:", res.status);
+        return;
+      }
 
-    setArticle(found || null);
-    setSiteCategories(savedCategories);
-    setSitePages(savedPages);
+      const data = await res.json();
 
-    if (savedSettings) {
-      setSettings((prev) => ({
-        ...prev,
-        ...savedSettings,
-      }));
+      console.log(data);
+
+      if (data.success && data.article) {
+        const news = data.article;
+
+        setArticle({
+          ...news,
+          label: getCategoryLabel(news.category_id),
+          date: news.created_at?.slice(0, 10).replaceAll("-", "."),
+          excerpt: news.summary,
+          image: news.image,
+          content: news.content,
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
+  };
 
-    if (found) {
-      const sameCategory = allArticles
-        .filter(
-          (item) =>
-            item.category === found.category &&
-            String(item.id) !== String(found.id)
-        )
-        .slice(0, 3);
+  loadArticle();
 
-      const latest = allArticles
-        .filter((item) => String(item.id) !== String(found.id))
-        .slice(0, 4);
+  const savedCategories =
+    JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
-      setRelatedArticles(
-        sameCategory.length > 0 ? sameCategory : latest.slice(0, 3)
-      );
+  const savedPages =
+    JSON.parse(localStorage.getItem("anzaarPages")) || [];
 
-      setLatestArticles(latest);
+  const savedSettings =
+    JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
-      const savedComments =
-        JSON.parse(localStorage.getItem(`anzaarComments-${params.id}`)) || [];
+  const savedComments =
+    JSON.parse(localStorage.getItem(`anzaarComments-${params.id}`)) || [];
 
-      setComments(savedComments);
-    }
+  setSiteCategories(savedCategories);
+  setSitePages(savedPages);
+  setComments(savedComments);
 
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
+  if (savedSettings) {
+    setSettings((prev) => ({
+      ...prev,
+      ...savedSettings,
+    }));
+  }
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 1024);
+  };
 
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, [params.id]);
+  checkMobile();
+
+  window.addEventListener("resize", checkMobile);
+
+  return () => {
+    window.removeEventListener("resize", checkMobile);
+  };
+}, [params]);
 
   const categorySource =
     siteCategories.length > 0 ? siteCategories : defaultCategories;

@@ -19,6 +19,7 @@ export default function NewPostPage() {
   });
 
   const [imageName, setImageName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -30,7 +31,8 @@ export default function NewPostPage() {
   };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
+
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
@@ -38,23 +40,20 @@ export default function NewPostPage() {
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      alert("Зургийн хэмжээ 2MB-аас бага байх шаардлагатай.");
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Зургийн хэмжээ 5MB-аас бага байх шаардлагатай.");
       return;
     }
 
+    setImageFile(file);
     setImageName(file.name);
 
-    const reader = new FileReader();
+    const previewUrl = URL.createObjectURL(file);
 
-    reader.onloadend = () => {
-      setForm((prev) => ({
-        ...prev,
-        image: reader.result,
-      }));
-    };
-
-    reader.readAsDataURL(file);
+    setForm((prev) => ({
+      ...prev,
+      image: previewUrl,
+    }));
   };
 
   const generateSlug = (text) => {
@@ -66,72 +65,59 @@ export default function NewPostPage() {
       .slice(0, 80);
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!form.title.trim()) {
-    alert("Нийтлэлийн гарчиг оруулна уу.");
-    return;
-  }
+    if (!form.title.trim()) {
+      alert("Нийтлэлийн гарчиг оруулна уу.");
+      return;
+    }
 
-  if (!form.category) {
-    alert("Ангилал сонгоно уу.");
-    return;
-  }
+    if (!form.category) {
+      alert("Ангилал сонгоно уу.");
+      return;
+    }
 
-  if (!form.content.trim()) {
-    alert("Нийтлэлийн агуулга оруулна уу.");
-    return;
-  }
-
-  const existing =
-    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
-    const newArticle = {
-      id: Date.now(),
-      slug: generateSlug(form.title),
-      title: form.title,
-      seoTitle: form.seoTitle || form.title,
-      excerpt: form.excerpt,
-      category: form.category,
-      label: getLabel(form.category),
-      date: new Date().toISOString().slice(0, 10).replaceAll("-", "."),
-      image: form.image || "/feature-1.png",
-      imageName,
-      content: form.content,
-      tags: form.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-      author: form.author || "Anzaar.mn редакц",
-      status: form.status,
-      featured: form.featured,
-wide: form.wide,
-views: 0,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    const updatedArticles = existing.map((article) => ({
-  ...article,
-  featured: form.featured ? false : article.featured,
-  wide: form.wide ? false : article.wide,
-}));
+    if (!form.content.trim()) {
+      alert("Нийтлэлийн агуулга оруулна уу.");
+      return;
+    }
 
     try {
-  localStorage.setItem(
-    "anzaarArticles",
-    JSON.stringify([newArticle, ...updatedArticles])
-  );
+      const formData = new FormData();
 
-  alert("Нийтлэл амжилттай хадгалагдлаа");
-  window.location.href = "/admin";
-} catch (error) {
-  console.error("Save error:", error);
+      formData.append("title", form.title);
+      formData.append("seoTitle", form.seoTitle || form.title);
+      formData.append("excerpt", form.excerpt);
+      formData.append("category", form.category);
+      formData.append("content", form.content);
+      formData.append("tags", form.tags);
+      formData.append("author", form.author);
+      formData.append("status", form.status);
+      formData.append("featured", form.featured ? "1" : "0");
+      formData.append("wide", form.wide ? "1" : "0");
 
-  alert(
-    "Нийтлэл хадгалагдсангүй. Зургийн хэмжээ их байх эсвэл browser localStorage дүүрсэн байж магадгүй. Зургаа багасгаад дахин оролдоно уу."
-  );
-}
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      const response = await fetch("/api/news/create", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Нийтлэл амжилттай хадгалагдлаа");
+        window.location.href = "/admin";
+      } else {
+        alert(result.error || "Алдаа гарлаа");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Сервертэй холбогдож чадсангүй");
+    }
   };
 
   return (

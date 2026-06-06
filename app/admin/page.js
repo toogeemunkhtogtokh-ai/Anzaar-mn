@@ -8,10 +8,12 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const saved =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
-
-    setPosts(saved);
+    fetch("/api/news")
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data);
+      })
+      .catch(console.error);
   }, []);
 
   const savePosts = (updatedPosts) => {

@@ -25,48 +25,89 @@ const [menuOpen, setMenuOpen] = useState(false);
 });
 
   useEffect(() => {
-  const savedArticles =
-    JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+    const loadData = async () => {
+      try {
+        const newsRes = await fetch("/api/news");
+        const news = await newsRes.json();
 
-  const savedBanners =
-    JSON.parse(localStorage.getItem("anzaarBanners")) || [];
+        const mappedNews = news.map((item) => ({
+          id: item.id,
+          title: item.title,
+          excerpt: item.summary,
+          content: item.content,
+          image: item.image,
+          date: new Date(item.created_at)
+            .toISOString()
+            .slice(0, 10)
+            .replaceAll("-", "."),
+          featured: item.is_featured === 1,
+          wide: item.is_wide === 1,
+          category: item.category_id,
+          label: getCategoryLabel(item.category_id),
+        }));
 
-  const savedPartners =
-    JSON.parse(localStorage.getItem("anzaarPartners")) || [];
+        setAllArticles(mappedNews);
 
-    const savedPages =
-  JSON.parse(localStorage.getItem("anzaarPages")) || [];
+        const savedBanners =
+          JSON.parse(localStorage.getItem("anzaarBanners")) || [];
 
-    const savedSettings =
-  JSON.parse(localStorage.getItem("anzaarSettings")) || null;
+        const savedPartners =
+          JSON.parse(localStorage.getItem("anzaarPartners")) || [];
 
-    const savedCategories =
-  JSON.parse(localStorage.getItem("anzaarCategories")) || [];
+        const savedPages =
+          JSON.parse(localStorage.getItem("anzaarPages")) || [];
 
-  setAllArticles(mockArticles([...savedArticles, ...articles]));
-  setBanners(savedBanners);
-  setPartners(savedPartners);
-    setSitePages(savedPages);
-    setSiteCategories(savedCategories);
-    
-    if (savedSettings) {
-  setSettings((prev) => ({
-    ...prev,
-    ...savedSettings,
-  }));
-}
+        const savedSettings =
+          JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
-  const checkMobile = () => {
-  setIsMobile(window.innerWidth <= 1024);
-};
+        const savedCategories =
+          JSON.parse(localStorage.getItem("anzaarCategories")) || [];
 
-  checkMobile();
-  window.addEventListener("resize", checkMobile);
+        setBanners(savedBanners);
+        setPartners(savedPartners);
+        setSitePages(savedPages);
+        setSiteCategories(savedCategories);
 
-  return () => {
-    window.removeEventListener("resize", checkMobile);
-  };
-}, []);
+        if (savedSettings) {
+          setSettings((prev) => ({
+            ...prev,
+            ...savedSettings,
+          }));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadData();
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    checkMobile();
+
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  function getCategoryLabel(id) {
+    const map = {
+      1: "Нийгэм",
+      2: "Эдийн засаг",
+      3: "Эрх зүй",
+      4: "Эрүүл мэнд",
+      5: "Боловсрол",
+      6: "Сэтгэл зүй",
+      7: "Спорт",
+      8: "Соёл",
+    };
+
+    return map[id] || "Мэдээ";
+  }
 
   const defaultNavCategories = [
   { name: "Нийгэм", slug: "niigem" },

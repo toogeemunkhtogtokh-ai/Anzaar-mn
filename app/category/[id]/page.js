@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { articles } from "../../../lib/articles";
-import { mockArticles } from "../../../lib/mockContent";
 
 const defaultCategories = [
   { name: "Нийгэм", slug: "niigem", active: true, showInMenu: true },
@@ -18,12 +16,13 @@ const defaultCategories = [
 ];
 
 export default function CategoryPage({ params }) {
-  const [allArticles, setAllArticles] = useState(articles);
   const [visibleCount, setVisibleCount] = useState(30);
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [siteCategories, setSiteCategories] = useState([]);
   const [sitePages, setSitePages] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [settings, setSettings] = useState({
     siteName: "Anzaar.mn",
@@ -35,8 +34,27 @@ export default function CategoryPage({ params }) {
   });
 
   useEffect(() => {
-    const savedArticles =
-      JSON.parse(localStorage.getItem("anzaarArticles")) || [];
+    const loadNews = async () => {
+      try {
+        const res = await fetch(`/api/news?category=${params.id}`);
+        const data = await res.json();
+
+        const items = data.map((item) => ({
+          ...item,
+          label: item.category_name,
+          date: item.created_at?.slice(0, 10).replaceAll("-", "."),
+          excerpt: item.summary,
+        }));
+
+        setAllArticles(items);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadNews();
 
     const savedCategories =
       JSON.parse(localStorage.getItem("anzaarCategories")) || [];
@@ -47,7 +65,6 @@ export default function CategoryPage({ params }) {
     const savedSettings =
       JSON.parse(localStorage.getItem("anzaarSettings")) || null;
 
-    setAllArticles(mockArticles([...savedArticles, ...articles]));
     setSiteCategories(savedCategories);
     setSitePages(savedPages);
 
@@ -68,7 +85,22 @@ export default function CategoryPage({ params }) {
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
-  }, []);
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <main
+        style={{
+          background: "#000",
+          color: "#fff",
+          minHeight: "100vh",
+          padding: 40,
+        }}
+      >
+        Уншиж байна...
+      </main>
+    );
+  }
 
   const categorySource =
     siteCategories.length > 0 ? siteCategories : defaultCategories;
@@ -116,9 +148,7 @@ export default function CategoryPage({ params }) {
   const categoryIsInactive =
     categorySource.length > 0 && currentCategory?.active === false;
 
-  const filtered = categoryIsInactive
-    ? []
-    : allArticles.filter((item) => item.category === params.id);
+  const filtered = allArticles;
 
   const visibleArticles = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
